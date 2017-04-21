@@ -53,27 +53,28 @@
         <h3>Listez votre annonce dès aujourd'hui!</h3>
 
 
-      <a onclick="window.location = 'infos-annonce.html';"><div id="content">
-          <div id="fix"></div>
-          <p class="number">001</p>
+      <div id="content">
+            <a onclick="window.location = 'infos-annonce.php';">
+            <div id="fix"></div>
+            <p class="number">001</p>
 
-          <img src="img/default.png" alt="Aucune image" height="144px" width="144px">
-          <h2>Lorem Ipsum</h2>
-          <div id="left">
-            <p class="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-            <p class="nom">John, Doe</p>
-            <p class="categorie">Categorie: voitures</p>
-          </div>
+            <img src="img/default.png" alt="Aucune image" height="144px" width="144px">
+            <h2>Lorem Ipsum</h2>
+            <div id="left">
+              <p class="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+              <p class="nom">John, Doe</p>
+              <p class="categorie">Categorie: voitures</p>
+            </div>
 
-          <div id="right">
-              <p class="seq-number">№ 078657</p>
-              <p class="date">12/04/2017</p>
-              <p class="heure">3:45 EST</p>
-              <p class="price">$400.00</p>
-          </div>
+            <div id="right">
+                <p class="seq-number">№ 078657</p>
+                <p class="date">12/04/2017</p>
+                <p class="heure">3:45 EST</p>
+                <p class="price">$400.00</p>
+            </div>
 
-
-        </div></a>
+          </a>
+        </div>
 
 </div>
 

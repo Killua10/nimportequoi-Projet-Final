@@ -53,8 +53,8 @@
         <h3>Listez votre annonce dès aujourd'hui!</h3>
 
 
-      <div id="content">
-          <a onclick="window.location = 'infos-annonce.php';">
+          <div id="content">
+            <a onclick="window.location = 'infos-annonce.php';">
             <div id="fix"></div>
             <p class="number">001</p>
 
@@ -73,14 +73,19 @@
                 <p class="price">$400.00</p>
             </div>
 
-            </a>
+          </a>
         </div>
 
-     
+        <div id="admin">
+            <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button></br>
+            <button class="btn">Supprimer</button></br>
+            <button class="btn">Activer</button>
+        </div>
 
-        <a onclick="window.location = 'infos-annonce.html';"><div id="content">
+        <div id="content">
+            <a onclick="window.location = 'infos-annonce.php';">
             <div id="fix"></div>
-            <p class="number">002</p>
+            <p class="number">001</p>
 
             <img src="img/default.png" alt="Aucune image" height="144px" width="144px">
             <h2>Lorem Ipsum</h2>
@@ -97,14 +102,14 @@
                 <p class="price">$400.00</p>
             </div>
 
+          </a>
+        </div>
 
-          </div></a>
-
-          <div id="admin">
-              <button class="btn" onclick="window.location = 'modifier-annonce.html';">Modifier</button></br>
-              <button class="btn">Supprimer</button></br>
-              <button class="btn">Activer</button>
-          </div>
+        <div id="admin">
+            <button class="btn" onclick="window.location = 'modifier-annonce.html';">Modifier</button></br>
+            <button class="btn">Supprimer</button></br>
+            <button class="btn">Activer</button>
+        </div>
 
 
 

@@ -20,7 +20,20 @@
   <img src="img/nq-logo2.png" alt="Smiley face" height="150px" width="auto">
 
 
-<?php require_once 'navigation.php';?>
+<nav>
+  <ul class="menuHaut">
+
+    <li><a onclick="window.location = 'annonces.html';">Annonces</a></li>
+    <li ><a onclick="window.location = 'mon-compte.php';">Mon compte</a></li>
+    <li ><a onclick="window.location = 'mes-annonces.php';">Mes annonces</a></li>
+    <li ><a onclick="window.location = 'nouvelle-annonce.html';">Nouvelle annonce</a></li>
+    <li><a onclick="window.location = 'gestionAnnonces.php';">Géstion d'annonces</a></li>
+    <li ><a onclick="window.location = 'utilisateurs.html';">Géstion d'utilisateurs</a></li>
+    <li style="float:right" "margin-left:1em"><a  onclick="window.location = 'connexion.html';">Déconnexion</a></li>
+
+  </ul>
+</nav>
+
 
 </header>
       <main>
@@ -30,7 +43,7 @@
       <div id="content2">
 
         <form>
-                        <table  width="100%" cellpadding="10" bgcolor="#FFFFFF">
+                        <table  width="40%" cellpadding="10" bgcolor="#FFFFFF">
 
                             <tr>
                                 <td style="font-weight: bold;font-size: 110%">Categorie</td>
@@ -46,43 +59,39 @@
                             <tr>
                                 <td style="font-weight: bold;font-size: 110%">Description abregee</td>
                                 <td>
-                                    <input class="sInput" type="text" name="DescAbregee" height="10">
+                                    <input type="text" name="DescAbregee" height="10" style="height: 20px;width: 100%;">
                                 </td>
                             </tr>
                             <tr>
                                 <td style="font-weight: bold;font-size: 110%">Description Complete</td>
                                 <td>
-                                    <textarea class="sInput" name="DescComplete" rows="10" cols="50"></textarea>
+                                    <textarea name="DescComplete" rows="10" cols="50"></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="font-weight: bold;font-size: 110%">Prix</td>
                                 <td>
-                                    <input class="sInput" type="number" name="Prix" min="1" step="any" ><label style="font-weight: bold;font-size: 110%">$</label>
+                                    <input type="number" name="Prix" min="1" step="any" ><label>$</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="font-weight: bold;font-size: 110%">Image</td>
                                 <td>
-                                    <input class="sInput" type="file" name="img">
+                                    <input type="file" name="img">
                                 </td>
                             </tr>
                             <tr>
                                 <td style="font-weight: bold;font-size: 110%">Etat</td>
                                 <td>
-                                  <select class="annonces">
-                                     <option disabled selected hidden>Statut</option>
-                                     <option name="EtatActif" value="1">Actif</option>
-                                     <option name="EtatInactif" value="0">Inactif</option>
-                                  </select>
-
+                                    <input type="radio" name="Etat" value="Actif" checked> Actif<br>
+                                    <input type="radio" name="Etat" value="Inactif"> Inactif<br>
                                 </td>
                             </tr>
                             <tr>
                         </table>
                     </form>
 
-                    <input type="submit" class="btn" style="width: 17em; margin-top: 2em;" value="Inscrire nouvelle annonce" onclick="window.location = 'annonces.php';">
+                    <input type="submit" class="btn" value="Inscrire nouvelle annonce" onclick="window.location = 'annonces.php';">
 
 
       </div>
