@@ -33,11 +33,11 @@
                         </div>
                         <div class="group">
 
-                            <input type="submit" class="button" value="Se connecter" onclick="window.location = 'annonces.html';">
+                            <input type="submit" class="button" value="Se connecter" onclick="window.location = 'annonces.php';">
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
-                            <a href="oublieMotDePasse.php">Mot de passe oublié?</a>
+                            <a href="oublie-mot-de-passe.php">Mot de passe oublié?</a>
                         </div>
                     </div>
                     <div class="sign-up-htm">

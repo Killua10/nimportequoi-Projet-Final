@@ -21,19 +21,7 @@
 <header style="background-color: 000;background-image: url('img/nq-bg1.jpg');background-size: cover;width: 100%;height: auto;">
   <img src="img/nq-logo2.png" alt="Smiley face" height="150px" width="auto">
 
-<nav>
-  <ul class="menuHaut">
-
-    <li><a onclick="window.location = 'annonces.html';">Annonces</a></li>
-    <li ><a onclick="window.location = 'mon-compte.php';">Mon compte</a></li>
-    <li ><a onclick="window.location = 'mes-annonces.php';">Mes annonces</a></li>
-    <li ><a onclick="window.location = 'nouvelle-annonce.php';">Nouvelle annonce</a></li>
-    <li><a onclick="window.location = 'gestionAnnonces.php';">Géstion d'annonces</a></li>
-    <li ><a onclick="window.location = 'utilisateurs.html';">Géstion d'utilisateurs</a></li>
-    <li style="float:right" "margin-left:1em"><a  onclick="window.location = 'connexion.html';">Déconnexion</a></li>
-
-  </ul>
-</nav>
+<?php require_once 'navigation.php';?>
 
 
 </header>
