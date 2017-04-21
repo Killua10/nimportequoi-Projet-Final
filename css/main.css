@@ -250,6 +250,18 @@ overflow: auto;
   border: none;
 }
 
+.sInput{
+  -webkit-border-radius: 6;
+  -moz-border-radius: 6;
+  border-radius: 6px;
+  font:600 16px/18px 'Open Sans',sans-serif;
+  color: #FFF;
+  font-size: 13px;
+  background: #414955;
+  padding: 10px 100px 9px 20px;
+  border: none;
+  margin-bottom: 5px;
+}
 
 .tri{
 
@@ -279,7 +291,7 @@ overflow: auto;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   border: none;
-  margin-bottom: 1em;
+  margin-bottom: 5px;
   width:11em;
 }
 
