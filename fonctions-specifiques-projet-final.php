@@ -16,6 +16,26 @@ function creeTableConnexions($oBD,$strNomTableConnexions){
     $oBD->creeTableGenerique($strNomTableConnexions, $strDefinitions, $strCles);
 }
 
+/*function remplitTableConnexions($oBD, $strNomTableTypesLivraison, $strNomFichierTypesLivraison){
+       
+   $tValeurs = array();
+   $fichierTypesLivraison = new fichier($strNomFichierTypesLivraison);
+   $fichierTypesLivraison->ouvre();
+   while (!$fichierTypesLivraison->detecteFin()) {
+       
+      $fichierTypesLivraison->litDonneesLigne($tValeurs, ";", "NoTypeLivraison", "DescriptionFournisseurLivraison", "CoutLivraison", "DelaiLivraison");
+      
+      $oBD->insereEnregistrement($strNomTableTypesLivraison,
+                       $tValeurs["NoTypeLivraison"],
+                       $tValeurs["DescriptionFournisseurLivraison"],
+                       $tValeurs["CoutLivraison"],
+                       $tValeurs["DelaiLivraison"]);
+      
+   }
+   $fichierTypesLivraison->ferme();
+   
+}*/
+
 function creeTableAnnonces($oBD,$strNomTableAnnonces){
     $strDefinitions = "N,NoAnnonce;" . "N,NoUtilisateurs;" . "D,Parution;" . "N,Categorie;" . 
             "V50,DescriptionAbregee;" . "V250,DescriptionComplete;" . "M,Prix;" . "V50,Photo;" . "D,MiseAJour;" . 

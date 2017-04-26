@@ -31,6 +31,7 @@
            $strInfosSensibles = str_replace(".", "-", $strNomServeur) . ".php";
         }
         
+        $strNomTableConnexions = "connexions";
         // Informations de la base de donnée
         $strLocalHost = "localhost";
         $strNomBD = "annonces_nimportequoi";
@@ -47,6 +48,11 @@
         //$oBD->afficheInformationsSurBD();
         //die();
         
+        
+         if($oBD->tableExiste($strNomTableConnexions) == false){
+            creeTableConnexions($oBD, $strNomTableConnexions);
+            //remplitTableConnexions($oBD, $strNomTableTypesLivraison, $strNomFichierTypesLivraison);
+         }
         
         // selectionner table
         if(isset($_POST) && !empty($_POST['login']) && !empty($_POST['password'])) {
