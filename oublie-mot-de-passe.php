@@ -19,7 +19,7 @@
                     <div class="sign-in-htm">
                         <div class="group">
                             <label for="user" class="label">Adresse courriel</label>
-                            <input id="user" type="text" class="input" required autofocus>
+                            <input id="user" type="email" class="input" required autofocus>
                         </div>
 
                         <div class="group" style="padding-top: 2em;">

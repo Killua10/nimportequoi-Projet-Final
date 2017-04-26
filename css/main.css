@@ -196,6 +196,7 @@ width:7%;
   margin-top: -1em;
 }
 
+
 a{
   text-decoration: none;
   color: black;
@@ -258,7 +259,7 @@ overflow: auto;
   color: #FFF;
   font-size: 13px;
   background: #414955;
-  padding: 10px 100px 9px 20px;
+  padding: 10px 20px 9px 20px;
   border: none;
   margin-bottom: 5px;
 }
@@ -293,6 +294,21 @@ overflow: auto;
   border: none;
   margin-bottom: 5px;
   width:11em;
+}
+
+.ddlOperation{
+  -webkit-border-radius: 6;
+  -moz-border-radius: 6;
+  border-radius: 6px;
+  font:600 16px/18px 'Open Sans',sans-serif;
+  color: #ffffff;
+  font-size: 13px;
+  background: #414955;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  border: none;
+  margin-bottom: 5px;
+  width:17em;
 }
 
 .trietrecherche{
