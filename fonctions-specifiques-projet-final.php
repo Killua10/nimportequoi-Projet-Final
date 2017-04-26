@@ -17,9 +17,19 @@ function creeTableConnexions($oBD,$strNomTableConnexions){
 }
 
 function creeTableAnnonces($oBD,$strNomTableAnnonces){
-    $strDefinitions = "N,NoAnnonce;" . "N,NoUtilisateurs;" . "D,Parution;" . "N,Categorie;" ;
-    $strCles = "NoConnexion";
+    $strDefinitions = "N,NoAnnonce;" . "N,NoUtilisateurs;" . "D,Parution;" . "N,Categorie;" . 
+            "V50,DescriptionAbregee;" . "V250,DescriptionComplete;" . "M,Prix;" . "V50,Photo;" . "D,MiseAJour;" . 
+            "N,Etat";
+    $strCles = "NoAnnonce";
     
     $oBD->creeTableGenerique($strNomTableAnnonces, $strDefinitions, $strCles);
 }
+
+function creeTableCategorie($oBD,$strNomTableCategorie){
+    $strDefinitions = "N,NoCategorie;" . "V20,Description";
+    $strCles = "NoCategorie";
+    
+    $oBD->creeTableGenerique($strNomTableCategorie, $strDefinitions, $strCles);
+}
+
 ?>
