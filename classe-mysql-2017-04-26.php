@@ -311,8 +311,11 @@
     
     function contenuChamp($intNo,$strNomChamp) {
         /************************************* A VERIFIER *************************************/
-        
-        $valeurChamp = $this->mysqli_result($this->_listeEnregistrements, $intNo, $strNomChamp);
+        $valeurChamp = null;
+        if ($this->_listeEnregistrements != null) {
+            
+            $valeurChamp = $this->mysqli_result($this->_listeEnregistrements, $intNo, $strNomChamp);
+        }
         
         return $valeurChamp;
     }

@@ -78,7 +78,7 @@
             
         } else {
             $alerte = 2;
-            echo "password bad";
+            //echo "password bad";
         }
         
     }
@@ -206,8 +206,8 @@
                             <input id="motPasseConnexion" name="motPasseConnexion" type="password" class="input" data-type="password" required>
                         </div>
 
-                        <div >
-                            <?php if ($alerteEnregistrement == 1) { ?>
+                        <div style="margin-bottom: 10px;">
+                            <?php if ($alerte == 2) { ?>
                                 <div class="alert-box attention">
                                     <h4>Erreur! <span>courriel ou mot de passe incorrect</span></h4>
                                 </div>
@@ -291,7 +291,7 @@
                 </div>
             </div>
         </div>
-        <?php afficher?>
+        <?php $oBD->afficheInformationsSurBD();?>
 
 
     </body>
