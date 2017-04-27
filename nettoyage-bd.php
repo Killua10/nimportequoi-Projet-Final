@@ -59,7 +59,7 @@
           </form>
         </div>
       </main>
-      <footer>2017 Ariel Sashcov</footer>
+       <?php require_once "pied-de-page.php"?>
 
     </body>
 </html>

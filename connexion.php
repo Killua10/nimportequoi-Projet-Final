@@ -127,7 +127,7 @@
             $alerteEnregistrement = 1;
             $strMsgAlerteEnregistrement = "Le mot de passe ne doit pas dépasser 50 caractères";
         }
-        else if (!preg_match('"^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{5,15}$"', $motPasseInscription)){
+        else if (!preg_match('/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)){5,15}^/', $motPasseInscription)){
             $alerteEnregistrement = 1;
             $strMsgAlerteEnregistrement = "Le mot de passe doit contenir 5 à 15 caractères, au moins 1 lettre et 1 chiffre.";
         }

@@ -36,10 +36,10 @@
                                 <td style="font-weight: bold;font-size: 110%">Categorie</td>
                                 <td >
                                     <select class="annonces" name="Categorie">
-                                        <option value="volvo">Categorie 1</option>
-                                        <option value="saab">Categorie 2</option>
-                                        <option value="fiat">Categorie 3</option>
-                                        <option value="audi">Categorie 4 Test</option>
+                                        <option value="">Voitures</option>
+                                        <option value="">Accéssoires</option>
+                                        <option value="">Électronique</option>
+                                        <option value="">Vêtements</option>
                                     </select>
                                 </td>
                             </tr>
@@ -58,7 +58,11 @@
                             <tr>
                                 <td style="font-weight: bold;font-size: 110%">Prix</td>
                                 <td>
-                                    <input class="sInput" type="number" name="Prix" min="1" step="any" ><label style="font-weight: bold;font-size: 110%">$</label>
+                                    <input id="gratuit" name="payant" type="radio" value="PAYANT" checked="checked"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">$</label>
+                                    <input class="sInput" type="number" name="Prix" min="1" step="any" ><br />
+                                    <input id="gratuit" name="gratuit" type="radio" value="GRATUIT"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">Gratuit</label><br />
+                                    <input id="gratuit" name="echange" type="radio" value="ECHANGE"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">Échange</label><br />
+                                    <input id="gratuit" name="contacter" type="radio" value="CONTACTER"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">Contacter</label><br />
                                 </td>
                             </tr>
                             <tr>
@@ -88,10 +92,9 @@
       </div>
 
 
-
        </main>
 
-           <footer>2017 Ariel Sashcov</footer>
+           <?php require_once "pied-de-page.php"?>
 
     </body>
 </html>
