@@ -309,7 +309,7 @@
         return $this->_nbEnregistrements;
     }
     
-    function contenuChanp($intNo,$strNomChamp) {
+    function contenuChamp($intNo,$strNomChamp) {
         /************************************* A VERIFIER *************************************/
         
         $valeurChamp = $this->mysqli_result($this->_listeEnregistrements, $intNo, $strNomChamp);

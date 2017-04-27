@@ -9,16 +9,18 @@
    $strLocalHost = "localhost";
    $strNomBD = "annonces_nimportequoi";
    
-   $strInfosSensibles = "424w-cgodin-qc-ca.php";
+   
    
     // Détéction du serveur
     $strMonIP = "";
     $strIPServeur = "";
     $strNomServeur = "";
-    $strInfosSensibles = "";
+    $strInfosSensibles = ""; //424w-cgodin-qc-ca.php -- LM
     detecteServeur($strMonIP, $strIPServeur, $strNomServeur, $strInfosSensibles);
    
     $oBD =  new mysql($strNomBD, $strInfosSensibles);
+    
+    
     $strNomTableUtilisateurs ="utilisateurs";
    
     //Pour la connexion
@@ -39,10 +41,11 @@
     
     if($oBD->tableExiste($strNomTableUtilisateurs) == false){
         creeTableUtilisateurs($oBD, $strNomTableUtilisateurs);
-        $oBD->insereEnregistrement($strNomTableUtilisateurs,1,"admin@nq.com",'idiot123', "2017-04-26", "11", "1", "901", "Nom", "Prenom", "N (514) 123-1234", "N (514) 123-1234 #9999", "N (514) 123-1234", "2017-04-26", "Admin");
+        $oBD->insereEnregistrement($strNomTableUtilisateurs,1,"admin@nq.com",password_hash('admin', PASSWORD_DEFAULT), "2017-04-26", "11", "1", "901", "Nom", "Prenom", "N (514) 123-1234", "N (514) 123-1234 #9999", "N (514) 123-1234", "2017-04-26", "Admin");
     }
         
     //$oBD->selectionneEnregistrements($strNomTableUtilisateurs);
+    
     
     $alerte = 0;
     
@@ -53,14 +56,27 @@
     var_dump($alerte);
     /*****************************************************PROBLEME AVEC LE BOUTON SE CONNECTER NE SAFFICHE PAS DANS LA BARRE D'ADRESSE*****************************************************************/
     if (isset($getConnexion)){
-        $intSelectTrouver = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion' AND MotDePasse='$motPasseConnexion'");
-        $row = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
-        //var_dump($intSelectTrouver);
-        var_dump($row);
-        if ($intSelectTrouver == 1) {
-            $alerte = 1;
+        
+        /*$oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion'");
+        echo $oBD->contenuChamp(0, 'MotDePasse');*/
+        
+        var_dump(password_verify($motPasseConnexion, $oBD->contenuChamp(0, 'MotDePasse')));
+         var_dump(password_verify('1asd123', $oBD->contenuChamp(0, 'MotDePasse')));
+        
+        $intSelectTrouver = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion'");
+        if(password_verify($motPasseConnexion, $oBD->contenuChamp(0, 'MotDePasse'))){
+            echo "password good";
+            $intSelectTrouver = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion'");
+            
+            if ($intSelectTrouver == 1) {
+                $alerte = 1;
+            } else {
+                $alerte = 2;
+            }
+            
         } else {
             $alerte = 2;
+            echo "password bad";
         }
         
     }
