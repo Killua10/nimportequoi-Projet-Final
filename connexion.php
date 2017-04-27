@@ -128,6 +128,21 @@
                             <label for="pass" class="label">Mot de passe</label>
                             <input id="motPasseConnexion" name="motPasseConnexion" type="password" class="input" data-type="password" required>
                         </div>
+
+                        <div>
+                            <?php if ($binAlerte == 2) { ?>
+                                <div class="alert-box attention">
+                                    <h4>Attention! <span>format du courriel invalide!</span></h4>
+                                </div>
+
+                            <?php } else if ($binAlerte == 1) {
+                                ?>  
+                                <div class="alert-box done">
+                                    <h4>Hourra! <span>un courriel de recuperation a été envoyé. </span></h4>
+                                </div>
+                            <?php } ?>
+                        </div>
+                            
                         <div class="group">
                             <input id="checkConnexion" name="checkConnexion" type="checkbox" class="check" checked>
                             <label for="check"><span class="icon"></span> Se souvenir de moi</label>
