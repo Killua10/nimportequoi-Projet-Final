@@ -132,7 +132,7 @@
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"></td>
                        <td>
-                           <button class="btn" type="submit" value="MAJ" >Mise à jour</button>
+                           <button name="MAJ" id="MAJ" class="btn" type="submit" value="MAJ" >Mise à jour</button>
                        </td>
                    </tr>
                </table>

@@ -183,6 +183,9 @@
                         <div class="group">
                             <input id="btnConnexion" name="btnConnexion" type="submit" class="button" value="Se connecter"  onclick="verificationConnexion()">
                         </div>
+                        <div class="group">
+                            <button class="button" onclick="window.location = 'annonces.php'" >Connection directe</button>
+                        </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
                             <a href="oublie-mot-de-passe.php">Mot de passe oublié?</a>
