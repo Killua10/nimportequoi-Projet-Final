@@ -6,17 +6,17 @@
         
         $courriel = get('courielMPoublie');
         $getRecuperation = get('recuperationMP');
-        $binAlerte = 0;        
+        $alerte = 0;        
         
         if (isset($getRecuperation)){
             if ($courriel != "" && filter_var($courriel, FILTER_VALIDATE_EMAIL)) {
-                $binAlerte = 1;
+                $alerte = 1;
             } else {
-                $binAlerte = 2;
+                $alerte = 2;
             }
         }
         
-        var_dump($binAlerte);
+        var_dump($alerte);
         var_dump($getRecuperation)
     ?>
 <html>
@@ -54,12 +54,12 @@
                             <input id="courielMPoublie" name="courielMPoublie" type="email" class="input" required autofocus>
                         </div>
                         <div>
-                            <?php if ($binAlerte == 2) {?>
+                            <?php if ($alerte == 2) {?>
                             <div class="alert-box attention">
                                 <h4>Attention! <span>format du courriel invalide!</span></h4>
                             </div>
                             
-                            <?php } else if($binAlerte == 1) {                                   
+                            <?php } else if($alerte == 1) {                                   
                                 ?>  
                             <div class="alert-box done">
                                 <h4>Hourra! <span>un courriel de recuperation a été envoyé. </span></h4>

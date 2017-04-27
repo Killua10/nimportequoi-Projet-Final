@@ -87,7 +87,6 @@
          echo '<script language="javascript">';
             echo 'alert("Attention, il faut remplir tous les champs!")';
             echo '</script>';
-            echo "Ronaldo";
      }
    }
    
@@ -102,6 +101,12 @@
 
         <link rel="stylesheet" href="css/connexion.css">
 
+        <script>
+        function verificationConnexion(){
+            
+            window.location = 'annonces.php';
+        }
+        </script>
     </head>
 
     <body>
@@ -129,7 +134,7 @@
                         </div>
                         <div class="group">
 
-                            <input type="submit" id="Connexion" name="Connexion" class="button" value="Se connecter">
+                            <input type="submit" id="Connexion" name="Connexion" class="button" value="Se connecter" onclick="verificationConnexion()">
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
