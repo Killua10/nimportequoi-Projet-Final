@@ -31,8 +31,11 @@
     $motPasseInscription = get('motPasseInscription');
     $confirmemotPasseInscription = get('confirmeMotPasseInscription');
     
-    $getConnexion = get('Connexion');
+    $getConnexion = get('btnConnexion');
     $getEnregistrement = get('Enregistrement');
+    
+    $binEnregistrement = false;
+    
     
     if($oBD->tableExiste($strNomTableUtilisateurs) == false){
         creeTableUtilisateurs($oBD, $strNomTableUtilisateurs);
@@ -41,10 +44,22 @@
         
     $oBD->selectionneEnregistrements($strNomTableUtilisateurs);
     
+    $alerte = 0;
+    
+    var_dump($getConnexion);
     if (isset($getConnexion)){
+        $intSelectTrouver = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel=$adresseConnexion AND MotDePasse=$motPasseConnexion");
+        var_dump($intSelectTrouver);
+        if ($intSelectTrouver == 1) {
+            $alerte = 1;
+        } else {
+            $alerte = 2;
+        }
         
     }
+    
     if (isset($getEnregistrement)){
+        $binEnregistrement = true;
         if ($adresseInscription!="" && $confirmeAdresseInscription!="" && $motPasseInscription!="" && $confirmemotPasseInscription!=""){
         
         if ($adresseInscription != $confirmeAdresseInscription){
@@ -84,9 +99,9 @@
         }
      }
      else{
-         echo '<script language="javascript">';
+         /*echo '<script language="javascript">';
             echo 'alert("Attention, il faut remplir tous les champs!")';
-            echo '</script>';
+            echo '</script>';*/
      }
    }
    
@@ -104,7 +119,14 @@
         <script>
         function verificationConnexion(){
             
-            window.location = 'annonces.php';
+            document.getElementById('frmSaisie1').submit();
+            //window.location = 'annonces.php';
+            
+        }
+        
+        function verificationEnregistrement(){
+            document.getElementById('frmSaisie2').submit();
+            //window.location = 'connection.php';
         }
         </script>
     </head>
@@ -115,8 +137,8 @@
         <div class="login-wrap">
             <div class="login-html">
                 <img src="img/nq-logo2.png" alt="logo" height="150px" width="auto" style="margin-bottom: 2em">
-                <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Connexion</label>
-                <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Inscription</label>
+                <input id="tab-1" type="radio" name="tab" class="sign-in" <?php if(!$binEnregistrement){?> checked <?php } else{}?>><label for="tab-1" class="tab">Connexion</label>
+                <input id="tab-2" type="radio" name="tab" class="sign-up" <?php if($binEnregistrement){?> checked <?php } else{}?>><label for="tab-2" class="tab">Inscription</label>
                 <div class="login-form">
                     <div class="sign-in-htm">
                         <form id="frmSaisie1"  method="get" action="">
@@ -130,12 +152,12 @@
                         </div>
 
                         <div>
-                            <?php if ($binAlerte == 2) { ?>
+                            <?php if ($alerte == 2) { ?>
                                 <div class="alert-box attention">
-                                    <h4>Attention! <span>format du courriel invalide!</span></h4>
+                                    <h4>Erreur! <span>courriel ou mot de passe incorrect</span></h4>
                                 </div>
 
-                            <?php } else if ($binAlerte == 1) {
+                            <?php } else if ($alerte == 1) {
                                 ?>  
                                 <div class="alert-box done">
                                     <h4>Hourra! <span>un courriel de recuperation a été envoyé. </span></h4>
@@ -149,7 +171,7 @@
                         </div>
                         <div class="group">
 
-                            <input type="submit" id="Connexion" name="Connexion" class="button" value="Se connecter" onclick="verificationConnexion()">
+                            <input type="submit" id="btnConnexion" name="btnConnexion" class="button" value="Se connecter" onclick="verificationConnexion()">
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
@@ -177,7 +199,7 @@
                             <input id="confirmeMotPasseInscription" name="confirmeMotPasseInscription" type="password" class="input" data-type="password">
                         </div>
                         <div class="group">
-                            <input id="Enregistrement" name="Enregistrement" type="submit" class="button" value="Enregistrement">
+                            <input id="Enregistrement" name="Enregistrement" type="submit" class="button" value="Enregistrement" for="tab-2" onclick="verificationEnregistrement()">
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
