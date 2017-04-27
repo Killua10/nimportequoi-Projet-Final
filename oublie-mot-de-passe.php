@@ -1,13 +1,46 @@
 <!DOCTYPE html>
+    <?php
+        require_once 'classe-mysql-2017-04-26.php';
+        require_once 'classe-fichier-2017-04-26.php';
+        require_once 'librairies-communes-2017-04-07.php';
+        
+        $courriel = get('courielMPoublie');
+        $getRecuperation = get('recuperationMP');
+        $binAlerte = 0;
+        
+        
+        if (isset($getRecuperation)){
+            
+            if ($courriel != "") {
+                $binAlerte = 1;
+            } else {
+                $binAlerte = 2;
+            }
+        }
+        
+        var_dump($binAlerte);
+        var_dump($getRecuperation)
+    ?>
 <html>
     <head>
         <meta charset="UTF-8">
         <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:600'>
         <link rel="stylesheet" href="css/connexion.css">
+        <link rel="stylesheet" href="css/alertboxes.css">
 
         <title>Changement mot de passe</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script>
+            function verificationCourriel(){
+                
+                var courriel = document.getElementById(courielMPoublie).value;
+                document.getElementById('frmSaisie').submit();
+                //document.location=document.location.pathname;
+            }
+        </script>
+        
     </head>
     <body>
         <div class="login-wrap">
@@ -17,19 +50,38 @@
                 <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
                 <div class="login-form">
                     <div class="sign-in-htm">
+                        <form id="frmSaisie"  method="get" action="">
                         <div class="group">
                             <label for="user" class="label">Adresse courriel</label>
-                            <input id="user" type="email" class="input" required autofocus>
+                            <input id="courielMPoublie" name="courielMPoublie" type="email" class="input" required autofocus>
+                        </div>
+                        <div>
+                            <?php if ($binAlerte == 2) {?>
+                            <div class="alert-box attention">
+                                <h4>Attention! <span>veuillez remplir le champ adresse courriel</span></h4>
+                            </div>
+                            
+                            <?php } else if($binAlerte == 1) {                                   
+                                ?>  
+                            <div class="alert-box done">
+                                <h4>Hourra! <span>un courriel de recuperation vous a été envoyé </span></h4>
+                            </div>
+                            <?php }?>
+                            
+                                                            
+                                
                         </div>
 
                         <div class="group" style="padding-top: 2em;">
-                            <input type="submit" class="button" value="Envoyer le courriel de récupération" onclick="window.location = 'connexion.php';">
+                            <input id="recuperationMP" type="submit" name="recuperationMP" class="button" value="Envoyer le courriel de récupération" onclick="verificationCourriel()">
                         </div>
 
                         <div class="hr"></div>
                         <div class="foot-lnk">
                             <a href="connexion.php">Retour à la page de connexion</a>
                         </div>
+                        
+                        </form>
                     </div>
                 </div>
             </div>
