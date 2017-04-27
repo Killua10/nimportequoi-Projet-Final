@@ -5,6 +5,7 @@
     require_once "librairies-communes-2017-04-07.php";
     require_once "fonctions-specifiques-projet-final.php";
     
+    session_start();
     
    $strLocalHost = "localhost";
    $strNomBD = "annonces_nimportequoi";
@@ -49,6 +50,7 @@
     $alerte = 0; // 1 = Succès 2 = Attention  3 = Avertisement
     $alerteEnregistrement = 0; // 1 = avertisement 2 = Attention 3 = Succès
     $strMsgAlerteEnregistrement = "";
+    $tabChampsTableUtil = array("NoUtilisateur","Courriel","MotDePasse","Creation","NbConnexions","Status","NoEmpl","Nom","Prenom","NoTelMaison","NoTelTravail","NoTelCellulaire","Modification","AutresInfos");
 
     
     /*****************************************************PROBLEME AVEC LE BOUTON SE CONNECTER NE SAFFICHE PAS DANS LA BARRE D'ADRESSE*****************************************************************/
@@ -63,6 +65,12 @@
             $intSelectTrouver = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion'");
             $row = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
             if ($intSelectTrouver == 1) {
+                
+                for ($i = 0; $i < count($row[0]); $i++) {
+                    if ($tabChampsTableUtil[$i] != "MotDePasse") {
+                        $_SESSION[$tabChampsTableUtil[$i]] = $row[0][$tabChampsTableUtil[$i]];
+                    }
+                }
                 
                 if ($row[0]['Status'] != 0) {
                     $alerte = 1;
@@ -217,6 +225,7 @@
                                 $intNbrConnexion = $row[0]['NbConnexions'] + 1;
                                 $intNoUtilisateur = $row[0]['NoUtilisateur'];
                                 $oBD->majEnregistrement($strNomTableUtilisateurs, "NbConnexions=$intNbrConnexion","NoUtilisateur=$intNoUtilisateur");
+                                $_SESSION[$tabChampsTableUtil[4]] = $intNbrConnexion;
                                 if($row[0]['NbConnexions'] != 0){
                                     
                                 ?>  

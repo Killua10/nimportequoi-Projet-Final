@@ -304,8 +304,8 @@
         }
         
         //var_dump(mysqli_query($this->_cBD, $this->_requete));
-        var_dump($this->_requete);
-        var_dump($this->_nbEnregistrements);
+        //var_dump($this->_requete);
+        //var_dump($this->_nbEnregistrements);
         return $this->_nbEnregistrements;
     }
     
@@ -328,7 +328,7 @@
         
         $this->_OK = mysqli_query($this->_cBD, $this->_requete);
           
-        var_dump($this->_requete);
+        //var_dump($this->_requete);
         return $this->_OK;
     }
     
