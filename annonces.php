@@ -50,7 +50,7 @@
       </div>
 
         <h1>Liste des annonces</h1>
-        <h3>Listez votre annonce dès aujourd'hui!</h3>
+        <h3>10 annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
 
         <?php for($i=1;$i<=10;$i++){?>
           <div id="content">

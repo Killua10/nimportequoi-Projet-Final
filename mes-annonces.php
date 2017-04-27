@@ -49,8 +49,8 @@
           <button class="btn" id="recherche">Recherche</button>
       </div>
 
-        <h1>Liste des annonces</h1>
-        <h3>Listez votre annonce dès aujourd'hui!</h3>
+        <h1>Liste des mes annonces</h1>
+        <h3>Vous avez 2 annonces.</h3>
 
 
       <div id="content">
