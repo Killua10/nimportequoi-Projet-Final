@@ -94,44 +94,33 @@
         if ($adresseInscription!="" && $confirmeAdresseInscription!="" && $motPasseInscription!="" && $confirmemotPasseInscription!=""){
         
         if ($adresseInscription != $confirmeAdresseInscription){
-           /* echo '<script language="javascript">';
-            echo 'alert("L\'adresse de courriel n\'a pas Ã©tÃ© confirmÃ© correctement")';
-            echo '</script>';*/
-            
+           
             $alerteEnregistrement = 1;
             $strMsgAlerteEnregistrement = "L\'adresse de courriel n\'a pas été confirmé correctement";
         }
         else if (strlen ($adresseInscription) > 50 ){
-            /*echo '<script language="javascript">';
-            echo 'alert("L\'adresse de courriel ne doit pas dÃ©passer 50 caractÃ¨res")';
-            echo '</script>';*/
-            
+           
             $alerteEnregistrement = 1;
             $strMsgAlerteEnregistrement = "L\'adresse de courriel ne doit pas dépasser 50 caractères";
         }
         else if (!filter_var($adresseInscription, FILTER_VALIDATE_EMAIL)){
-            /*echo '<script language="javascript">';
-            echo 'alert("L\'adresse de courriel saisie est invalide, veuillez respecter le format")';
-            echo '</script>';*/
             
             $alerteEnregistrement = 1;
             $strMsgAlerteEnregistrement = "L\'adresse de courriel saisie est invalide, veuillez respecter le format";
         }
        else if ($motPasseInscription != $confirmemotPasseInscription){
-            /*echo '<script language="javascript">';
-            echo 'alert("Le mot de passe n\'a pas Ã©tÃ© confirmÃ© correctement")';
-            echo '</script>';*/
             
             $alerteEnregistrement = 1;
             $strMsgAlerteEnregistrement = "Le mot de passe n\'a pas été confirmé correctement";
         }
         else if (strlen ($motPasseInscription) > 50 ){
-            /*echo '<script language="javascript">';
-            echo 'alert("Le mot de passe ne doit pas dÃ©passer 50 caractÃ¨res")';
-            echo '</script>';*/
             
             $alerteEnregistrement = 1;
             $strMsgAlerteEnregistrement = "Le mot de passe ne doit pas dépasser 50 caractères";
+        }
+        else if (!preg_match('"^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{5,15}$"', $motPasseInscription)){
+            $alerteEnregistrement = 1;
+            $strMsgAlerteEnregistrement = "Le mot de passe doit contenir 5 à 15 caractères, au moins 1 lettre et 1 chiffre.";
         }
         else{
             $intSelectTrouverUtilisateur = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseInscription'");
@@ -298,7 +287,7 @@
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
-                            <label for="tab-1">Retourné au menu connexion</label>
+                            <label for="tab-1">Retourner au menu connexion</label>
                         </div>
                         </form>
                     </div>

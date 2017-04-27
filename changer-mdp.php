@@ -111,6 +111,7 @@
                        </td>
                    </tr>
                </table>
+            <strong style="color: red;"> * </strong>: Indique les champs obligatoires.
            </form>
 
        </main>

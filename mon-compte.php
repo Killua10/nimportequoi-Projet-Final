@@ -157,7 +157,13 @@
                        </td>
                        
                    </tr>
+                   
+                   
                </table>
+            
+                   <strong style="color: red;"> * </strong>: Indique les champs obligatoires.<br />
+                   <strong style="color: orange;"> ** </strong>: Indique les champs facultatifs. Cochez l'option "Rendre mes informations publiques" pour que vos numéros de téléphone(s) soient visible au public.<br /><br />
+                   
            </form>
           <button class="btn" value="changerMDP" onclick="window.location = 'changer-mdp.php'" >Changer mot de passe</button>
 
