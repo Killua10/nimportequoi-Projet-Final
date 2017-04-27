@@ -365,6 +365,7 @@
       return isset($line[$field]) ? $line[$field] : false;
    }
       
+        
       /*
       |----------------------------------------------------------------------------------|
       | afficheInformationsSurBD()

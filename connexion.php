@@ -1,10 +1,95 @@
 <!DOCTYPE html>
 <?php 
-
-      require_once "classe-fichier-2017-04-26.php";
-      require_once "classe-mysql-2017-04-26.php";
-      require_once "fonctions-specifiques-projet-final.php";
-
+    require_once "classe-fichier-2017-04-26.php";
+    require_once "classe-mysql-2017-04-26.php";
+    require_once "librairies-communes-2017-04-07.php";
+    require_once "fonctions-specifiques-projet-final.php";
+    
+    
+   $strLocalHost = "localhost";
+   $strNomBD = "annonces_nimportequoi";
+   
+   $strInfosSensibles = "424w-cgodin-qc-ca.php";
+   
+    // Détéction du serveur
+    $strMonIP = "";
+    $strIPServeur = "";
+    $strNomServeur = "";
+    $strInfosSensibles = "";
+    detecteServeur($strMonIP, $strIPServeur, $strNomServeur, $strInfosSensibles);
+   
+    $oBD =  new mysql($strNomBD, $strInfosSensibles);
+    $strNomTableUtilisateurs ="utilisateurs";
+   
+    //Pour la connexion
+    $adresseConnexion= get('adresseConnexion');
+    $motPasseConnexion = get('motPasseConnexion');
+   
+    //Pour l'inscription
+    $adresseInscription = get('adresseInscription');
+    $confirmeAdresseInscription = get('confirmeAdresseInscription');
+    $motPasseInscription = get('motPasseInscription');
+    $confirmemotPasseInscription = get('confirmeMotPasseInscription');
+    
+    $getConnexion = get('Connexion');
+    $getEnregistrement = get('Enregistrement');
+    
+    if($oBD->tableExiste($strNomTableUtilisateurs) == false){
+        creeTableUtilisateurs($oBD, $strNomTableUtilisateurs);
+        $oBD->insereEnregistrement($strNomTableUtilisateurs,1,"admin@nq.com",'idiot123', "2017-04-26", "11", "1", "901", "Nom", "Prenom", "N (514) 123-1234", "N (514) 123-1234 #9999", "N (514) 123-1234", "2017-04-26", "Admin");
+    }
+        
+    $oBD->selectionneEnregistrements($strNomTableUtilisateurs);
+    
+    if (isset($getConnexion)){
+        
+    }
+    if (isset($getEnregistrement)){
+        if ($adresseInscription!="" && $confirmeAdresseInscription!="" && $motPasseInscription!="" && $confirmemotPasseInscription!=""){
+        
+        if ($adresseInscription != $confirmeAdresseInscription){
+            echo '<script language="javascript">';
+            echo 'alert("L\'adresse de courriel n\'a pas Ã©tÃ© confirmÃ© correctement")';
+            echo '</script>';
+        }
+        else if (strlen ($adresseInscription) > 50 ){
+            echo '<script language="javascript">';
+            echo 'alert("L\'adresse de courriel ne doit pas dÃ©passer 50 caractÃ¨res")';
+            echo '</script>';
+        }
+        else if (!filter_var($adresseInscription, FILTER_VALIDATE_EMAIL)){
+            echo '<script language="javascript">';
+            echo 'alert("L\'adresse de courriel saisie est invalide, veuillez respecter le format")';
+            echo '</script>';
+        }
+       else if ($motPasseInscription != $confirmemotPasseInscription){
+            echo '<script language="javascript">';
+            echo 'alert("Le mot de passe n\'a pas Ã©tÃ© confirmÃ© correctement")';
+            echo '</script>';
+        }
+        else if (strlen ($motPasseInscription) > 50 ){
+            echo '<script language="javascript">';
+            echo 'alert("Le mot de passe ne doit pas dÃ©passer 50 caractÃ¨res")';
+            echo '</script>';
+        }
+        else{
+            
+            $strNoUtilisateur= '$NoUtilisateur';
+            $resultat = mysqli_fetch_array(mysqli_query($oBD->_cBD, "SELECT $strNoUtilisateur FROM $strNomTableUtilisateurs ORDER BY $strNoUtilisateur DESC LIMIT 1"));
+            $NoUtilisateur = ($resultat[$strNoUtilisateur])+1;
+            $date = date("Y-m-d H:i:s");
+            
+            $oBD->insereEnregistrement($strNomTableUtilisateurs,$NoUtilisateur,$adresseInscription,$motPasseInscription,$date);
+            echo $oBD->_requete;
+        }
+     }
+     else{
+         echo '<script language="javascript">';
+            echo 'alert("Attention, il faut remplir tous les champs!")';
+            echo '</script>';
+     }
+   }
+   
 ?>
 <html>
     <head>
@@ -17,52 +102,10 @@
         <link rel="stylesheet" href="css/connexion.css">
 
     </head>
-    <?php 
-    
-        /*
-        |-------------------------------------------------------------------------------------|
-        | detecteServeur (2017-04-26)
-        |-------------------------------------------------------------------------------------|
-        */
-        function detecteServeur(&$strMonIP, &$strIPServeur, &$strNomServeur, &$strInfosSensibles) {
-           $strMonIP = $_SERVER["REMOTE_ADDR"];
-           $strIPServeur = $_SERVER["SERVER_ADDR"];
-           $strNomServeur = $_SERVER["SERVER_NAME"];
-           $strInfosSensibles = str_replace(".", "-", $strNomServeur) . ".php";
-        }
-        
-        $strNomTableConnexions = "connexions";
-        // Informations de la base de donnée
-        $strLocalHost = "localhost";
-        $strNomBD = "annonces_nimportequoi";
-        
-        // Détéction du serveur
-        $strMonIP = "";
-        $strIPServeur = "";
-        $strNomServeur = "";
-        $strInfosSensibles = "";
-        detecteServeur($strMonIP, $strIPServeur, $strNomServeur, $strInfosSensibles);
 
-        // Création de l'objet MYSQL
-        $oBD = new mysql($strNomBD, $strInfosSensibles);
-        //$oBD->afficheInformationsSurBD();
-        //die();
-        
-        
-         if($oBD->tableExiste($strNomTableConnexions) == false){
-            creeTableConnexions($oBD, $strNomTableConnexions);
-            //remplitTableConnexions($oBD, $strNomTableTypesLivraison, $strNomFichierTypesLivraison);
-         }
-        
-        // selectionner table
-        if(isset($_POST) && !empty($_POST['login']) && !empty($_POST['password'])) {
-            // get user and pw
-            // un-hash pw
-            
-        }
-    
-    ?>
     <body>
+        
+           
         <div class="login-wrap">
             <div class="login-html">
                 <img src="img/nq-logo2.png" alt="logo" height="150px" width="auto" style="margin-bottom: 2em">
@@ -70,55 +113,61 @@
                 <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Inscription</label>
                 <div class="login-form">
                     <div class="sign-in-htm">
+                        <form id="frmSaisie1"  method="get" action="">
                         <div class="group">
                             <label for="user" class="label">Adresse courriel</label>
-                            <input id="user" type="text" class="input" name="courriel" required autofocus>
+                            <input id="adresseConnexion" name="adresseConnexion" type="text" class="input" required autofocus>
                         </div>
                         <div class="group">
                             <label for="pass" class="label">Mot de passe</label>
-                            <input id="pass" type="password" class="input" name="password" data-type="password" required>
+                            <input id="motPasseConnexion" name="motPasseConnexion" type="password" class="input" data-type="password" required>
                         </div>
                         <div class="group">
-                            <input id="check" type="checkbox" class="check" checked>
+                            <input id="checkConnexion" name="checkConnexion" type="checkbox" class="check" checked>
                             <label for="check"><span class="icon"></span> Se souvenir de moi</label>
                         </div>
                         <div class="group">
 
-                            <input type="submit" class="button" value="Se connecter" onclick="window.location = 'annonces.php';">
+                            <input type="submit" id="Connexion" name="Connexion" class="button" value="Se connecter">
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
                             <a href="oublie-mot-de-passe.php">Mot de passe oublié?</a>
                         </div>
+                      </form>
+
                     </div>
                     <div class="sign-up-htm">
+                         <form id="frmSaisie2" method="get" action="">
                         <div class="group">
                             <label for="user" class="label">Adresse courriel</label>
-                            <input id="user" type="text" class="input">
+                            <input id="adresseInscription" name="adresseInscription" type="text" class="input">
                         </div>
                         <div class="group">
                             <label for="user" class="label">Confirmation de l'adresse courriel</label>
-                            <input id="user" type="text" class="input">
+                            <input id="confirmeAdresseInscription" name="confirmeAdresseInscription" type="text" class="input">
                         </div>
                         <div class="group">
                             <label for="pass" class="label">Mot de passe</label>
-                            <input id="pass" type="password" class="input" data-type="password">
+                            <input id="motPasseInscription" name="motPasseInscription" type="password" class="input" data-type="password">
                         </div>
                         <div class="group">
                             <label for="pass" class="label">Confirmation du mot de passe</label>
-                            <input id="pass" type="password" class="input" data-type="password">
+                            <input id="confirmeMotPasseInscription" name="confirmeMotPasseInscription" type="password" class="input" data-type="password">
                         </div>
                         <div class="group">
-                            <input type="submit" class="button" value="Enregistrement" onclick="window.location = 'connexion.php';">
+                            <input id="Enregistrement" name="Enregistrement" type="submit" class="button" value="Enregistrement">
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
-                            <label for="tab-1">Déja Membre?</label>
+                            <label for="tab-1">Déjà membre?</label>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+
 
     </body>
 </html>

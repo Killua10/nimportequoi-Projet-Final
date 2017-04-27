@@ -10,31 +10,13 @@ function creeTableUtilisateurs($oBD,$strNomTableUtilisateurs){
 }
 
 function creeTableConnexions($oBD,$strNomTableConnexions){
-    $strDefinitions = "N,NoConnexion;" . "N,NoUtilisateurs;" . "D,Connexion;" . "D,Deconnexion";
+    $strDefinitions = "N,NoConnexion;" . "N,NoUtilisateur;" . "D,Connexion;" . "D,Deconnexion";
     $strCles = "NoConnexion";
     
     $oBD->creeTableGenerique($strNomTableConnexions, $strDefinitions, $strCles);
 }
 
-/*function remplitTableConnexions($oBD, $strNomTableTypesLivraison, $strNomFichierTypesLivraison){
-       
-   $tValeurs = array();
-   $fichierTypesLivraison = new fichier($strNomFichierTypesLivraison);
-   $fichierTypesLivraison->ouvre();
-   while (!$fichierTypesLivraison->detecteFin()) {
-       
-      $fichierTypesLivraison->litDonneesLigne($tValeurs, ";", "NoTypeLivraison", "DescriptionFournisseurLivraison", "CoutLivraison", "DelaiLivraison");
-      
-      $oBD->insereEnregistrement($strNomTableTypesLivraison,
-                       $tValeurs["NoTypeLivraison"],
-                       $tValeurs["DescriptionFournisseurLivraison"],
-                       $tValeurs["CoutLivraison"],
-                       $tValeurs["DelaiLivraison"]);
-      
-   }
-   $fichierTypesLivraison->ferme();
-   
-}*/
+
 
 function creeTableAnnonces($oBD,$strNomTableAnnonces){
     $strDefinitions = "N,NoAnnonce;" . "N,NoUtilisateurs;" . "D,Parution;" . "N,Categorie;" . 
@@ -51,5 +33,7 @@ function creeTableCategorie($oBD,$strNomTableCategorie){
     
     $oBD->creeTableGenerique($strNomTableCategorie, $strDefinitions, $strCles);
 }
+
+
 
 ?>
