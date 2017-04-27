@@ -28,8 +28,6 @@ function creeTableConnexions($oBD,$strNomTableConnexions){
     $oBD->creeTableGenerique($strNomTableConnexions, $strDefinitions, $strCles);
 }
 
-
-
 function creeTableAnnonces($oBD,$strNomTableAnnonces){
     $strDefinitions = "N,NoAnnonce;" . "N,NoUtilisateurs;" . "D,Parution;" . "N,Categorie;" . 
             "V50,DescriptionAbregee;" . "V250,DescriptionComplete;" . "M,Prix;" . "V50,Photo;" . "D,MiseAJour;" . 

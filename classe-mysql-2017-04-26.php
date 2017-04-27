@@ -36,7 +36,6 @@
       function connexion() {
           require($this->_nomFichierInfosSensibles);
           $this->_cBD = mysqli_connect("localhost", $strNomAdmin, $strMotPasseAdmin, $this->_nomBD); 
-          
           if (mysqli_connect_errno()) {
               echo "<br />";
               echo "Problème de connexion... " . "Erreur no" . mysqli_connect_errno() . " (" . mysqli_connect_error() . ")";

@@ -1,4 +1,26 @@
 <!doctype html>
+    <?php
+        require_once "classe-fichier-2017-04-26.php";
+        require_once "classe-mysql-2017-04-26.php";
+        require_once "librairies-communes-2017-04-07.php";
+        require_once "fonctions-specifiques-projet-final.php";
+        require_once "connexion-bd.php";
+        
+        $strNomBD = "bdh17_cherifi";
+        
+        //var_dump($_SESSION);
+        
+        $strNomTableUtilisateurs ="utilisateurs";
+        $strNomTableConnexions ="connexions";
+        $strNomTableCategories ="categories";
+        $strNomTableAnnonces ="annonces";
+        
+        //$oBD2 = new mysql($strNomBD, "424w-cgodin-qc-ca.php");
+        
+        
+        $tabChampsTableUtil = array("NoUtilisateur","Courriel","MotDePasse","Creation","NbConnexions","Status","NoEmpl","Nom","Prenom","NoTelMaison","NoTelTravail","NoTelCellulaire","Modification","AutresInfos");
+
+    ?>
 <html class="no-js" lang="">
     <head>
         <meta charset="utf-8">
@@ -24,7 +46,11 @@
 
 
 <?php require_once 'navigation.php';?>
+<?php
+        //session_start();
+        
 
+    ?>
 
 </header>
       <main>
@@ -47,32 +73,55 @@
               <td>Nombre de connexions</td>
               <td>Statut</td>
               <td>Date de création</td>
-              <td>Dernier modification</td>
+              <td>Derniêre modification</td>
               <td>5 dernières connexions</td>
               <td>Autres infos</td>
           </tr>
+          <?php for ($i = 0; $i < count($oBD->selectionneEnregistrements($strNomTableUtilisateurs)); $i++) {
+                  $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+                  var_dump($row);
+                  var_dump($oBD->selectionneEnregistrements($strNomTableUtilisateurs));
+                  //var_dump($_SESSION['objBD']->selectionneEnregistrements($strNomTableUtilisateurs));
+              ?>
           <tr style="font-size: 70%">
 
-              <td>0001</td>
-              <td>a.sashcov@cgodin.qc.ca</td>
-                <td>Sashcov</td>
-                <td>Ariel</td>
-                <td>909</td>
-                <td>(514) 972-7296</td>
-                <td>(514) 779-2314</td>
-                <td>(514) 332-7296</td>
+              <td><?php echo $row[$i]['NoUtilisateur']?></td>
+              <td><?php echo $row[$i]['Courriel']?></td>
+                <td><?php echo $row[$i]['Nom']?></td>
+                <td><?php echo $row[$i]['Prenom']?></td>
+                <td><?php echo $row[$i]['NoEmpl']?></td>
+                <td><?php echo $row[$i]['NoTelMaison']?></td>
+                <td><?php echo $row[$i]['NoTelTravail']?></td>
+                <td><?php echo $row[$i]['NoTelCellulaire']?></td>
                 <td>007 / 005 / 002</td>
-                <td>032</td>
-                <td >(1)Administrateur</td>
-                <td>15-04-2017 22:45:00</td>
-                <td>17-04-2017 20:45:00</td>
+                <td><?php echo ajouteZeros($row[$i]['NbConnexions'], 3)?></td>
+                <td ><?php 
+                        if ($row[$i]['Status'] == 0) {
+                            echo "(" . $row[$i]['Status'] . ") En attente"; 
+                        } elseif ($row[$i]['Status'] == 9) {
+                            echo "(" . $row[$i]['Status'] . ") Confirmé"; 
+                        } elseif ($row[$i]['Status'] == 1) {
+                            echo "(" . $row[$i]['Status'] . ") Administrateur"; 
+                        } elseif ($row[$i]['Status'] == 2) {
+                            echo "(" . $row[$i]['Status'] . ") Cadre"; 
+                        } elseif ($row[$i]['Status'] == 3) {
+                            echo "(" . $row[$i]['Status'] . ") Employé de soutien"; 
+                        } elseif ($row[$i]['Status'] == 4) {
+                            echo "(" . $row[$i]['Status'] . ") Enseignant"; 
+                        } elseif ($row[$i]['Status'] == 5) {
+                            echo "(" . $row[$i]['Status'] . ") Professionnel"; 
+                        }
+                        ?></td>
+                <td><?php echo $row[$i]['Creation']?></td>
+                <td><?php echo $row[$i]['Modification']?></td>
                 <td style="font-size: 75%; font-weight:bold; text-align:center;">• 17-04-2017 18:32:03</br>
                     • 17-04-2017 18:32:03</br>
                     • 17-04-2017 18:32:03</br>
                     • 17-04-2017 18:32:03</br>
                     • 17-04-2017 18:32:03</td>
-               <td>N/A</td>
+               <td><?php echo $row[$i]['AutresInfos']?></td>
           </tr>
+          <?php }?>
 
       </table>
 

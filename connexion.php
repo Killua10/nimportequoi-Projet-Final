@@ -4,25 +4,37 @@
     require_once "classe-mysql-2017-04-26.php";
     require_once "librairies-communes-2017-04-07.php";
     require_once "fonctions-specifiques-projet-final.php";
+    require_once "connexion-bd.php";
     
     session_start();
     
-   $strLocalHost = "localhost";
-   $strNomBD = "annonces_nimportequoi";
-   
-   
-   
-    // Détéction du serveur
-    $strMonIP = "";
-    $strIPServeur = "";
-    $strNomServeur = "";
-    $strInfosSensibles = ""; //424w-cgodin-qc-ca.php -- LM
-    detecteServeur($strMonIP, $strIPServeur, $strNomServeur, $strInfosSensibles);
-   
-    $oBD =  new mysql($strNomBD, $strInfosSensibles);
+  
     
     
     $strNomTableUtilisateurs ="utilisateurs";
+    $strNomTableConnexions ="connexions";
+    $strNomTableCategories ="categories";
+    $strNomTableAnnonces ="annonces";
+    
+    if($oBD->tableExiste($strNomTableUtilisateurs) == false){
+        creeTableUtilisateurs($oBD, $strNomTableUtilisateurs);
+        $oBD->insereEnregistrement($strNomTableUtilisateurs,1,"admin@nq.com",password_hash('admin', PASSWORD_DEFAULT), "2017-04-26", "11", "1", "901", "Nom", "Prenom", "N (514) 123-1234", "N (514) 123-1234 #9999", "N (514) 123-1234", "2017-04-26", "Admin");
+    }
+    
+    if($oBD->tableExiste($strNomTableConnexions) == false){
+        creeTableUtilisateurs($oBD, $strNomTableConnexions);
+        
+    }
+    
+    if($oBD->tableExiste($strNomTableCategories) == false){
+        creeTableUtilisateurs($oBD, $strNomTableCategories);
+        
+    }
+    
+    if($oBD->tableExiste($strNomTableAnnonces) == false){
+        creeTableUtilisateurs($oBD, $strNomTableAnnonces);
+        
+    }
    
     //Pour la connexion
     $adresseConnexion= get('adresseConnexion');
@@ -40,10 +52,7 @@
     $binEnregistrement = false;
     
     
-    if($oBD->tableExiste($strNomTableUtilisateurs) == false){
-        creeTableUtilisateurs($oBD, $strNomTableUtilisateurs);
-        $oBD->insereEnregistrement($strNomTableUtilisateurs,1,"admin@nq.com",password_hash('admin', PASSWORD_DEFAULT), "2017-04-26", "11", "1", "901", "Nom", "Prenom", "N (514) 123-1234", "N (514) 123-1234 #9999", "N (514) 123-1234", "2017-04-26", "Admin");
-    }
+    
         
     
 
@@ -124,15 +133,12 @@
         }
         else{
             $intSelectTrouverUtilisateur = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseInscription'");
-            var_dump("Ronaldo" . $intSelectTrouverUtilisateur);
             if ($intSelectTrouverUtilisateur == 0) {
                 $row2 = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
                 $strNoUtilisateur= '$NoUtilisateur';
                 $resultat = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"D=NoUtilisateur","T=NoUtilisateur DESC");
                 $row3 = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
                 //$resultat = mysqli_fetch_array(mysqli_query($oBD->_cBD, "SELECT $strNoUtilisateur FROM $strNomTableUtilisateurs ORDER BY $strNoUtilisateur DESC LIMIT 1"));
-                var_dump($resultat);
-                var_dump($row3);
                 $NoUtilisateur = ($row3[0]['NoUtilisateur'])+1;
                 $date = date("Y-m-d H:i:s");
 
@@ -294,7 +300,10 @@
                 </div>
             </div>
         </div>
-        <?php $oBD->afficheInformationsSurBD();?>
+        <?php $oBD->afficheInformationsSurBD();
+        //$_SESSION['objBD'] = $oBD;
+                $oBD->deconnexion();
+        ?>
 
 
     </body>
