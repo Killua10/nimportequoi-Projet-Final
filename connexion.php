@@ -166,7 +166,11 @@
                                 </div>
 
                             <?php } else if ($alerte == 1 ) {
+                                $intNbrConnexion = $row[0]['NbConnexions'] + 1;
+                                $intNoUtilisateur = $row[0]['NoUtilisateur'];
+                                $oBD->majEnregistrement($strNomTableUtilisateurs, "NbConnexions=$intNbrConnexion","NoUtilisateur=$intNoUtilisateur");
                                 if($row[0]['NbConnexions'] != 0){
+                                    
                                 ?>  
                                 <script>window.location = 'annonces.php';</script>
                                 <?php }
