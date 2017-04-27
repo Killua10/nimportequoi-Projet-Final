@@ -300,9 +300,13 @@ input[type="submit"] {
  */
 
 button[disabled],
+select[disabled],
 html input[disabled] {
-  cursor: default;
+  cursor: not-allowed;
+  color: #dedede;
 }
+
+
 
 /**
  * Remove inner padding and border in Firefox 4+.

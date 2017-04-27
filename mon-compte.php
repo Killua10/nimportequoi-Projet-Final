@@ -85,12 +85,12 @@
 
         <form id="frmSaisie"  method="get" action="" >
                <table width="80%" cellpadding="100" style="align: center;">
-                   <caption style="font-weight: bold;font-variant: small-caps;font-size: 150%;height:40px;line-height: 40px; margin-bottom: 5px;" ><a>Mise à jour de vos informations</a></caption>
+                   <caption style="font-weight: bold;font-variant: small-caps;font-size: 150%;height:40px;line-height: 40px; margin-bottom: 2em;" ><a>Mise à jour de vos informations</a></caption>
                    <tr>
-                       <td style="font-weight: bold;font-size: 110%">Statut d'employé</td>
+                       <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Statut d'employé</td>
                        <td>
 
-                           <select class="annonces" id="Statut" name="Statut">
+                           <select class="annonces" id="Statut" name="Statut" disabled>
                              <option disabled selected hidden>Statut</option>
                              <option name="EtatAttente" value="0">En attente</option>
                              <option name="EtatConfirme" value="9">Confirmé</option>
@@ -103,40 +103,51 @@
                        </td>
                    </tr>
                    <tr>
-                       <td style="font-weight: bold;font-size: 110%">Numéro d'employé</td>
+                       <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Numéro d'employé</td>
                        <td>
-                           <input class="sInput" id="NoEmpl" type="text" name="NoEmpl">
+                           <input class="sInput" id="NoEmpl" type="text" name="NoEmpl" disabled>
                        </td>
                    </tr>
                    <tr>
-                       <td style="font-weight: bold;font-size: 110%">Prénom</td>
-                       <td>
-                           <input class="sInput" id="Prenom" type="text" name="Prenom" >
-                       </td>
-                   </tr>
-                   <tr>
-                       <td style="font-weight: bold;font-size: 110%">Nom de famille</td>
+                       <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Nom de famille</td>
                        <td>
                            <input class="sInput" id="NomFamille" type="text" name="NomFamille" >
                        </td>
                    </tr>
                    <tr>
-                       <td style="font-weight: bold;font-size: 110%">Courriel</td>
+                       <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Prénom</td>
                        <td>
-                           <input class="sInput" id="Courriel" type="email" name="Courriel" value="alainabboud@bell.net" disabled="">
+                           <input class="sInput" id="Prenom" type="text" name="Prenom" >
                        </td>
                    </tr>
                    <tr>
-                       <td style="font-weight: bold;font-size: 110%">Mot de passe</td>
+                       <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Courriel</td>
                        <td>
-                           <input class="sInput" id="motPasse" type="password" name="motPasse" value="6249613" disabled="">
+                           <input class="sInput" id="Courriel" type="email" name="Courriel" value="" disabled>
                        </td>
-
+                   </tr>
+                   <tr>
+                       <td style="font-weight: bold;font-size: 110%"><strong style="color: orange;"> ** </strong>Téléphone maison</td>
+                       <td>
+                           <input class="sInput" id="telephonemaison" type="text" name="telephonemaison" >
+                       </td>
+                   </tr>
+                   <tr>
+                       <td style="font-weight: bold;font-size: 110%"><strong style="color: orange;"> ** </strong>Téléphone (et poste) au travail</td>
+                       <td>
+                           <input class="sInput" id="telephonetravail" type="text" name="telephonetravail" >
+                       </td>
+                   </tr>
+                   <tr>
+                       <td style="font-weight: bold;font-size: 110%"><strong style="color: orange;"> ** </strong>Téléphone cellulaire</td>
+                       <td>
+                           <input class="sInput" id="telephonecellulaire" type="text" name="telephonecellulaire" >
+                       </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"></td>
                        <td>
-                           <input class="sInput" type="checkbox" id="public" name="public" min="1" step="any" ><label>Rendre mes informations publiques</label>
+                           <strong style="color: orange;"> ** </strong><input class="sInput" type="checkbox" id="public" name="public" min="1" step="any" ><label>Rendre mes informations publiques</label>
                        </td>
                    </tr>
                    <tr>
@@ -144,12 +155,11 @@
                        <td>
                            <button name="MAJ" id="MAJ" class="btn" type="submit" value="MAJ" >Mise à jour</button>
                        </td>
+                       
                    </tr>
                </table>
            </form>
-
-
-        
+          <button class="btn" value="changerMDP" onclick="window.location = 'changer-mdp.php'" >Changer mot de passe</button>
 
        </main>
 

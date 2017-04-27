@@ -226,7 +226,6 @@ overflow: auto;
   text-decoration: none;
   border: none;
   margin-bottom: 1em;
-  width:10em;
 }
 
 .btn:hover {
@@ -261,7 +260,7 @@ overflow: auto;
   background: #414955;
   padding: 10px 20px 9px 20px;
   border: none;
-  margin-bottom: 5px;
+  margin-bottom: 1em;
 }
 
 .tri{
@@ -292,8 +291,13 @@ overflow: auto;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   border: none;
-  margin-bottom: 5px;
-  width:11em;
+  margin-bottom: 1em;
+  width:16em;
+}
+
+.annonces[disabled] {
+    cursor: no-drop;
+    color: #dedede;
 }
 
 .ddlOperation{
