@@ -92,8 +92,13 @@
 
                            <select class="annonces" id="Statut" name="Statut">
                              <option disabled selected hidden>Statut</option>
-                             <option name="EtatActif" value="1">Actif</option>
-                             <option name="EtatInactif" value="0">Inactif</option>
+                             <option name="EtatAttente" value="0">En attente</option>
+                             <option name="EtatConfirme" value="9">Confirmé</option>
+                             <option name="EtatAdministrateur" value="1">Administrateur</option>
+                             <option name="EtatCadre" value="2">Cadre</option>
+                             <option name="EtatEmpSoutien" value="3">Employé de soutien</option>
+                             <option name="EtatEnseignant" value="4">Enseignant</option>
+                             <option name="EtatProfessionnel" value="5">Professionnel</option>
                           </select>
                        </td>
                    </tr>

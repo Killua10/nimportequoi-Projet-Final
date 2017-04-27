@@ -44,34 +44,32 @@
         $oBD->insereEnregistrement($strNomTableUtilisateurs,1,"admin@nq.com",password_hash('admin', PASSWORD_DEFAULT), "2017-04-26", "11", "1", "901", "Nom", "Prenom", "N (514) 123-1234", "N (514) 123-1234 #9999", "N (514) 123-1234", "2017-04-26", "Admin");
     }
         
-    //$oBD->selectionneEnregistrements($strNomTableUtilisateurs);
     
 
-    $alerte = 0; // 1 = Succès 2 = Attention 
+    $alerte = 0; // 1 = Succès 2 = Attention  3 = Avertisement
     $alerteEnregistrement = 0; // 1 = avertisement 2 = Attention 3 = Succès
     $strMsgAlerteEnregistrement = "";
+
     
-    //var_dump($getConnexion);
-    
-    //var_dump($getEnregistrement);
-    
-    var_dump($alerte);
     /*****************************************************PROBLEME AVEC LE BOUTON SE CONNECTER NE SAFFICHE PAS DANS LA BARRE D'ADRESSE*****************************************************************/
     if (isset($getConnexion)){
         
         /*$oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion'");
         echo $oBD->contenuChamp(0, 'MotDePasse');*/
         
-        var_dump(password_verify($motPasseConnexion, $oBD->contenuChamp(0, 'MotDePasse')));
-         var_dump(password_verify('1asd123', $oBD->contenuChamp(0, 'MotDePasse')));
-        
         $intSelectTrouver = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion'");
         if(password_verify($motPasseConnexion, $oBD->contenuChamp(0, 'MotDePasse'))){
-            echo "password good";
+            //echo "password good";
             $intSelectTrouver = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion'");
-            
+            $row = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
             if ($intSelectTrouver == 1) {
-                $alerte = 1;
+                
+                if ($row[0]['Status'] != 0) {
+                    $alerte = 1;
+                } else {
+                    $alerte = 3;
+                }
+                
             } else {
                 $alerte = 2;
             }
@@ -133,15 +131,18 @@
             if ($intSelectTrouverUtilisateur == 0) {
                 $row2 = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
                 $strNoUtilisateur= '$NoUtilisateur';
-                $resultat = mysqli_fetch_array(mysqli_query($oBD->_cBD, "SELECT $strNoUtilisateur FROM $strNomTableUtilisateurs ORDER BY $strNoUtilisateur DESC LIMIT 1"));
+                $resultat = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"D=NoUtilisateur","T=NoUtilisateur DESC");
+                $row3 = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
+                //$resultat = mysqli_fetch_array(mysqli_query($oBD->_cBD, "SELECT $strNoUtilisateur FROM $strNomTableUtilisateurs ORDER BY $strNoUtilisateur DESC LIMIT 1"));
                 var_dump($resultat);
-                $NoUtilisateur = ($resultat[$strNoUtilisateur])+1;
+                var_dump($row3);
+                $NoUtilisateur = ($row3[0]['NoUtilisateur'])+1;
                 $date = date("Y-m-d H:i:s");
 
-                $oBD->insereEnregistrement($strNomTableUtilisateurs,$NoUtilisateur,$adresseInscription,$motPasseInscription,$date);
+                $oBD->insereEnregistrement($strNomTableUtilisateurs,$NoUtilisateur,$adresseInscription,password_hash($motPasseInscription, PASSWORD_DEFAULT),$date,0,0,'','','','','','','','N/A');
                 echo $oBD->_requete;
                 $alerteEnregistrement = 3;
-                $strMsgAlerteEnregistrement = "utilisateur enregistré.";
+                $strMsgAlerteEnregistrement = "Utilisateur enregistré. Courriel de confirmation envoyé.";
             } else {
                 $alerteEnregistrement = 2;
                 $strMsgAlerteEnregistrement = "Adresse courriel existe dejà!";
@@ -224,7 +225,11 @@
                                 elseif($row[0]['NbConnexions'] == 0){ 
                                 ?>
                                 <script>window.location = 'mon-compte.php';</script>
-                                <?php }} ?>
+                            <?php }} elseif($alerte == 3){  ?>
+                                    <div class="alert-box warning">
+                                        <h4>Avertissement! <span>Vous devez activer votre compte par courriel.</span></h4>
+                                    </div>
+                                <?php }?>
                         </div>
                             
                         <div class="group">
@@ -275,7 +280,7 @@
                             </div>
                             <?php } elseif($alerteEnregistrement == 3){?>
                             <div class="alert-box done">
-                                    <h4>Well Done! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
+                                    <h4>Succès! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
                             </div>
                             <?php }?>
                         </div>
@@ -284,7 +289,7 @@
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
-                            <label for="tab-1">Déjà membre?</label>
+                            <label for="tab-1">Retourné au menu connexion</label>
                         </div>
                         </form>
                     </div>
