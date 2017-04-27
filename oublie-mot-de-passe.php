@@ -6,12 +6,10 @@
         
         $courriel = get('courielMPoublie');
         $getRecuperation = get('recuperationMP');
-        $binAlerte = 0;
-        
+        $binAlerte = 0;        
         
         if (isset($getRecuperation)){
-            
-            if ($courriel != "") {
+            if ($courriel != "" && filter_var($courriel, FILTER_VALIDATE_EMAIL)) {
                 $binAlerte = 1;
             } else {
                 $binAlerte = 2;
@@ -64,7 +62,7 @@
                             <?php } else if($binAlerte == 1) {                                   
                                 ?>  
                             <div class="alert-box done">
-                                <h4>Hourra! <span>un courriel de recuperation vous a été envoyé </span></h4>
+                                <h4>Hourra! <span>format du courriel invalide! </span></h4>
                             </div>
                             <?php }?>
                             
