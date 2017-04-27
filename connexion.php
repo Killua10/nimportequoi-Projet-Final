@@ -52,7 +52,7 @@
     
     var_dump($alerte);
     /*****************************************************PROBLEME AVEC LE BOUTON SE CONNECTER NE SAFFICHE PAS DANS LA BARRE D'ADRESSE*****************************************************************/
-    //if (isset($getConnexion)){
+    if (isset($getConnexion)){
         $intSelectTrouver = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion' AND MotDePasse='$motPasseConnexion'");
         $row = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
         //var_dump($intSelectTrouver);
@@ -63,7 +63,7 @@
             $alerte = 2;
         }
         
-    //}
+    }
     
     if (isset($getEnregistrement)){
         $binEnregistrement = true;
@@ -127,7 +127,7 @@
         <script>
         function verificationConnexion(){
             
-            document.getElementById('frmSaisie1').submit();
+            //document.getElementById('frmSaisie1').submit();
             //window.location = 'annonces.php';
             
         }
@@ -152,7 +152,7 @@
                         <form id="frmSaisie1"  method="get" action="">
                         <div class="group">
                             <label for="user" class="label">Adresse courriel</label>
-                            <input id="adresseConnexion" name="adresseConnexion" type="text" class="input" required autofocus>
+                            <input id="adresseConnexion" name="adresseConnexion" type="email" class="input" required autofocus>
                         </div>
                         <div class="group">
                             <label for="pass" class="label">Mot de passe</label>
