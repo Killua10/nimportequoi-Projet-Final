@@ -46,14 +46,10 @@
         
     //$oBD->selectionneEnregistrements($strNomTableUtilisateurs);
     
-<<<<<<< HEAD
-    
-    $alerte = 0;
-=======
+
     $alerte = 0; // 1 = Succès 2 = Attention 
     $alerteEnregistrement = 0; // 1 = avertisement 2 = Attention 3 = Succès
     $strMsgAlerteEnregistrement = "";
->>>>>>> origin/master
     
     //var_dump($getConnexion);
     
