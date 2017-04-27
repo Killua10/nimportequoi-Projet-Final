@@ -303,8 +303,9 @@
             $this->_nbEnregistrements = -1;
         }
         
-       // var_dump($this->_listeEnregistrements);
-        //var_dump($this->_requete);
+        //var_dump(mysqli_query($this->_cBD, $this->_requete));
+        var_dump($this->_requete);
+        var_dump($this->_nbEnregistrements);
         return $this->_nbEnregistrements;
     }
     

@@ -42,21 +42,28 @@
         $oBD->insereEnregistrement($strNomTableUtilisateurs,1,"admin@nq.com",'idiot123', "2017-04-26", "11", "1", "901", "Nom", "Prenom", "N (514) 123-1234", "N (514) 123-1234 #9999", "N (514) 123-1234", "2017-04-26", "Admin");
     }
         
-    $oBD->selectionneEnregistrements($strNomTableUtilisateurs);
+    //$oBD->selectionneEnregistrements($strNomTableUtilisateurs);
     
     $alerte = 0;
     
-    var_dump($getConnexion);
-    if (isset($getConnexion)){
-        $intSelectTrouver = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel=$adresseConnexion AND MotDePasse=$motPasseConnexion");
-        var_dump($intSelectTrouver);
+    //var_dump($getConnexion);
+    
+    //var_dump($getEnregistrement);
+    
+    var_dump($alerte);
+    /*****************************************************PROBLEME AVEC LE BOUTON SE CONNECTER NE SAFFICHE PAS DANS LA BARRE D'ADRESSE*****************************************************************/
+    //if (isset($getConnexion)){
+        $intSelectTrouver = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion' AND MotDePasse='$motPasseConnexion'");
+        $row = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
+        //var_dump($intSelectTrouver);
+        var_dump($row);
         if ($intSelectTrouver == 1) {
             $alerte = 1;
         } else {
             $alerte = 2;
         }
         
-    }
+    //}
     
     if (isset($getEnregistrement)){
         $binEnregistrement = true;
@@ -99,9 +106,9 @@
         }
      }
      else{
-         /*echo '<script language="javascript">';
+         echo '<script language="javascript">';
             echo 'alert("Attention, il faut remplir tous les champs!")';
-            echo '</script>';*/
+            echo '</script>';
      }
    }
    
@@ -115,6 +122,7 @@
         <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:600'>
 
         <link rel="stylesheet" href="css/connexion.css">
+        <link rel="stylesheet" href="css/alertboxes.css">
 
         <script>
         function verificationConnexion(){
@@ -126,7 +134,7 @@
         
         function verificationEnregistrement(){
             document.getElementById('frmSaisie2').submit();
-            //window.location = 'connection.php';
+            //window.location = 'connexion.php';
         }
         </script>
     </head>
@@ -151,18 +159,21 @@
                             <input id="motPasseConnexion" name="motPasseConnexion" type="password" class="input" data-type="password" required>
                         </div>
 
-                        <div>
+                        <div >
                             <?php if ($alerte == 2) { ?>
                                 <div class="alert-box attention">
                                     <h4>Erreur! <span>courriel ou mot de passe incorrect</span></h4>
                                 </div>
 
-                            <?php } else if ($alerte == 1) {
+                            <?php } else if ($alerte == 1 ) {
+                                if($row[0]['NbConnexions'] != 0){
                                 ?>  
-                                <div class="alert-box done">
-                                    <h4>Hourra! <span>un courriel de recuperation a été envoyé. </span></h4>
-                                </div>
-                            <?php } ?>
+                                <script>window.location = 'annonces.php';</script>
+                                <?php }
+                                elseif($row[0]['NbConnexions'] == 0){ 
+                                ?>
+                                <script>window.location = 'mon-compte.php';</script>
+                                <?php }} ?>
                         </div>
                             
                         <div class="group">
@@ -170,8 +181,7 @@
                             <label for="check"><span class="icon"></span> Se souvenir de moi</label>
                         </div>
                         <div class="group">
-
-                            <input type="submit" id="btnConnexion" name="btnConnexion" class="button" value="Se connecter" onclick="verificationConnexion()">
+                            <input id="btnConnexion" name="btnConnexion" type="submit" class="button" value="Se connecter"  onclick="verificationConnexion()">
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
@@ -180,6 +190,7 @@
                       </form>
 
                     </div>
+                    
                     <div class="sign-up-htm">
                          <form id="frmSaisie2" method="get" action="">
                         <div class="group">
