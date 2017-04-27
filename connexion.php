@@ -44,7 +44,9 @@
         
     //$oBD->selectionneEnregistrements($strNomTableUtilisateurs);
     
-    $alerte = 0;
+    $alerte = 0; // 1 = Succès 2 = Attention 
+    $alerteEnregistrement = 0; // 1 = avertisement 2 = Attention 3 = Succès
+    $strMsgAlerteEnregistrement = "";
     
     //var_dump($getConnexion);
     
@@ -70,45 +72,74 @@
         if ($adresseInscription!="" && $confirmeAdresseInscription!="" && $motPasseInscription!="" && $confirmemotPasseInscription!=""){
         
         if ($adresseInscription != $confirmeAdresseInscription){
-            echo '<script language="javascript">';
+           /* echo '<script language="javascript">';
             echo 'alert("L\'adresse de courriel n\'a pas Ã©tÃ© confirmÃ© correctement")';
-            echo '</script>';
+            echo '</script>';*/
+            
+            $alerteEnregistrement = 1;
+            $strMsgAlerteEnregistrement = "L\'adresse de courriel n\'a pas été confirmé correctement";
         }
         else if (strlen ($adresseInscription) > 50 ){
-            echo '<script language="javascript">';
+            /*echo '<script language="javascript">';
             echo 'alert("L\'adresse de courriel ne doit pas dÃ©passer 50 caractÃ¨res")';
-            echo '</script>';
+            echo '</script>';*/
+            
+            $alerteEnregistrement = 1;
+            $strMsgAlerteEnregistrement = "L\'adresse de courriel ne doit pas dépasser 50 caractères";
         }
         else if (!filter_var($adresseInscription, FILTER_VALIDATE_EMAIL)){
-            echo '<script language="javascript">';
+            /*echo '<script language="javascript">';
             echo 'alert("L\'adresse de courriel saisie est invalide, veuillez respecter le format")';
-            echo '</script>';
+            echo '</script>';*/
+            
+            $alerteEnregistrement = 1;
+            $strMsgAlerteEnregistrement = "L\'adresse de courriel saisie est invalide, veuillez respecter le format";
         }
        else if ($motPasseInscription != $confirmemotPasseInscription){
-            echo '<script language="javascript">';
+            /*echo '<script language="javascript">';
             echo 'alert("Le mot de passe n\'a pas Ã©tÃ© confirmÃ© correctement")';
-            echo '</script>';
+            echo '</script>';*/
+            
+            $alerteEnregistrement = 1;
+            $strMsgAlerteEnregistrement = "Le mot de passe n\'a pas été confirmé correctement";
         }
         else if (strlen ($motPasseInscription) > 50 ){
-            echo '<script language="javascript">';
+            /*echo '<script language="javascript">';
             echo 'alert("Le mot de passe ne doit pas dÃ©passer 50 caractÃ¨res")';
-            echo '</script>';
+            echo '</script>';*/
+            
+            $alerteEnregistrement = 1;
+            $strMsgAlerteEnregistrement = "Le mot de passe ne doit pas dépasser 50 caractères";
         }
         else{
+            $intSelectTrouverUtilisateur = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseInscription'");
+            var_dump("Ronaldo" . $intSelectTrouverUtilisateur);
+            if ($intSelectTrouverUtilisateur == 0) {
+                $row2 = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
+                $strNoUtilisateur= '$NoUtilisateur';
+                $resultat = mysqli_fetch_array(mysqli_query($oBD->_cBD, "SELECT $strNoUtilisateur FROM $strNomTableUtilisateurs ORDER BY $strNoUtilisateur DESC LIMIT 1"));
+                var_dump($resultat);
+                $NoUtilisateur = ($resultat[$strNoUtilisateur])+1;
+                $date = date("Y-m-d H:i:s");
+
+                $oBD->insereEnregistrement($strNomTableUtilisateurs,$NoUtilisateur,$adresseInscription,$motPasseInscription,$date);
+                echo $oBD->_requete;
+                $alerteEnregistrement = 3;
+                $strMsgAlerteEnregistrement = "utilisateur enregistré.";
+            } else {
+                $alerteEnregistrement = 2;
+                $strMsgAlerteEnregistrement = "Adresse courriel existe dejà!";
+            }
             
-            $strNoUtilisateur= '$NoUtilisateur';
-            $resultat = mysqli_fetch_array(mysqli_query($oBD->_cBD, "SELECT $strNoUtilisateur FROM $strNomTableUtilisateurs ORDER BY $strNoUtilisateur DESC LIMIT 1"));
-            $NoUtilisateur = ($resultat[$strNoUtilisateur])+1;
-            $date = date("Y-m-d H:i:s");
-            
-            $oBD->insereEnregistrement($strNomTableUtilisateurs,$NoUtilisateur,$adresseInscription,$motPasseInscription,$date);
-            echo $oBD->_requete;
         }
      }
      else{
-         echo '<script language="javascript">';
+         /*echo '<script language="javascript">';
             echo 'alert("Attention, il faut remplir tous les champs!")';
-            echo '</script>';
+            echo '</script>';*/
+            
+            $alerteEnregistrement = 1;
+            $strMsgAlerteEnregistrement = "Attention, il faut remplir tous les champs!";
      }
    }
    
@@ -133,7 +164,7 @@
         }
         
         function verificationEnregistrement(){
-            document.getElementById('frmSaisie2').submit();
+            //document.getElementById('frmSaisie2').submit();
             //window.location = 'connexion.php';
         }
         </script>
@@ -160,7 +191,7 @@
                         </div>
 
                         <div >
-                            <?php if ($alerte == 2) { ?>
+                            <?php if ($alerteEnregistrement == 1) { ?>
                                 <div class="alert-box attention">
                                     <h4>Erreur! <span>courriel ou mot de passe incorrect</span></h4>
                                 </div>
@@ -202,11 +233,11 @@
                          <form id="frmSaisie2" method="get" action="">
                         <div class="group">
                             <label for="user" class="label">Adresse courriel</label>
-                            <input id="adresseInscription" name="adresseInscription" type="text" class="input">
+                            <input id="adresseInscription" name="adresseInscription" type="email" class="input">
                         </div>
                         <div class="group">
                             <label for="user" class="label">Confirmation de l'adresse courriel</label>
-                            <input id="confirmeAdresseInscription" name="confirmeAdresseInscription" type="text" class="input">
+                            <input id="confirmeAdresseInscription" name="confirmeAdresseInscription" type="email" class="input">
                         </div>
                         <div class="group">
                             <label for="pass" class="label">Mot de passe</label>
@@ -215,6 +246,22 @@
                         <div class="group">
                             <label for="pass" class="label">Confirmation du mot de passe</label>
                             <input id="confirmeMotPasseInscription" name="confirmeMotPasseInscription" type="password" class="input" data-type="password">
+                        </div>
+                             
+                        <div style="margin-bottom: 10px;">
+                            <?php if ($alerteEnregistrement == 1) { ?>
+                            <div class="alert-box warning">
+                                    <h4>Avertissement! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
+                            </div>
+                            <?php } elseif($alerteEnregistrement == 2){?>
+                            <div class="alert-box attention">
+                                    <h4>Attention! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
+                            </div>
+                            <?php } elseif($alerteEnregistrement == 3){?>
+                            <div class="alert-box done">
+                                    <h4>Well Done! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
+                            </div>
+                            <?php }?>
                         </div>
                         <div class="group">
                             <input id="Enregistrement" name="Enregistrement" type="submit" class="button" value="Enregistrement" for="tab-2" onclick="verificationEnregistrement()">
@@ -228,6 +275,7 @@
                 </div>
             </div>
         </div>
+        <?php afficher?>
 
 
     </body>
