@@ -20,24 +20,29 @@
             echo 'alert("Statut non valide")';
             echo '</script>';
         }
-        else if(!estNumerique($intNoEmpl)){
+        else if($intNoEmpl == ""){
             echo '<script language="javascript">';
-            echo "alert('Numéro d''employé invalide.')";
+            echo 'alert("Numéro d\'employé absent")';
             echo '</script>';
         }
-        else if(dansIntervalle($intNoEmpl, 1, 9999)){
+        else if(!is_numeric($intNoEmpl)){
             echo '<script language="javascript">';
-            echo "alert('Numéro d'employé hors plage (1-9999)";
+            echo 'alert("Numéro d\'employé invalide.")';
+            echo '</script>';
+        }
+        else if(!dansIntervalle($intNoEmpl, 1, 9999)){
+            echo '<script language="javascript">';
+            echo 'alert("Numéro d\'employé hors plage (1-9999)")';
             echo '</script>';
         }
         else if(strlen($strPrenom) == 0){
             echo '<script language="javascript">';
-            echo "alert('Prénom absent')";
+            echo 'alert("Prénom absent")';
             echo '</script>';
         }
         else if(strlen($strNomFamille) == 0){
             echo '<script language="javascript">';
-            echo "alert('Nom de famille absent')";
+            echo 'alert("Nom de famille absent")';
             echo '</script>';
         }
     }
