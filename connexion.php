@@ -87,6 +87,7 @@
          echo '<script language="javascript">';
             echo 'alert("Attention, il faut remplir tous les champs!")';
             echo '</script>';
+            echo "Ronaldo";
      }
    }
    
