@@ -77,12 +77,15 @@
           </a>
         </div>
 
+        <?php //var_dump($_SESSION);
+        if ($_SESSION["Status"] == 1) {?>
         <div id="admin">
             <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button></br>
 
             <button class="btn">Supprimer</button></br>
             <button class="btn">Activer</button>
         </div>
+        <?php }?>
 
         <?php }?>
 

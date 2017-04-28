@@ -53,12 +53,16 @@
 
 
         </div>
+        
+        <?php //var_dump($_SESSION); 
+        if ($_SESSION["Status"] == 1) {?>
 
         <div id="admin2">
-           <button class="btn">Modifier</button>
+           <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button>
             <button class="btn">Supprimer</button>
             <button class="btn">Activer</button>
         </div>
+        <?php }?>
 
 
 
