@@ -3,8 +3,8 @@
       <?php session_start();?>
     <li><a onclick="window.location = 'annonces.php';">Annonces</a></li>
     <li ><a onclick="window.location = 'mon-compte.php';">Mon compte</a></li>
-    <?php if ($_SESSION["Status"] == 1) {?>
-    <li ><a onclick="window.location = 'mes-annonces.php';"><u>Mes annonces</u></a></li>
+    <?php if ($_SESSION["Status"] != 1) {?>
+    <li ><a onclick="window.location = 'mes-annonces.php';">Mes annonces</a></li>
     <?php }?>
     <li ><a onclick="window.location = 'nouvelle-annonce.php';">Nouvelle annonce</a></li>
     <?php if ($_SESSION["Status"] == 1) {?>
