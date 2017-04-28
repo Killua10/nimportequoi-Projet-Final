@@ -450,6 +450,7 @@ overflow: auto;
 .sTable{
   display: block;
   overflow-x: auto;
+
 }
 
 .sTable tr {
@@ -459,12 +460,23 @@ overflow: auto;
   text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
 }
 
+.sTable th {
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+  background:#414955;
+  color:#FFF;
+  border: 1px solid #000;
+  cursor: default;
+}
 
-.sTable tr td {
-  background:#FFF;
+
+.sTable tr td  {
+  background:#e2e2e2;
   color:#6184bf;
   border: 1px solid #000;
 }
+
 
 .sTable tr:hover td {
   background:#6184bf;
@@ -474,12 +486,13 @@ overflow: auto;
 
 
 .sTable tr:nth-child(odd) td {
-  background:#414955;
-  color:#FFF
+  background:#FFF;
+  color:#6184bf;
 }
 
 .sTable tr:nth-child(odd):hover td {
   background:#6184bf;
+  color:#FFF;
 }
 
 .sTable td {

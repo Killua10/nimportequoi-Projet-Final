@@ -61,26 +61,26 @@
 
         <table border="1px" class="sTable">
           <tr>
-              <td>No.</td>
-              <td>Courriel</td>
-              <td>Nom</td>
-              <td>Prénom</td>
-              <td>Numéro d'employé</td>
-              <td>Téléphone maison</td>
-              <td>Téléphone travail</td>
-              <td>Téléphone cellulaire</td>
-              <td>*Annonces A / I / S</td>
-              <td>Nombre de connexions</td>
-              <td>Statut</td>
-              <td>Date de création</td>
-              <td>Derniêre modification</td>
-              <td>5 dernières connexions</td>
-              <td>Autres infos</td>
+              <th>No.</th>
+              <th>Courriel</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Numéro d'employé</th>
+              <th>Téléphone maison</th>
+              <th>Téléphone travail</th>
+              <th>Téléphone cellulaire</th>
+              <th>*Annonces A / I / S</th>
+              <th>Nombre de connexions</th>
+              <th>Statut</th>
+              <th>Date de création</th>
+              <th>Derniêre modification</th>
+              <th>5 dernières connexions</th>
+              <th>Autres infos</th>
           </tr>
-          <?php for ($i = 0; $i < count($oBD->selectionneEnregistrements($strNomTableUtilisateurs)); $i++) {
+          
+          <?php for ($i = 0; $i < $oBD->selectionneEnregistrements($strNomTableUtilisateurs); $i++) {
                   $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
-                  var_dump($row);
-                  var_dump($oBD->selectionneEnregistrements($strNomTableUtilisateurs));
+                  
                   //var_dump($_SESSION['objBD']->selectionneEnregistrements($strNomTableUtilisateurs));
               ?>
           <tr style="font-size: 70%">
