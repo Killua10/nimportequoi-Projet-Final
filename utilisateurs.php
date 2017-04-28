@@ -78,7 +78,6 @@
               <th>Autres infos</th>
           </tr>
           
-<<<<<<< HEAD
           <?php for ($i = 0; $i < $oBD->selectionneEnregistrements($strNomTableUtilisateurs); $i++) {
                   $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
                   //var_dump($_SESSION['objBD']->selectionneEnregistrements($strNomTableUtilisateurs));
