@@ -1,13 +1,14 @@
 <!doctype html>
 <?php
 
-    require_once 'classe-mysql-2017-04-26.php';
-    require_once 'classe-fichier-2017-04-26.php';
-    require_once 'librairies-communes-2017-04-07.php';
+    require_once "classe-fichier-2017-04-26.php";
+    require_once "classe-mysql-2017-04-26.php";
+    require_once "librairies-communes-2017-04-07.php";
+    require_once "fonctions-specifiques-projet-final.php";
+    require_once "connexion-bd.php";
     
     $strMethode = get('MAJ');
     
-    $strStatut = get('Statut');
     $intNoEmpl = get('NoEmpl');
     $strPrenom = get('Prenom');
     $strNomFamille = get('NomFamille');
@@ -15,27 +16,7 @@
     $strMotPasse = get('MotPasse');
     
     if(isset($strMethode)){
-        if($strStatut==""){
-            echo '<script language="javascript">';
-            echo 'alert("Statut non valide")';
-            echo '</script>';
-        }
-        else if($intNoEmpl == ""){
-            echo '<script language="javascript">';
-            echo 'alert("Numéro d\'employé absent")';
-            echo '</script>';
-        }
-        else if(!is_numeric($intNoEmpl)){
-            echo '<script language="javascript">';
-            echo 'alert("Numéro d\'employé invalide.")';
-            echo '</script>';
-        }
-        else if(!dansIntervalle($intNoEmpl, 1, 9999)){
-            echo '<script language="javascript">';
-            echo 'alert("Numéro d\'employé hors plage (1-9999)")';
-            echo '</script>';
-        }
-        else if(strlen($strPrenom) == 0){
+        if(strlen($strPrenom) == 0){
             echo '<script language="javascript">';
             echo 'alert("Prénom absent")';
             echo '</script>';
@@ -89,16 +70,26 @@
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Statut d'employé</td>
                        <td>
-
                            <select class="annonces" id="Statut" name="Statut" disabled>
-                             <option disabled selected hidden>Statut</option>
-                             <option name="EtatAttente" value="0">En attente</option>
-                             <option name="EtatConfirme" value="9">Confirmé</option>
-                             <option name="EtatAdministrateur" value="1">Administrateur</option>
-                             <option name="EtatCadre" value="2">Cadre</option>
-                             <option name="EtatEmpSoutien" value="3">Employé de soutien</option>
-                             <option name="EtatEnseignant" value="4">Enseignant</option>
-                             <option name="EtatProfessionnel" value="5">Professionnel</option>
+                               <?php 
+                                    $tabStrName = array("EtatAttente", "EtatConfirme", "EtatAdministrateur", "EtatCadre", "EtatEmpSoutien", "EtatEnseignant", "EtatProfessionnel");
+                                    $tabValue = array(0, 9, 1, 2, 3, 4, 5);
+                                    $tabLabel = array("En attente", "Confirmé", "Administrateur", "Cadre", "Employé de soutien", "Enseignant", "Professionnel");
+                                    $echo = "";
+                                    $statut = 4;
+                                    
+                                    for($i = 0; $i < count($tabLabel); $i++){
+                                        $echo = '<option ';
+                                        if($tabValue[$i] == $statut){
+                                            $echo .= 'selected';
+                                        }
+                                        $echo .= "name='$tabStrName[$i]' ";
+                                        $echo .= "value='$tabValue[$i]'>";
+                                        $echo .= $tabLabel[$i];
+                                        $echo .= "</option>";
+                                        echo $echo;
+                                    }
+                               ?>`
                           </select>
                        </td>
                    </tr>

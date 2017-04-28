@@ -42,16 +42,16 @@
         <tr>
         <td style="padding-left: 1em;">
 
-          <h2>Titre: </h2><input required=""></input>
-          <p>Categorie:</p><input required=""></input>
+          <h3>Titre: </h3><input class="sInput" required=""></input>
+          <h3>Categorie:</h3><input class="sInput" required=""></input>
 
-          <p>Description: </p><textarea rows="4" cols="50" style="resize: none"></textarea>
-          <p>Nom de l'auteur: John, Doe</p>
+          <h3>Description: </h3><textarea class="sInput" rows="4" cols="50" style="resize: none"></textarea>
+          <h3>Nom de l'auteur: John, Doe</h3>
 
        </td>
         <td style="padding-left: 3em; padding-bottom: 9em;">
 
-          <h2>Prix:</h2><input type="number" min="1"></input>
+            <h3>Prix:</h3><input class="sInput" type="number" min="1"></input>
           <p>Numéro d'annonce: 078657</p>
           <p>Date de modification: 12/04/2017</p>
           <p>Heure de modification: 3:45 EST</p>
