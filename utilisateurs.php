@@ -78,10 +78,6 @@
               <th>Autres infos</th>
           </tr>
           
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
           <?php for ($i = 0; $i < $oBD->selectionneEnregistrements($strNomTableUtilisateurs); $i++) {
                   $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
                   
