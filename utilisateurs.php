@@ -78,10 +78,14 @@
               <th>Autres infos</th>
           </tr>
           
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
           <?php for ($i = 0; $i < $oBD->selectionneEnregistrements($strNomTableUtilisateurs); $i++) {
                   $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
-                  //var_dump($_SESSION['objBD']->selectionneEnregistrements($strNomTableUtilisateurs));
-              ?>
+                  
+           ?>
           <tr style="font-size: 70%">
 
               <td><?php echo $row[$i]['NoUtilisateur']?></td>

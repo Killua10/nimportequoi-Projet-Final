@@ -27,14 +27,14 @@
 </header>
       <main>
         <div class="trietrecherche">
-          <select class="annonces">
+          <select class="tri">
            <option disabled selected hidden> # Annonces</option>
            <option value="5">5 par page</option>
            <option value="10">10 par page</option>
            <option value="15">15 par page</option>
            <option value="20">20 par page</option>
           </select>
-
+            
           <select class="tri">
            <option disabled selected hidden> Trié par</option>
            <option value="DateParutionCroissant">Date Parution - Croissant</option>
@@ -44,7 +44,27 @@
            <option value="DescriptionAbregeeCroissant">Description Abrégée - Croissant</option>
            <option value="DescriptionAbregeeDecroissant">Description Abrégée - Déroissant</option>
           </select>
-
+            <br />
+          <select class="tri">
+           <option disabled selected hidden> Champ de recherche</option>
+           <option value="ChampRecherche.Auteur">Auteur</option>
+           <option value="ChampRecherche.Categorie">Catégorie</option>
+           <option value="ChampRecherche.Description">Description</option>
+          </select>
+            
+            <style> input[type="date"]:before {
+                        content: attr(placeholder) !important;
+                        color: #aaa;
+                        margin-right: 0.5em;
+                      }
+                      input[type="date"]:focus:before,
+                      input[type="date"]:valid:before {
+                        content: "";
+                      } *       
+            </style>
+            <input class="sInput" type="date" value="" placeholder="Depuis">
+            <input class="sInput" type="date" value="" placeholder="Jusqu'à">
+            
           <input class="recherche" id="contenuRecherche" placeholder="Entrez votre recherche ici..."></input>
           <button class="btn" id="recherche">Recherche</button>
       </div>
