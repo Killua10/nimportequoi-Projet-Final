@@ -42,6 +42,7 @@
 
             <p class="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
             <p class="nom">John, Doe</p>
+            <a class="nom" href="">doe@john.com</a>
           </div>
 
           <div id="right2">

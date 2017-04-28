@@ -58,11 +58,14 @@
                             <tr>
                                 <td style="font-weight: bold;font-size: 110%">Prix</td>
                                 <td>
-                                    <input id="gratuit" name="payant" type="radio" value="PAYANT" checked="checked"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">$</label>
-                                    <input class="sInput" type="number" name="Prix" min="1" step="any" ><br />
-                                    <input id="gratuit" name="gratuit" type="radio" value="GRATUIT"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">Gratuit</label><br />
-                                    <input id="gratuit" name="echange" type="radio" value="ECHANGE"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">Échange</label><br />
-                                    <input id="gratuit" name="contacter" type="radio" value="CONTACTER"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">Contacter</label><br />
+                                    <script>
+                                    if (document.getElementById('payant').checked == false) {
+                                        document.getElementById('inputPrix').disabled = true;
+    
+                                    }
+                                    </script>
+                                    <input id="payant" name="Prix" type="radio" value="PAYANT" checked="checked"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">$</label><input id="inputPrix" class="sInput" type="number" name="Prix" min="1" step="any" ><br />
+                                    <input id="gratuit"  name="Prix" type="radio"  value="GRATUIT"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">Gratuit</label><br />
                                 </td>
                             </tr>
                             <tr>
@@ -75,7 +78,7 @@
                                 <td style="font-weight: bold;font-size: 110%">Etat</td>
                                 <td>
                                   <select class="annonces">
-                                     <option disabled selected hidden>Statut</option>
+                                     <option disabled selected hidden>Etat</option>
                                      <option name="EtatActif" value="1">Actif</option>
                                      <option name="EtatInactif" value="0">Inactif</option>
                                   </select>

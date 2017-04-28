@@ -75,6 +75,13 @@
 
           </a>
         </div>
+        
+        <div id="admin">
+            <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button></br>
+
+            <button class="btn">Supprimer</button></br>
+            <button class="btn">Activer</button>
+        </div>
 
 </div>
 
