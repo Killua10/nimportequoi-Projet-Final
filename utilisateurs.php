@@ -78,9 +78,17 @@
               <th>Autres infos</th>
           </tr>
           
+<<<<<<< HEAD
           <?php for ($i = 0; $i < $oBD->selectionneEnregistrements($strNomTableUtilisateurs); $i++) {
                   $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
                   
+=======
+          <?php for ($i = 0; $i < count($oBD->selectionneEnregistrements($strNomTableUtilisateurs)); $i++) {
+                  $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+                  var_dump($row);
+                  var_dump($oBD->selectionneEnregistrements($strNomTableUtilisateurs));
+                  echo $i;
+>>>>>>> origin/master
                   //var_dump($_SESSION['objBD']->selectionneEnregistrements($strNomTableUtilisateurs));
               ?>
           <tr style="font-size: 70%">
@@ -131,10 +139,6 @@
         <div id="admin2">
             <button class="btn" onClick="window.location.reload()">Actualiser</button>
         </div>
-
-
-
-
 
        </main>
 
