@@ -14,4 +14,9 @@
     detecteServeur($strMonIP, $strIPServeur, $strNomServeur, $strInfosSensibles);*/
    
     $oBD =  new mysql($strNomBD, "424w-cgodin-qc-ca.php");
+    
+    $strNomTableUtilisateurs ="utilisateurs";
+    $strNomTableConnexions ="connexions";
+    $strNomTableCategories ="categories";
+    $strNomTableAnnonces ="annonces";
 

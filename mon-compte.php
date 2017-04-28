@@ -9,24 +9,18 @@
     
     $strMethode = get('MAJ');
     
+    $tabChampsTableUtil = array("NoUtilisateur","Courriel","MotDePasse","Creation","NbConnexions","Status","NoEmpl","Nom","Prenom","NoTelMaison","NoTelTravail","NoTelCellulaire","Modification","AutresInfos");
+    
     $intNoEmpl = get('NoEmpl');
     $strPrenom = get('Prenom');
     $strNomFamille = get('NomFamille');
     $strCourriel = get('Courriel');
     $strMotPasse = get('MotPasse');
+    $strTelMaison = get('TelMaison');
+    $strTelTravail = get('TelTravail');
+    $strTelCellulaire = get('TelCellulaire');
     
-    if(isset($strMethode)){
-        if(strlen($strPrenom) == 0){
-            echo '<script language="javascript">';
-            echo 'alert("Prénom absent")';
-            echo '</script>';
-        }
-        else if(strlen($strNomFamille) == 0){
-            echo '<script language="javascript">';
-            echo 'alert("Nom de famille absent")';
-            echo '</script>';
-        }
-    }
+    
    
 ?>
 
@@ -54,7 +48,23 @@
   <img src="img/nq-logo2.png" alt="Smiley face" height="150px" width="auto">
 
 
-<?php require_once 'navigation.php';?>
+<?php require_once 'navigation.php';
+    if(isset($strMethode)){
+            if(strlen($strPrenom) == 0){
+                echo '<script language="javascript">';
+                echo 'alert("Prénom absent")';
+                echo '</script>';
+            }
+            else if(strlen($strNomFamille) == 0){
+                echo '<script language="javascript">';
+                echo 'alert("Nom de famille absent")';
+                echo '</script>';
+            } else {
+                $oBD->majEnregistrement($strNomTableUtilisateurs,"Prenom='$strPrenom', Nom='$strNomFamille', NoTelMaison='$strTelMaison', NoTelTravail='$strTelTravail', NoTelCellulaire='$strTelCellulaire', Modification=" . "'" . date("Y-m-d H:i:s") . "'"
+                        ,"NoUtilisateur=" . $_SESSION['NoUtilisateur']);
+            }
+        }
+?>
 
 
 </header>
@@ -70,21 +80,19 @@
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Statut d'employé</td>
                        <td>
-<<<<<<< HEAD
 
-                           <select class="annonces" id="Statut" name="Statut" >
-                             <option   hidden>Statut</option>
-                             <option name="EtatAttente" value="0">En attente</option>
-                             <option name="EtatConfirme" value="9">Confirmé</option>
-                             <option name="EtatAdministrateur" value="1">Administrateur</option>
-                             <option name="EtatCadre" value="2">Cadre</option>
-                             <option name="EtatEmpSoutien" value="3">Employé de soutien</option>
-                             <option name="EtatEnseignant" value="4">Enseignant</option>
-                             <option name="EtatProfessionnel" value="5">Professionnel</option>
-=======
-                           <select class="annonces" id="Statut" name="Statut" disabled>
+                           <select class="annonces" id="Statut" name="Statut" disabled="true">
+                             <option name="EtatAttente" <?php if($_SESSION['Status'] == 0){echo 'selected';}?> value="0">En attente</option>
+                             <option name="EtatConfirme" <?php if($_SESSION['Status'] == 9){echo 'selected';}?> value="9">Confirmé</option>
+                             <option name="EtatAdministrateur" <?php if($_SESSION['Status'] == 1){echo 'selected';}?> value="1">Administrateur</option>
+                             <option name="EtatCadre"  <?php if($_SESSION['Status'] == 2){echo 'selected';}?> value="2">Cadre</option>
+                             <option name="EtatEmpSoutien"  <?php if($_SESSION['Status'] == 3){echo 'selected';}?> value="3">Employé de soutien</option>
+                             <option name="EtatEnseignant"  <?php if($_SESSION['Status'] == 4){echo 'selected';}?> value="4">Enseignant</option>
+                             <option name="EtatProfessionnel" <?php if($_SESSION['Status'] == 5){echo 'selected';}?>  value="5">Professionnel</option>
+                           </select>
+                           <!--<select class="annonces" id="Statut" name="Statut" disabled>-->
                                <?php 
-                                    $tabStrName = array("EtatAttente", "EtatConfirme", "EtatAdministrateur", "EtatCadre", "EtatEmpSoutien", "EtatEnseignant", "EtatProfessionnel");
+                                    /*$tabStrName = array("EtatAttente", "EtatConfirme", "EtatAdministrateur", "EtatCadre", "EtatEmpSoutien", "EtatEnseignant", "EtatProfessionnel");
                                     $tabValue = array(0, 9, 1, 2, 3, 4, 5);
                                     $tabLabel = array("En attente", "Confirmé", "Administrateur", "Cadre", "Employé de soutien", "Enseignant", "Professionnel");
                                     $echo = "";
@@ -100,52 +108,51 @@
                                         $echo .= $tabLabel[$i];
                                         $echo .= "</option>";
                                         echo $echo;
-                                    }
-                               ?>`
->>>>>>> origin/master
-                          </select>
+                                    }*/
+                               ?>
+                          <!--</select>-->
                        </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Numéro d'employé</td>
                        <td>
-                           <input class="sInput" id="NoEmpl" type="text" name="NoEmpl" disabled>
+                           <input class="sInput" id="NoEmpl" type="text" name="NoEmpl" value='<?php echo $_SESSION['NoEmpl']?>' disabled>
                        </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Nom de famille</td>
                        <td>
-                           <input class="sInput" id="NomFamille" type="text" name="NomFamille" >
+                           <input class="sInput" id="NomFamille" type="text" name="NomFamille"  value='<?php echo $_SESSION['Nom']?>'>
                        </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Prénom</td>
                        <td>
-                           <input class="sInput" id="Prenom" type="text" name="Prenom" >
+                           <input class="sInput" id="Prenom" type="text" name="Prenom" value='<?php echo $_SESSION['Prenom']?>'>
                        </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Courriel</td>
                        <td>
-                           <input class="sInput" id="Courriel" type="email" name="Courriel" value="" disabled>
+                           <input class="sInput" id="Courriel" type="email" name="Courriel" value='<?php echo $_SESSION['Courriel']?>' disabled>
                        </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: orange;"> ** </strong>Téléphone maison</td>
                        <td>
-                           <input class="sInput" id="telephonemaison" type="text" name="telephonemaison" >
+                           <input class="sInput" id="telephonemaison" type="text" name="TelMaison" value='<?php echo $_SESSION['NoTelMaison']?>'>
                        </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: orange;"> ** </strong>Téléphone (et poste) au travail</td>
                        <td>
-                           <input class="sInput" id="telephonetravail" type="text" name="telephonetravail" >
+                           <input class="sInput" id="telephonetravail" type="text" name="TelTravail" value='<?php echo $_SESSION['NoTelTravail']?>'>
                        </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: orange;"> ** </strong>Téléphone cellulaire</td>
                        <td>
-                           <input class="sInput" id="telephonecellulaire" type="text" name="telephonecellulaire" >
+                           <input class="sInput" id="telephonecellulaire" type="text" name="TelCellulaire" value='<?php echo $_SESSION['NoTelCellulaire']?>'>
                        </td>
                    </tr>
                    <tr>

@@ -11,10 +11,7 @@
   
     
     
-    $strNomTableUtilisateurs ="utilisateurs";
-    $strNomTableConnexions ="connexions";
-    $strNomTableCategories ="categories";
-    $strNomTableAnnonces ="annonces";
+    
     
     if($oBD->tableExiste($strNomTableUtilisateurs) == false){
         creeTableUtilisateurs($oBD, $strNomTableUtilisateurs);
