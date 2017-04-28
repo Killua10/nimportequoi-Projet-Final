@@ -90,8 +90,8 @@
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Statut d'employé</td>
                        <td>
 
-                           <select class="annonces" id="Statut" name="Statut" disabled>
-                             <option disabled selected hidden>Statut</option>
+                           <select class="annonces" id="Statut" name="Statut" >
+                             <option   hidden>Statut</option>
                              <option name="EtatAttente" value="0">En attente</option>
                              <option name="EtatConfirme" value="9">Confirmé</option>
                              <option name="EtatAdministrateur" value="1">Administrateur</option>
