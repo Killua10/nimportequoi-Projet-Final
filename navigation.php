@@ -5,8 +5,8 @@
     <li ><a onclick="window.location = 'mon-compte.php';">Mon compte</a></li>
     <?php if ($_SESSION["Status"] != 1) {?>
     <li ><a onclick="window.location = 'mes-annonces.php';">Mes annonces</a></li>
-    <?php }?>
     <li ><a onclick="window.location = 'nouvelle-annonce.php';">Nouvelle annonce</a></li>
+    <?php }?>
     <?php if ($_SESSION["Status"] == 1) {?>
     <li><a onclick="window.location = 'gestion-annonce.php';"><u>Gestion d'annonces</u></a></li>
     <li><a onclick="window.location = 'nettoyage-bd.php';"><u>Nettoyage de la BD</u></a></li>
