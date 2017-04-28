@@ -15,9 +15,6 @@
                 $alerte = 2;
             }
         }
-        
-        var_dump($alerte);
-        var_dump($getRecuperation)
     ?>
 <html>
     <head>
