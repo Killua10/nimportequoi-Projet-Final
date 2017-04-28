@@ -22,17 +22,17 @@
     }
     
     if($oBD->tableExiste($strNomTableConnexions) == false){
-        creeTableUtilisateurs($oBD, $strNomTableConnexions);
+        creeTableConnexions($oBD, $strNomTableConnexions);
         
     }
     
     if($oBD->tableExiste($strNomTableCategories) == false){
-        creeTableUtilisateurs($oBD, $strNomTableCategories);
+        creeTableCategorie($oBD, $strNomTableCategories);
         
     }
     
     if($oBD->tableExiste($strNomTableAnnonces) == false){
-        creeTableUtilisateurs($oBD, $strNomTableAnnonces);
+        creeTableAnnonces($oBD, $strNomTableAnnonces);
         
     }
    
