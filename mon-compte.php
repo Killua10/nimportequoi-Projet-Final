@@ -19,6 +19,8 @@
     $strTelMaison = get('TelMaison');
     $strTelTravail = get('TelTravail');
     $strTelCellulaire = get('TelCellulaire');
+    $cbTelephone = get("public");
+    var_dump($cbTelephone);
     
     
    
@@ -60,6 +62,15 @@
                 echo 'alert("Nom de famille absent")';
                 echo '</script>';
             } else {
+                if ($cbTelephone == "on") {
+                    $strTelMaison = "P " . $strTelMaison;
+                    $strTelTravail = "P " . $strTelTravail;
+                    $strTelCellulaire = "P " . $strTelCellulaire;
+                }  else {
+                    $strTelMaison = "N " . $strTelMaison;
+                    $strTelTravail = "N" . $strTelTravail;
+                    $strTelCellulaire = "N " . $strTelCellulaire;
+                }
                 $oBD->majEnregistrement($strNomTableUtilisateurs,"Prenom='$strPrenom', Nom='$strNomFamille', NoTelMaison='$strTelMaison', NoTelTravail='$strTelTravail', NoTelCellulaire='$strTelCellulaire', Modification=" . "'" . date("Y-m-d H:i:s") . "'"
                         ,"NoUtilisateur=" . $_SESSION['NoUtilisateur']);
             }
@@ -90,27 +101,6 @@
                              <option name="EtatEnseignant"  <?php if($_SESSION['Status'] == 4){echo 'selected';}?> value="4">Enseignant</option>
                              <option name="EtatProfessionnel" <?php if($_SESSION['Status'] == 5){echo 'selected';}?>  value="5">Professionnel</option>
                            </select>
-                           <!--<select class="annonces" id="Statut" name="Statut" disabled>-->
-                               <?php 
-                                    /*$tabStrName = array("EtatAttente", "EtatConfirme", "EtatAdministrateur", "EtatCadre", "EtatEmpSoutien", "EtatEnseignant", "EtatProfessionnel");
-                                    $tabValue = array(0, 9, 1, 2, 3, 4, 5);
-                                    $tabLabel = array("En attente", "Confirmé", "Administrateur", "Cadre", "Employé de soutien", "Enseignant", "Professionnel");
-                                    $echo = "";
-                                    $statut = 4;
-                                    
-                                    for($i = 0; $i < count($tabLabel); $i++){
-                                        $echo = '<option ';
-                                        if($tabValue[$i] == $statut){
-                                            $echo .= 'selected';
-                                        }
-                                        $echo .= "name='$tabStrName[$i]' ";
-                                        $echo .= "value='$tabValue[$i]'>";
-                                        $echo .= $tabLabel[$i];
-                                        $echo .= "</option>";
-                                        echo $echo;
-                                    }*/
-                               ?>
-                          <!--</select>-->
                        </td>
                    </tr>
                    <tr>
@@ -140,19 +130,19 @@
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: orange;"> ** </strong>Téléphone maison</td>
                        <td>
-                           <input class="sInput" id="telephonemaison" type="text" name="TelMaison" value='<?php echo $_SESSION['NoTelMaison']?>'>
+                           <input class="sInput" id="telephonemaison" type="text" name="TelMaison" value='<?php echo droite($_SESSION['NoTelMaison'], 14)?>'>
                        </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: orange;"> ** </strong>Téléphone (et poste) au travail</td>
                        <td>
-                           <input class="sInput" id="telephonetravail" type="text" name="TelTravail" value='<?php echo $_SESSION['NoTelTravail']?>'>
+                           <input class="sInput" id="telephonetravail" type="text" name="TelTravail" value='<?php echo droite($_SESSION['NoTelTravail'], 20)?>'>
                        </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: orange;"> ** </strong>Téléphone cellulaire</td>
                        <td>
-                           <input class="sInput" id="telephonecellulaire" type="text" name="TelCellulaire" value='<?php echo $_SESSION['NoTelCellulaire']?>'>
+                           <input class="sInput" id="telephonecellulaire" type="text" name="TelCellulaire" value='<?php echo droite($_SESSION['NoTelCellulaire'],14)?>'>
                        </td>
                    </tr>
                    <tr>
