@@ -1,6 +1,14 @@
+<?php require_once "librairies-communes-2017-04-07.php";
+    require_once "fonctions-specifiques-projet-final.php";?>
 <nav>
   <ul class="menuHaut">
       <?php session_start();?>
+      <?php if ($_SESSION["Courriel"] == '' ) {
+                echo '<script language="javascript">';
+                echo 'alert("Session expirée")';
+                echo '</script>';?>
+          <script>window.location = 'connexion.php';</script>
+      <?php }?>
     <li><a onclick="window.location = 'annonces.php';">Annonces</a></li>
     <li ><a onclick="window.location = 'mon-compte.php';">Mon compte</a></li>
     <?php if ($_SESSION["Status"] != 1) {?>

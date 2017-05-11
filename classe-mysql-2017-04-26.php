@@ -134,6 +134,10 @@
                           $strType = "DATE";
 
                           break;
+                       case "T":
+                          $strType = "DATETIME";
+
+                          break;
                       case "E":
                           $strType = "INT";
 
@@ -168,7 +172,7 @@
           }
           $this->_requete .= ") ENGINE=InnoDB";
           $this->_OK = mysqli_query($this->_cBD, $this->_requete);
-         // var_dump($this->_requete);
+          var_dump($this->_requete);
           return $this->_OK;
       }
       /*

@@ -1,5 +1,6 @@
 <?php
     require_once "424w-cgodin-qc-ca.php";
+    require_once "classe-mysql-2017-04-26.php";
 
     $strLocalHost = "localhost";
    $strNomBD = "annonces_nimportequoi";
@@ -15,8 +16,13 @@
    
     $oBD =  new mysql($strNomBD, "424w-cgodin-qc-ca.php");
     
-    $strNomTableUtilisateurs ="utilisateurs";
-    $strNomTableConnexions ="connexions";
-    $strNomTableCategories ="categories";
-    $strNomTableAnnonces ="annonces";
+    $strNomTableUtilisateurs = "utilisateurs";
+    $strNomFichierUtilisateurs =        "FichierTxt/utilisateurs.txt";
+    $strNomTableConnexions = "connexions";
+    $strNomFichierConnexions =        "FichierTxt/connexions.txt";
+    $strNomTableCategories = "categories";
+    $strNomFichierCategories =        "FichierTxt/categories.txt";
+    $strNomTableAnnonces = "annonces";
+    $strNomFichierAnnonces =        "FichierTxt/annonces.txt";
+    
 

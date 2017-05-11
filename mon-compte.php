@@ -22,8 +22,6 @@
     $cbTelephone = get("public");
     var_dump($cbTelephone);
     
-    
-   
 ?>
 
 <html class="no-js" lang="">

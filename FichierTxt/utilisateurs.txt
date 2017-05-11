@@ -1,0 +1,15 @@
+1;cgodin@lmbrousseau.ca;Secret123;01/01/2017 00:00;1;1;;Godin;Gérald;;;;;
+2;t.est1@lmbrousseau.ca;12345;01/01/2017 00:01;0;0;;;;;;;;
+3;t.est2@lmbrousseau.ca;12345;15/01/2017 00:02;0;0;;;;;;;;
+4;t.est3@lmbrousseau.ca;12345;01/02/2017 00:03;0;0;;;;;;;;
+5;t.est4@lmbrousseau.ca;12345;15/02/2017 00:04;0;0;;;;;;;;
+6;t.est5@lmbrousseau.ca;12345;01/03/2017 00:05;0;0;;;;;;;;
+7;helene.marie.brousseau@gmail.com;12345;01/05/2017 07:45;13;9;;Brousseau;Hélène;;;;;
+8;lucille.marie.brousseau@gmail.com;12345;01/05/2017 09:21;8;3;;Brousseau;Lucille;;;;;
+9;rejean.marie.brousseau@gmail.com;12345;02/05/2017 07:34;5;2;;Brousseau;Réjean;;;;;
+10;christian2.marie.brousseau@gmail.com;12345;02/05/2017 11:29;14;4;144;Brousseau;Christian;;;;;
+11;jose.marie.brousseau@gmail.com;12345;03/05/2017 18:43;7;5;;Brousseau;José;;;;;
+12;pierre.legendre@lmbrousseau.ca;12345;04/05/2017 10:20;0;0;;;;;;;;
+13;louis.marie.brousseau@gmail.com;12345;07/05/2017 10:12;12;4;745;Brousseau;Louis-Marie;N (514) 747-6521;P (514) 626-2666 #5375;N (514) 762-1182;09/05/2015 11:14;Aujourd'hui, rien de neuf
+14;jacques.tremblay@lmbrousseau.ca;12345;08/05/2017 14:31;9;9;;Tremblay;Jacques;;;;;
+15;t.est6@lmbrousseau.ca;12345;09/05/2017 00:06;0;0;;;;;;;;

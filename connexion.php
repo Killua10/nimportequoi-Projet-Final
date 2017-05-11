@@ -8,29 +8,25 @@
     
     session_start();
     
-  
-    
-    
-    
-    
     if($oBD->tableExiste($strNomTableUtilisateurs) == false){
         creeTableUtilisateurs($oBD, $strNomTableUtilisateurs);
+        remplitTableUtilisateurs($oBD, $strNomTableUtilisateurs, $strNomFichierUtilisateurs);
         $oBD->insereEnregistrement($strNomTableUtilisateurs,1,"admin@nq.com",password_hash('admin', PASSWORD_DEFAULT), "2017-04-26", "11", "1", "901", "Nom", "Prenom", "N (514) 123-1234", "N (514) 123-1234 #9999", "N (514) 123-1234", "2017-04-26", "Admin");
     }
     
     if($oBD->tableExiste($strNomTableConnexions) == false){
         creeTableConnexions($oBD, $strNomTableConnexions);
-        
+        remplitTableConnexions($oBD, $strNomTableConnexions, $strNomFichierConnexions);
     }
     
     if($oBD->tableExiste($strNomTableCategories) == false){
         creeTableCategorie($oBD, $strNomTableCategories);
-        
+        remplitTableCategorie($oBD, $strNomTableCategorie, $strNomFichierCategorie);
     }
     
     if($oBD->tableExiste($strNomTableAnnonces) == false){
         creeTableAnnonces($oBD, $strNomTableAnnonces);
-        
+        remplitTableAnnonces($oBD, $strNomTableAnnonces, $strNomFichierAnnonces);
     }
    
     //Pour la connexion
@@ -77,6 +73,7 @@
                         $_SESSION[$tabChampsTableUtil[$i]] = $row[0][$tabChampsTableUtil[$i]];
                     }
                 }
+            
                 
                 if ($row[0]['Status'] != 0) {
                     $alerte = 1;
@@ -95,6 +92,7 @@
         
     }
     
+    // Inscription
     if (isset($getEnregistrement)){
         $binEnregistrement = true;
         if ($adresseInscription!="" && $confirmeAdresseInscription!="" && $motPasseInscription!="" && $confirmemotPasseInscription!=""){
@@ -218,12 +216,12 @@
                                 $intNoUtilisateur = $row[0]['NoUtilisateur'];
                                 $oBD->majEnregistrement($strNomTableUtilisateurs, "NbConnexions=$intNbrConnexion","NoUtilisateur=$intNoUtilisateur");
                                 $_SESSION[$tabChampsTableUtil[4]] = $intNbrConnexion;
-                                if($row[0]['NbConnexions'] != 0){
+                                if($row[0]['Nom'] != '' || $row[0]['Prenom'] != ''){
                                     
                                 ?>  
                                 <script>window.location = 'annonces.php';</script>
                                 <?php }
-                                elseif($row[0]['NbConnexions'] == 0){ 
+                                elseif($row[0]['Nom'] == '' || $row[0]['Prenom'] == ''){ 
                                 ?>
                                 <script>window.location = 'mon-compte.php';</script>
                             <?php }} elseif($alerte == 3){  ?>
@@ -299,6 +297,7 @@
         </div>
         <?php $oBD->afficheInformationsSurBD();
         //$_SESSION['objBD'] = $oBD;
+       
                 $oBD->deconnexion();
         ?>
 
