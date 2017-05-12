@@ -40,8 +40,6 @@
                 $alerteEnregistrement = 3;
                 $strMsgAlerteEnregistrement = "Nouveau mot de passe enregistré";
                 
-                $oBD->majEnregistrement($strNomTableUtilisateurs, "MotDePasse='" . password_hash($getNvMDP1, PASSWORD_DEFAULT) . "'", "NoUtilisateur=" . $_SESSION["NoUtilisateur"]);
-
             }
             
         }
@@ -167,7 +165,7 @@
                             <div class="alert-box attention">
                                     <h4>Attention! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
                             </div>
-                            <?php } elseif($alerteEnregistrement == 3){?>
+                            <?php } elseif($alerteEnregistrement == 3){ $alerteEnregistrement = 0;?>
                             <div class="alert-box done">
                                     <h4>Succès! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
                             </div>
