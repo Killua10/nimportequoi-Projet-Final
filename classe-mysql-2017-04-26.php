@@ -300,15 +300,19 @@
           }
           
         $this->_listeEnregistrements = mysqli_query($this->_cBD, $this->_requete);
-        $this->_nbEnregistrements = mysqli_num_rows(mysqli_query($this->_cBD, $this->_requete));
-
-        if ($this->_listeEnregistrements == null) {
+        if ($this->_listeEnregistrements != false) {
+            $this->_nbEnregistrements = mysqli_num_rows(mysqli_query($this->_cBD, $this->_requete));
+        }
+        
+        if ($this->_listeEnregistrements == null || $this->_listeEnregistrements == false) {
             $this->_nbEnregistrements = -1;
         }
+        
         
         //var_dump(mysqli_query($this->_cBD, $this->_requete));
         //var_dump($this->_requete);
         //var_dump($this->_nbEnregistrements);
+        //var_dump($this->_listeEnregistrements);
         return $this->_nbEnregistrements;
     }
     
@@ -331,7 +335,7 @@
         
         $this->_OK = mysqli_query($this->_cBD, $this->_requete);
           
-        //var_dump($this->_requete);
+        var_dump($this->_requete);
         return $this->_OK;
     }
     

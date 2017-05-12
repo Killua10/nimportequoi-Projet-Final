@@ -29,7 +29,7 @@
       <main>
         <div class="trietrecherche">
             <form id="frmDivRecherche" method="get" action="">
-            <select class="tri" id="ddlAnnoncesParPage" name='ddlAnnoncesParPage' onchange="this.form.submit()">
+            <select class="tri" id="ddlAnnoncesParPage" name='ddlAnnoncesParPage' onchange="form.submit()">
            <option disabled selected hidden> # Annonces</option>
            <option value="5">5 par page</option>
            <option value="10">10 par page</option>
@@ -81,13 +81,16 @@
         }
         
         //var_dump($getDDL);
-        $oBD->selectionneEnregistrements($strNomTableAnnonces);?>
-        <h3> <?php echo $oBD->_nbEnregistrements;?> annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
+        $oBD->selectionneEnregistrements($strNomTableAnnonces);
+        $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);?>
+        <h3> <?php echo ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements); ?> annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
 
          <?php
             //var_dump( mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC));
+            if ($nbrAnnonces != 0) {
+    
                 $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
-                for ($j = 0; $j < $getDDL; $j++) {
+                for ($j = 0; $j < ($nbrAnnonces < $getDDL ? $nbrAnnonces : $getDDL); $j++) {
                     
                 //var_dump($row);
                 //if ($row['Statut'] == 1) 
@@ -99,15 +102,16 @@
             <div id="fix"></div>
             <p class="number"><?php echo ajouteZeros($row[$j]["NoAnnonce"], 3) ?></p>
 
-          <img src="img/default.png" alt="Aucune image" height="144px" width="144px">
+          <img src="img/<?php echo $row[$j]["Photo"]?>" alt="Aucune image" height="144px" width="144px">
           <h2><?php echo $row[$j]["DescriptionAbregee"] ?></h2>
           <div id="left">
             <p class="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
             
             <?php $oBD->selectionneEnregistrements($strNomTableUtilisateurs);
+
             $row3 = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
             ?>
-            <p class="nom"><?php echo $row3[$row[$j]["NoUtilisateurs"]]["Nom"] . ', ' . $row3[$row[$j]["NoUtilisateurs"]]["Prenom"]?></p>
+            <p class="nom"><?php echo $row3[$row[$j]["NoUtilisateurs"]-1]["Nom"] . ', ' . $row3[$row[$j]["NoUtilisateurs"]-1]["Prenom"]?></p>
             
             <?php $oBD->selectionneEnregistrements($strNomTableCategories);
             $row2 = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
@@ -120,11 +124,11 @@
               <p class="seq-number">№ 078657</p>
               <p class="date"><?php echo substr($row[$j]["Parution"], 0, 10) ?></p>
               <p class="heure"><?php echo substr($row[$j]["Parution"], 11,15) ?></p>
-              <p class="price">$<?php 
+              <p class="price"><?php 
                   if ($row[$j]["Prix"] == 0) {
                       echo "Gratuit";
                   } else {
-                      echo $row[$j]["Prix"];
+                      echo "$" . $row[$j]["Prix"];
                   }
               ?></p>
           </div>
@@ -149,12 +153,15 @@
 
 
           <div class="pagination">
-            <a href="#">❮❮</a>
-            <a href="#">❮</a>
-            <input type="number" name="" value="1" min="1">
-            <a href="#">❯</a>
-            <a href="#">❯❯</a>
+            <form id="frmAnnonces" method="get" action="">
+                <a href="#">❮❮</a>
+                <a href="#">❮</a>
+                <input type="number" id='lstPagination' name="lstPagination" value="1" min="1">
+                <a href="#">❯</a>
+                <a href="#">❯❯</a>
+            </form>
           </div>
+        <?php }?>
        </main>
 
             <?php require_once "pied-de-page.php"?>

@@ -4,8 +4,51 @@
     require_once 'classe-mysql-2017-04-26.php';
     require_once 'classe-fichier-2017-04-26.php';
     require_once 'librairies-communes-2017-04-07.php';
+    require_once 'connexion-bd.php';
+    require_once "variable-session-init.php";
     
-    $strMethode = get('MAJ');
+    $alerteEnregistrement = 0; // 1 = avertisement 2 = Attention 3 = Succès
+    
+    $getChangeMDP = get('confirmerMDP');
+    
+    $getMDPActuel = get('motPasseActuel');
+    $getNvMDP1 = get('NvMotPasse1');
+    $getNvMDP2 = get('NvMotPasse2');
+    
+    if(isset($getChangeMDP)){
+        $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=NoUtilisateur=" . $_SESSION["NoUtilisateur"]);
+        $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+        if ($getMDPActuel == "") {
+            $alerteEnregistrement = 1;
+            $strMsgAlerteEnregistrement = "Veuillez inscrire votre mot de passe actuel.";
+        }
+        elseif (password_verify($getMDPActuel, $row[0]["MotDePasse"])) {
+            if (!preg_match('/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)){5,15}^/', $getNvMDP1)){
+                $alerteEnregistrement = 1;
+                $strMsgAlerteEnregistrement = "Le mot de passe doit contenir 5 à 15 caractères, au moins 1 lettre et 1 chiffre.";
+            }
+            elseif ($getNvMDP1 == "") {
+                $alerteEnregistrement = 1;
+                $strMsgAlerteEnregistrement = "Le champs du mot de passe est vide !";
+            
+            }
+            elseif ($getNvMDP1 != $getNvMDP2) {
+                $alerteEnregistrement = 1;
+                $strMsgAlerteEnregistrement = "Le mot de passe n\'a pas été confirmé correctement";
+            }
+            else {
+                $alerteEnregistrement = 3;
+                $strMsgAlerteEnregistrement = "Nouveau mot de passe enregistré";
+                
+                $oBD->majEnregistrement($strNomTableUtilisateurs, "MotDePasse='" . password_hash($getNvMDP1, PASSWORD_DEFAULT) . "'", "NoUtilisateur=" . $_SESSION["NoUtilisateur"]);
+
+            }
+            
+        }
+        
+    }
+    
+    /*$strMethode = get('MAJ');
     
     $strStatut = get('Statut');
     $intNoEmpl = get('NoEmpl');
@@ -45,7 +88,11 @@
             echo 'alert("Nom de famille absent")';
             echo '</script>';
         }
-    }
+        else {
+            
+
+       }
+    }*/
    
 ?>
 
@@ -62,6 +109,7 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/alertboxes.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
@@ -90,24 +138,41 @@
                     <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Mot de passe actuel</td>
                        <td>
-                           <input class="sInput" id="motPasse" type="password" name="motPasse" value="" >
+                           <input class="sInput" id="motPasseActuel" type="password" name="motPasseActuel" value="" >
                        </td>
                    </tr>
                    <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Nouveau mot de passe</td>
                        <td>
-                           <input class="sInput" id="motPasse" type="password" name="motPasse" value="" >
+                           <input class="sInput" id="NvMotPasse1" type="password" name="NvMotPasse1" value="" >
                        </td>
                    </tr>
                     <tr>
                        <td style="font-weight: bold;font-size: 110%"><strong style="color: red;"> * </strong>Confirmer nouveau mot de passe</td>
                        <td>
-                           <input class="sInput" id="motPasse" type="password" name="motPasse" value="" >
+                           <input class="sInput" id="NvMotPasse2" type="password" name="NvMotPasse2" value="" >
                        </td>
                    </tr>
                    <tr>
                        <td>
-                           <button name="confirmerMDP" id="confirmerMDP" class="btn" type="submit" value="confirmerMDP" >Confirmer</button>
+                           <button name="confirmerMDP" id="confirmerMDP" name='confirmerMDP' class="btn" type="submit" value="confirmerMDP" >Confirmer</button>
+                       </td>
+                       <td>
+                            <div style="margin-bottom: 10px;">
+                            <?php if ($alerteEnregistrement == 1) { ?>
+                            <div class="alert-box warning">
+                                    <h4>Avertissement! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
+                            </div>
+                            <?php } elseif($alerteEnregistrement == 2){?>
+                            <div class="alert-box attention">
+                                    <h4>Attention! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
+                            </div>
+                            <?php } elseif($alerteEnregistrement == 3){?>
+                            <div class="alert-box done">
+                                    <h4>Succès! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
+                            </div>
+                            <?php }?>
+                            </div>
                        </td>
                    </tr>
                </table>

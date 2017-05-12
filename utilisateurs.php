@@ -5,6 +5,7 @@
         require_once "librairies-communes-2017-04-07.php";
         require_once "fonctions-specifiques-projet-final.php";
         require_once "connexion-bd.php";
+        require_once "variable-session-init.php";
         
         $strNomBD = "bdh17_cherifi";
         

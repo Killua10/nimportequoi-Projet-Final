@@ -1,3 +1,4 @@
+<?php require_once "variable-session-init.php";?>
 <!doctype html>
 <html class="no-js" lang="">
     <head>
