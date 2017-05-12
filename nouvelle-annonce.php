@@ -17,7 +17,7 @@
     $getEtat = get('ddlEtat');
     
     $alerteEnregistrement = 0; // 1 = avertisement 2 = Attention 3 = Succès
-    
+    var_dump($getEtat);
     if (isset($getBtnNvAnnonce)){
         if ($getCategorie == null || $getCategorie == '') {
             $alerteEnregistrement = 1;
@@ -31,26 +31,51 @@
             $alerteEnregistrement = 1;
             $strMsgAlerteEnregistrement = "Veuillez inscrire une description complète.";
         }
-        elseif ($getPrix == '') {
-            $alerteEnregistrement = 1;
-            $strMsgAlerteEnregistrement = "Veuillez inscrire un prix.";
-        }
-        elseif ($getEtat == '') {
+        elseif ($getEtat == null || $getEtat == -1) {
             $alerteEnregistrement = 1;
             $strMsgAlerteEnregistrement = "Veuillez séléctionnée un etat.";
         }
-        else {
+        elseif ($getCbPrix == null) {
+            $alerteEnregistrement = 1;
+            $strMsgAlerteEnregistrement = "Veuillez séléctionner un prix.";
+        }
+        elseif ($getCbPrix == "PAYANT") {
+            if ($getPrix == '') {
+                $alerteEnregistrement = 1;
+                $strMsgAlerteEnregistrement = "Veuillez inscrire un prix.";
+            }
+        }
+        
+        if($alerteEnregistrement == 0) {
             $alerteEnregistrement = 3;
             $strMsgAlerteEnregistrement = "Succès! Nouvelle annonce enregistrée.";
             
             $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=NoUtilisateur=" . $_SESSION["NoUtilisateur"]);
             $row2 = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
             
-            $oBD->insereEnregistrement($strNomTableAnnonces,$NoUtilisateur,$adresseInscription,password_hash($motPasseInscription, PASSWORD_DEFAULT),$date,0,0,'','','','','','','','N/A');
+            $resultat = $oBD->selectionneEnregistrements($strNomTableAnnonces,"D=NoAnnonce","T=NoAnnonce DESC");
+            $row3 = mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC);
+            $NoAnnonce = $row3[0]["NoAnnonce"]+1;
+            $date = date("Y-m-d H:i:s");
             
+            if ($getCbPrix == "PAYANT") {
+                $Prix = $getPrix;
+            }
+            elseif ($getCbPrix == "GRATUIT") {
+                $Prix = 0;
+            }
+            
+            if ($getImg == "" || $getImg == null) {
+                $Img = "default.png";
+            }
+            else {
+                $Img = $getImg;
+            }
+            
+            $oBD->insereEnregistrement($strNomTableAnnonces,$NoAnnonce,intval($_SESSION["NoUtilisateur"]),$date,$getCategorie,$getDescAbregee,$getDescComplete,$Prix,$Img,$date,intval($getEtat));
     
         }
-        
+        var_dump($alerteEnregistrement);
     }
     
     
@@ -69,6 +94,7 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/alertboxes.css">
     </head>
 
     <body>
@@ -94,10 +120,10 @@
                                 <td >
                                     <select class="annonces" id='Categorie' name="Categorie">
                                         <?php 
-                                        for ($i = 0; $i < $oBD->selectionneEnregistrements($strNomTableCategories); $i++) {
-                                            $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+                                            for ($i = 0; $i < $oBD->selectionneEnregistrements($strNomTableCategories); $i++) {
+                                                $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
                                         ?>
-                                        <option value="<?php echo $row[$i]["NoCategorie"]?>"><?php echo $row[$i]["Description"]?></option>
+                                            <option value="<?php echo $row[$i]["NoCategorie"]?>"><?php echo $row[$i]["Description"]?></option>
                                         <?php }?>
                                     </select>
                                 </td>
@@ -105,13 +131,13 @@
                             <tr>
                                 <td style="font-weight: bold;font-size: 110%">Description abregee</td>
                                 <td>
-                                    <input class="sInput" type="text" id='DescAbregee' name="DescAbregee" height="10">
+                                    <input class="sInput" type="text" id='DescAbregee' name="DescAbregee" height="10" value='<?php echo ($getDescAbregee == '' ? '' : $getDescAbregee)?>'>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="font-weight: bold;font-size: 110%">Description Complete</td>
                                 <td>
-                                    <textarea class="sInput" id='DescComplete' name="DescComplete" rows="10" cols="50"></textarea>
+                                    <textarea class="sInput" id='DescComplete' name="DescComplete" rows="10" cols="50" ><?php echo ($getDescComplete == '' ? '' : $getDescComplete)?></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -123,7 +149,7 @@
     
                                     }
                                     </script>
-                                    <input id="payant" name="cbPrix" type="radio" value="PAYANT" checked="checked"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">$</label><input id="inputPrix" class="sInput" type="number" name="Prix" min="1" step="any" ><br />
+                                    <input id="payant" name="cbPrix" type="radio" value="PAYANT" /><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">$</label><input id="inputPrix" class="sInput" type="number" name="Prix" min="1" step="any" ><br />
                                     <input id="gratuit"  name="cbPrix" type="radio"  value="GRATUIT"/><label style="font-weight: bold;font-size: 110%; padding-left: 1em;">Gratuit</label><br />
                                 </td>
                             </tr>
@@ -137,7 +163,7 @@
                                 <td style="font-weight: bold;font-size: 110%">Etat</td>
                                 <td>
                                     <select class="annonces" id="ddlEtat" name="ddlEtat">
-                                     <option disabled selected hidden>Etat</option>
+                                     <option disabled selected hidden id='EtatNull' name="EtatNull" value="-1">Etat</option>
                                      <option id='EtatActif' name="EtatActif" value="1">Actif</option>
                                      <option id='EtatInactif' name="EtatInactif" value="0">Inactif</option>
                                   </select>
@@ -159,11 +185,11 @@
                                     <div class="alert-box attention">
                                             <h4>Attention! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
                                     </div>
-                                    <?php } elseif($alerteEnregistrement == 3){ $alerteEnregistrement = 0;?>
+                                    <?php } elseif($alerteEnregistrement == 3){ ?>
                                     <div class="alert-box done">
                                             <h4>Succès! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
                                     </div>
-                                    <?php }?>
+                                    <?php $alerteEnregistrement = 0;}?>
                                     </div>
                                  </td>
                             </tr>

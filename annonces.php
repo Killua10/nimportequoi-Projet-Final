@@ -81,7 +81,7 @@
         }
         
         //var_dump($getDDL);
-        $oBD->selectionneEnregistrements($strNomTableAnnonces);
+        $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
         $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);?>
         <h3> <?php echo ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements); ?> annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
 
@@ -91,7 +91,7 @@
     
                 $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
                 for ($j = 0; $j < ($nbrAnnonces < $getDDL ? $nbrAnnonces : $getDDL); $j++) {
-                    
+                        
                 //var_dump($row);
                 //if ($row['Statut'] == 1) 
                          ?>

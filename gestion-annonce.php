@@ -1,4 +1,5 @@
-<?php require_once "variable-session-init.php";?>
+<?php require_once "variable-session-init.php";
+require_once 'connexion-bd.php';?>
 <!doctype html>
 <html class="no-js" lang="">
     <head>
@@ -28,7 +29,8 @@
 </header>
       <main>
         <div class="trietrecherche">
-          <select class="annonces">
+          <form id="frmDivRecherche" method="get" action="">
+            <select class="tri" id="ddlAnnoncesParPage" name='ddlAnnoncesParPage' onchange="form.submit()">
            <option disabled selected hidden> # Annonces</option>
            <option value="5">5 par page</option>
            <option value="10">10 par page</option>
@@ -48,67 +50,81 @@
 
           <input class="recherche" id="contenuRecherche" placeholder="Entrez votre recherche ici..."></input>
           <button class="btn" id="recherche">Recherche</button>
+          </form>
       </div>
 
         <h1>Liste des annonces</h1>
-        <h3>Listez votre annonce dès aujourd'hui!</h3>
+        <?php 
+        if (get('ddlAnnoncesParPage') == null) {
+            $getDDL = 10;
+        } else {
+            $getDDL = get('ddlAnnoncesParPage');
+        }
+        
+        //var_dump($getDDL);
+        $oBD->selectionneEnregistrements($strNomTableAnnonces);
+        $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);?>
+        <h3> <?php echo ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements); ?> annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
 
+         <?php
+            //var_dump( mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC));
+            if ($nbrAnnonces != 0) {
+    
+                $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+                for ($j = 0; $j < ($nbrAnnonces < $getDDL ? $nbrAnnonces : $getDDL); $j++) {
+                        
+                //var_dump($row);
+                //if ($row['Statut'] == 1) 
+                         ?>
+        
+          <div id="content">
+              <form id="frmAnnonces" method="get" action="">
+            <a id='annonce' name='annonce' onclick="window.location='infos-annonce.php';this.form.submit();">
+            <div id="fix"></div>
+            <p class="number"><?php echo ajouteZeros($row[$j]["NoAnnonce"], 3) ?></p>
 
-      <a onclick="window.location = 'infos-annonce.php';"><div id="content">
-          <div id="fix"></div>
-          <p class="number">001</p>
-
-          <img src="img/default.png" alt="Aucune image" height="144px" width="144px">
-          <h2>Lorem Ipsum</h2>
+          <img src="img/<?php echo $row[$j]["Photo"]?>" alt="Aucune image" height="144px" width="144px">
+          <h2><?php echo $row[$j]["DescriptionAbregee"] ?></h2>
           <div id="left">
             <p class="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-            <p class="nom">John, Doe</p>
-            <p class="categorie">Categorie: voitures</p>
+            
+            <?php $oBD->selectionneEnregistrements($strNomTableUtilisateurs);
+
+            $row3 = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+            ?>
+            <p class="nom"><?php echo $row3[$row[$j]["NoUtilisateurs"]-1]["Nom"] . ', ' . $row3[$row[$j]["NoUtilisateurs"]-1]["Prenom"]?></p>
+            
+            <?php $oBD->selectionneEnregistrements($strNomTableCategories);
+            $row2 = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+            ?>
+            <p class="categorie">Categorie: <?php echo $row2[$row[$j]["Categorie"]-1]["Description"] ?></p>
+            <?php $oBD->selectionneEnregistrements($strNomTableAnnonces); ?>
           </div>
 
           <div id="right">
               <p class="seq-number">№ 078657</p>
-              <p class="date">12/04/2017</p>
-              <p class="heure">3:45 EST</p>
-              <p class="price">$400.00</p>
+              <p class="date"><?php echo substr($row[$j]["Parution"], 0, 10) ?></p>
+              <p class="heure"><?php echo substr($row[$j]["Parution"], 11,15) ?></p>
+              <p class="price"><?php 
+                  if ($row[$j]["Prix"] == 0) {
+                      echo "Gratuit";
+                  } else {
+                      echo "$" . $row[$j]["Prix"];
+                  }
+              ?></p>
           </div>
-
-
-        </div></a>
+          </a>
+             </form>
+        </div>
 
         <div id="admin">
             <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button></br>
+
             <button class="btn">Supprimer</button></br>
             <button class="btn">Activer</button>
         </div>
 
-        <a onclick="window.location = 'infos-annonce.php';"><div id="content">
-            <div id="fix"></div>
-            <p class="number">002</p>
-
-            <img src="img/default.png" alt="Aucune image" height="144px" width="144px">
-            <h2>Lorem Ipsum</h2>
-            <div id="left">
-              <p class="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-              <p class="nom">John, Doe</p>
-              <p class="categorie">Categorie: voitures</p>
-            </div>
-
-            <div id="right">
-                <p class="seq-number">№ 078657</p>
-                <p class="date">12/04/2017</p>
-                <p class="heure">3:45 EST</p>
-                <p class="price">$400.00</p>
-            </div>
-
-
-          </div></a>
-
-          <div id="admin">
-              <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button></br>
-              <button class="btn">Supprimer</button></br>
-              <button class="btn">Activer</button>
-          </div>
+        <?php }?>
 
 
 
@@ -121,6 +137,7 @@
             <a href="#">❯</a>
             <a href="#">❯❯</a>
           </div>
+        <?php }?>
        </main>
 
             <?php require_once "pied-de-page.php"?>
