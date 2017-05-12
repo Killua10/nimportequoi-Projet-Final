@@ -173,7 +173,7 @@
                             
                             <tr>
                                 <td>
-                                    <input type="submit" id="btnNvAnnonce" name="btnNvAnnonce" class="btn" style="width: 17em; margin-top: 2em;" value="Inscrire nouvelle annonce" onclick="window.location = 'annonces.php';">
+                                    <input type="submit" id="btnNvAnnonce" name="btnNvAnnonce" class="btn" style="width: 17em; margin-top: 2em;" value="Inscrire nouvelle annonce" >
                                 </td>
                                 <td>
                                     <div style="margin-bottom: 10px;">

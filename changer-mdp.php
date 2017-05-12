@@ -40,6 +40,8 @@
                 $alerteEnregistrement = 3;
                 $strMsgAlerteEnregistrement = "Nouveau mot de passe enregistré";
                 
+                 $oBD->majEnregistrement($strNomTableUtilisateurs, "MotDePasse='" . password_hash($getNvMDP1, PASSWORD_DEFAULT) . "'", "NoUtilisateur=" . $_SESSION["NoUtilisateur"]);
+                
             }
             
         }
