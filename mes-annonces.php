@@ -82,17 +82,28 @@ require_once 'connexion-bd.php';?>
               <form id="frmAnnonces" method="get" action="">
             <a id='annonce' name='annonce' onclick="window.location='infos-annonce.php';this.form.submit();">
             <div id="fix"></div>
-            <p class="number"><?php echo ajouteZeros($row[$j]["NoAnnonce"], 3) ?></p>
+            <p class="number"><?php echo ajouteZeros($j+1, 3) ?></p>
 
           <img src="img/<?php echo $row[$j]["Photo"]?>" alt="Aucune image" height="144px" width="144px">
           <h2><?php echo $row[$j]["DescriptionAbregee"] ?></h2>
           <div id="left">
-            <p class="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+            <p class="desc"><?php 
+                               if (strlen($row[$j]["DescriptionComplete"]) > 40) {
+                                   echo substr($row[$j]["DescriptionComplete"], 0, 40) . "...";
+                               }
+                               elseif($row[$j]["DescriptionComplete"] == "") {   
+                                   echo "Aucune description."; 
+                               }
+                               else {  
+                                   echo $row[$j]["DescriptionComplete"]; 
+                               }
+                                ?></p>
             
-            <?php $oBD->selectionneEnregistrements($strNomTableUtilisateurs);
+            <?php $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=NoUtilisateur=" . $_SESSION['NoUtilisateur']);
             $row3 = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+            //var_dump($row3);
             ?>
-            <p class="nom"><?php echo $row3[$row[$j]["NoUtilisateurs"]-1]["Nom"] . ', ' . $row3[$row[$j]["NoUtilisateurs"]-1]["Prenom"]?></p>
+            <p class="nom"><?php echo $row3[0]["Nom"] . ', ' . $row3[0]["Prenom"]?></p>
             
             <?php $oBD->selectionneEnregistrements($strNomTableCategories);
             $row2 = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
@@ -102,7 +113,7 @@ require_once 'connexion-bd.php';?>
           </div>
 
           <div id="right">
-              <p class="seq-number">№ 078657</p>
+              <p class="seq-number">№ <?php echo ajouteZeros($row[$j]["NoAnnonce"], 4) ?></p>
               <p class="date"><?php echo substr($row[$j]["Parution"], 0, 10) ?></p>
               <p class="heure"><?php echo substr($row[$j]["Parution"], 11,15) ?></p>
               <p class="price"><?php 
