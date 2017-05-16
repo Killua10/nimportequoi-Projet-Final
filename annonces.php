@@ -22,6 +22,16 @@
 <header style="background-color: 000;background-image: url('img/nq-bg1.jpg');background-size: cover;width: 100%;height: auto;">
   <img src="img/nq-logo2.png" alt="Smiley face" height="150px" width="auto">
 
+  <script language="JavaScript" type="text/javascript">
+
+function getsupport ( selectedtype )
+{
+  document.frmAnnonces.NoAnnonceClick.value = selectedtype ;
+  document.frmAnnonces.submit() ;
+}
+
+</script>
+  
 <?php require_once 'navigation.php';?>
 
 
@@ -85,6 +95,8 @@
         $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);?>
         <h3> <?php echo ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements); ?> annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
 
+        <form name="frmAnnonces" id="frmAnnonces" method="get" action="/macherifi/nimportequoi-Projet-Final/infos-annonce.php">
+            <input type="hidden" name="NoAnnonceClick" />
          <?php
             //var_dump( mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC));
             if ($nbrAnnonces != 0) {
@@ -97,8 +109,8 @@
                          ?>
         
           <div id="content">
-              <form id="frmAnnonces" method="get" action="">
-            <a id='annonce' name='annonce' onclick="window.location='infos-annonce.php';this.form.submit();">
+            
+            <a href="javascript:getsupport('annonce<?php echo $row[$j]["NoAnnonce"] ?>')" id='annonce<?php echo $row[$j]["NoAnnonce"] ?>' name='annonce<?php echo $row[$j]["NoAnnonce"] ?>'>
             <div id="fix"></div>
             <p class="number"><?php echo ajouteZeros($j+1, 3) ?></p>
 
@@ -131,7 +143,7 @@
           </div>
 
           <div id="right">
-              <p class="seq-number">№ <?php echo ajouteZeros($row[$j]["NoAnnonce"], 4) ?></p>
+              <p class="seq-number" id="noAnnonce" name="noAnnonce" >№ <?php echo ajouteZeros($row[$j]["NoAnnonce"], 4) ?></p>
               <p class="date"><?php echo substr($row[$j]["Parution"], 0, 10) ?></p>
               <p class="heure"><?php echo substr($row[$j]["Parution"], 11,15) ?></p>
               <p class="price"><?php 
@@ -143,7 +155,7 @@
               ?></p>
           </div>
           </a>
-             </form>
+             
         </div>
 
         <?php //var_dump($_SESSION);
@@ -157,6 +169,7 @@
         <?php }?>
 
         <?php }?>
+            </form>
 
 
 

@@ -1,4 +1,14 @@
-<?php require_once "variable-session-init.php";?>
+<?php 
+    require_once "variable-session-init.php";
+    require_once "librairies-communes-2017-04-07.php";
+    require_once 'connexion-bd.php';
+    $NumAnnonce = get('NoAnnonceClick');
+    $NumAnnonce = substr($NumAnnonce, -1,1);
+
+
+
+
+?>
 <!doctype html>
 <html class="no-js" lang="">
     <head>
@@ -31,26 +41,51 @@
       <main>
 
         <h1>Informations sur une annonce:</h1>
-        <h3>php: nom de l'annonce</h3>
+        
+        <?php 
+            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=NoAnnonce=$NumAnnonce");
+            $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+        ?>
 
 
       <div id="content2">
 
-          <img src="img/default2.png" alt="Aucune image" height="auto" width="400px">
+          <img src="img/<?php echo $row[0]["Photo"]?>" alt="Aucune image" height="auto" width="400px">
           <div id="left2">
-            <h2>Lorem Ipsum</h2>
-            <p class="categorie2">Categorie: voitures</p>
+            <h2><?php echo $row[0]["DescriptionAbregee"] ?></h2>
+            
+             <?php $oBD->selectionneEnregistrements($strNomTableCategories,"C=NoCategorie=" . $row[0]["Categorie"]);
+            $row2 = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+            ?>
+            <p class="categorie2">Categorie: <?php echo $row2[0]["Description"]?></p>
 
-            <p class="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-            <p class="nom">John, Doe</p>
-            <a class="nom" href="">doe@john.com</a>
+            <p class="desc"><?php 
+                                if($row[0]["DescriptionComplete"] == "") {   
+                                   echo "Aucune description."; 
+                               }
+                               else {  
+                                   echo $row[0]["DescriptionComplete"]; 
+                               }
+                                ?> </p>
+            
+             <?php $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=NoUtilisateur=" . $row[0]["NoUtilisateurs"]);
+            $row3 = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+            ?>
+            <p class="nom"><?php echo $row3[0]["Nom"] . ', ' . $row3[0]["Prenom"]?></p>
+            <a class="nom" href=""><?php echo $row3[0]["Courriel"] ?></a>
           </div>
 
           <div id="right2">
-              <p class="price">$400.00</p>
-              <p class="seq-number">078657</p>
-              <p class="date">12/04/2017</p>
-              <p class="heure">3:45 EST</p>
+              <p class="price"><?php 
+                  if ($row[0]["Prix"] == 0) {
+                      echo "Gratuit";
+                  } else {
+                      echo str_replace(".", ",", $row[0]["Prix"]) . "$";
+                  }
+              ?></p>
+              <p class="seq-number">№ <?php echo ajouteZeros($row[0]["NoAnnonce"], 4) ?></p>
+              <p class="date"><?php echo substr($row[0]["Parution"], 0, 10) ?></p>
+              <p class="heure"><?php echo substr($row[0]["Parution"], 11,15) ?></p>
           </div>
 
 

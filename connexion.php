@@ -55,7 +55,6 @@
     $tabChampsTableUtil = array("NoUtilisateur","Courriel","MotDePasse","Creation","NbConnexions","Status","NoEmpl","Nom","Prenom","NoTelMaison","NoTelTravail","NoTelCellulaire","Modification","AutresInfos");
 
     
-    /*****************************************************PROBLEME AVEC LE BOUTON SE CONNECTER NE SAFFICHE PAS DANS LA BARRE D'ADRESSE*****************************************************************/
     if (isset($getConnexion)){
         
         /*$oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=Courriel='$adresseConnexion'");
@@ -136,8 +135,21 @@
                 //$resultat = mysqli_fetch_array(mysqli_query($oBD->_cBD, "SELECT $strNoUtilisateur FROM $strNomTableUtilisateurs ORDER BY $strNoUtilisateur DESC LIMIT 1"));
                 $NoUtilisateur = ($row3[0]['NoUtilisateur'])+1;
                 $date = date("Y-m-d H:i:s");
+                
+                
+                $binNoEmplUnique = false;
+                
+                
+                while (!$binNoEmplUnique) {
+                   $NoEmploye = rand(1, 9999); 
+                   $verificationNoEmpl = $oBD->selectionneEnregistrements($strNomTableUtilisateurs,"C=NoEmpl=$NoEmploye");
+                   if ($verificationNoEmpl >= 1) {
+                       $binNoEmplUnique = true;
+                   }
+                }
+                
 
-                $oBD->insereEnregistrement($strNomTableUtilisateurs,$NoUtilisateur,$adresseInscription,password_hash($motPasseInscription, PASSWORD_DEFAULT),$date,0,0,'','','','','','','','N/A');
+                $oBD->insereEnregistrement($strNomTableUtilisateurs,$NoUtilisateur,$adresseInscription,password_hash($motPasseInscription, PASSWORD_DEFAULT),$date,0,$NoEmploye,'','','','','','','','N/A');
                 echo $oBD->_requete;
                 $alerteEnregistrement = 3;
                 $strMsgAlerteEnregistrement = "Utilisateur enregistré. Courriel de confirmation envoyé.";
