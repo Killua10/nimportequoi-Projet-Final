@@ -15,7 +15,9 @@
     <li><a onclick="window.location = 'nettoyage-bd.php';"><u>Nettoyage de la BD</u></a></li>
     <li ><a onclick="window.location = 'utilisateurs.php';"><u>Gestion d'utilisateurs</u></a></li>
     <?php }?>
+    
     <li style="float:right; margin-left:1em"><a  onclick="window.location = 'connexion.php';">Déconnexion</a></li>
+    <li style="float:right; margin-left:1em"><a style="color: #000"  onclick="window.location = 'mon-compte.php';"> <?php echo $_SESSION["Courriel"] ?> </a></li>
 
   </ul>
 </nav>

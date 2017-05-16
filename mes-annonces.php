@@ -120,7 +120,7 @@ require_once 'connexion-bd.php';?>
                   if ($row[$j]["Prix"] == 0) {
                       echo "Gratuit";
                   } else {
-                      echo "$" . $row[$j]["Prix"];
+                      echo str_replace(".", ",", $row[$j]["Prix"]) . "$";
                   }
               ?></p>
           </div>
