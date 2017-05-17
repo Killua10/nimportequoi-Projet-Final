@@ -197,12 +197,18 @@ function getsupport ( selectedtype )
 
         <?php }?>
             </form>
+	<?php
+        $tabResultatFonction = array();
+        $tabResultatFonction = afficherPagination($oBD,$getDDL);
+        
+		/*while($row = mysql_fetch_array($tabResultatFonction[0])){
+                    echo "meow";
+		}*/
+	?>
 
+<?=$tabResultatFonction[1]?>
 
-
-
-
-          <div class="pagination">
+         <!-- <div class="pagination">
             <form id="frmAnnonces" method="get" action="">
                 <a href="#">❮❮</a>
                 <a href="#">❮</a>
@@ -210,7 +216,7 @@ function getsupport ( selectedtype )
                 <a href="#">❯</a>
                 <a href="#">❯❯</a>
             </form>
-          </div>
+          </div>-->
         <?php }?>
        </main>
 

@@ -3,9 +3,8 @@
     require_once "librairies-communes-2017-04-07.php";
     require_once 'connexion-bd.php';
     $NumAnnonce = get('NoAnnonceClick');
-    $NumAnnonce = substr($NumAnnonce, -1,1);
-
-
+    preg_match_all('!\d+!', $NumAnnonce, $NumAnnonce);
+    $NumAnnonce = $NumAnnonce[0][0];
 
 
 ?>
@@ -31,7 +30,7 @@
     <body>
 
 <header style="background-color: 000;background-image: url('img/nq-bg3.jpg');background-size: cover;width: 100%;height: auto;">
-  <img src="img/nq-logo2.png" alt="Smiley face" height="150px" width="auto">
+  <img src="img/nq-logo2.png" alt="Smil ey face" height="150px" width="auto">
 
 
 <?php require_once 'navigation.php';?>
@@ -50,7 +49,7 @@
 
       <div id="content2">
 
-          <img src="img/<?php echo $row[0]["Photo"] === "default.png" ? "default2.png" :  $row[0]["Photo"] ;?>" alt="Aucune image" height="auto" width="400px">
+          <img src="img/<?php echo $row[0]["Photo"] === "default.png" ? "default2.png" :  $row[0]["Photo"] ;?>" alt="Aucune image" height="auto" width="auto">
           <div id="left2">
             <h2><?php echo $row[0]["DescriptionAbregee"] ?></h2>
             
