@@ -4,8 +4,7 @@
     require_once 'connexion-bd.php';
     $NumAnnonce = get('NoAnnonceClick');
     preg_match_all('!\d+!', $NumAnnonce, $NumAnnonce);
-
-
+    $NumAnnonce = $NumAnnonce[0][0];
 
 
 ?>
@@ -50,7 +49,7 @@
 
       <div id="content2">
 
-          <img src="img/<?php echo $row[0]["Photo"] === "default.png" ? "default2.png" :  $row[0]["Photo"] ;?>" alt="Aucune image" height="auto" width="400px">
+          <img src="img/<?php echo $row[0]["Photo"] === "default.png" ? "default2.png" :  $row[0]["Photo"] ;?>" alt="Aucune image" height="auto" width="auto">
           <div id="left2">
             <h2><?php echo $row[0]["DescriptionAbregee"] ?></h2>
             

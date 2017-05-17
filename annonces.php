@@ -174,7 +174,7 @@ function getsupport ( selectedtype )
             </form>
 	<?php
         $tabResultatFonction = array();
-        $tabResultatFonction = afficherPagination($oBD);
+        $tabResultatFonction = afficherPagination($oBD,$getDDL);
         
 		/*while($row = mysql_fetch_array($tabResultatFonction[0])){
                     echo "meow";

@@ -141,7 +141,7 @@ function supprimerAnnonces($oBD){
 }
 
 //Réference : http://www.phpeasystep.com/phptu/29.html
-function afficherPagination($oBD)
+function afficherPagination($oBD,$nbrItemParPage)
 {
         $strNomTableAnnonces="annonces";
 	$nbInput = 3;
@@ -150,7 +150,7 @@ function afficherPagination($oBD)
 	
 	/* Setup vars for query. */
 	$pageDestination = "annonces.php";          //your file name  (the name of this file)
-	$limiteNbPagesParPage = 2; 				//how many items to show per page
+	$limiteNbPagesParPage = $nbrItemParPage; 				//how many items to show per page
 	$noPageActuelle = get('page');
         
 	if ($noPageActuelle) 
@@ -177,6 +177,7 @@ function afficherPagination($oBD)
 	{	
 		$pagination .= "<div class=\"pagination\">";
 
+                //previous button
 		if ($noPageActuelle > 1) 
 			$pagination.= "<a href=\"$pageDestination?page=$noPagePrecedante\">← précédent</a>";
 		else
@@ -241,6 +242,8 @@ function afficherPagination($oBD)
 				}
 			}
 		}
+                
+                //next button
 		if ($noPageActuelle < $counter - 1) 
 			$pagination.= "<a href=\"$pageDestination?page=$noPageSuivante\">suivant →</a>";
 		else
