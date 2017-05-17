@@ -38,6 +38,7 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/alertboxes.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
@@ -50,28 +51,107 @@
 
 
 <?php require_once 'navigation.php';
+    
+    $alerteEnregistrement = 0; // 1 = avertisement 2 = Attention 3 = Succès
+    $strMsgAlerteEnregistrement = "";
+    
     if(isset($strMethode)){
             if(strlen($strPrenom) == 0){
-                echo '<script language="javascript">';
-                echo 'alert("Prénom absent")';
-                echo '</script>';
+                $alerteEnregistrement = 1;
+                $strMsgAlerteEnregistrement = "Prénom absent !";
             }
             else if(strlen($strNomFamille) == 0){
-                echo '<script language="javascript">';
-                echo 'alert("Nom de famille absent")';
-                echo '</script>';
+                $alerteEnregistrement = 1;
+                $strMsgAlerteEnregistrement = "Nom de famille absent !";
             } else {
+                $alerteEnregistrement = 3;
+                
                 if ($cbTelephone == "on") {
-                    $strTelMaison = "P " . $strTelMaison;
-                    $strTelTravail = "P " . $strTelTravail;
-                    $strTelCellulaire = "P " . $strTelCellulaire;
+                    if ($strTelMaison != "") {
+                        if (preg_match('/^\(?[0-9]{3}\)?|[0-9]{3}[-. ]? [0-9]{3}[-. ]?[0-9]{4}$/', $strTelMaison)) {
+                            $strTelMaison = "P " . $strTelMaison;
+                            $alerteEnregistrement = 3;
+                        }
+                        else {
+                        $alerteEnregistrement = 1;
+                        $strMsgAlerteEnregistrement = "Le numéro de téléphone de la maison ne respecte pas le format demandé (###) ###-####";
+                        }
+                    } 
+                    
+                    if ($strTelTravail != "") {
+                        $strTelTravail = "P " . $strTelTravail;
+                        $alerteEnregistrement = 3;
+                    } /*else {
+                        $alerteEnregistrement = 1;
+                        $strMsgAlerteEnregistrement = "Le numéro de téléphone du travail ne respecte pas le format demandé (###) ###-####";
+                    }*/
+                    
+                    if ($strTelCellulaire != "") {
+                        if (preg_match('/^\(?[0-9]{3}\)?|[0-9]{3}[-. ]? [0-9]{3}[-. ]?[0-9]{4}$/', $strTelCellulaire)) {
+                            $strTelCellulaire = "P " . $strTelCellulaire;
+                            $alerteEnregistrement = 3;
+                        }
+                        else {
+                            $alerteEnregistrement = 1;
+                            $strMsgAlerteEnregistrement = "Le numéro de téléphone cellulaire ne respecte pas le format demandé (###) ###-####";
+                        }
+                    } 
+                    
                 }  else {
-                    $strTelMaison = "N " . $strTelMaison;
-                    $strTelTravail = "N" . $strTelTravail;
-                    $strTelCellulaire = "N " . $strTelCellulaire;
+                    
+                    if ($strTelMaison != "") {
+                        var_dump("Ronaldo Test");
+                        if (preg_match('/^\(?[0-9]{3}\)?|[0-9]{3}[-. ]? [0-9]{3}[-. ]?[0-9]{4}$/', $strTelMaison)) {
+                            $strTelMaison = "N " . $strTelMaison;
+                            $alerteEnregistrement = 3;
+                        }
+                        else {
+                            $alerteEnregistrement = 1;
+                            $strMsgAlerteEnregistrement = "Le numéro de téléphone de la maison ne respecte pas le format demandé (###) ###-####";
+                        } 
+                    } 
+                    
+                    if ($strTelTravail != "") {
+                        $strTelTravail = "N " . $strTelTravail;
+                    }/* else {
+                        $alerteEnregistrement = 1;
+                        $strMsgAlerteEnregistrement = "Le numéro de téléphone du travail ne respecte pas le format demandé (###) ###-####";
+                    }*/
+                    
+                    if ($strTelCellulaire != "") {
+                        if (preg_match('/^\(?[0-9]{3}\)?|[0-9]{3}[-. ]? [0-9]{3}[-. ]?[0-9]{4}$/', $strTelCellulaire)) {
+                            $strTelCellulaire = "N " . $strTelCellulaire;
+                            $alerteEnregistrement = 3;
+                        }
+                        else {
+                            $alerteEnregistrement = 1;
+                            $strMsgAlerteEnregistrement = "Le numéro de téléphone cellulaire ne respecte pas le format demandé (###) ###-####";
+                        }
+                        
+                    } 
+                    
+                    
+                    
                 }
-                $oBD->majEnregistrement($strNomTableUtilisateurs,"Prenom='$strPrenom', Nom='$strNomFamille', NoTelMaison='$strTelMaison', NoTelTravail='$strTelTravail', NoTelCellulaire='$strTelCellulaire', Modification=" . "'" . date("Y-m-d H:i:s") . "'"
+                
+                if ($alerteEnregistrement == 3) {
+                    $strMsgAlerteEnregistrement = "La mise à jour a été effectuée.";
+                    $oBD->majEnregistrement($strNomTableUtilisateurs,"Prenom='$strPrenom', Nom='$strNomFamille', NoTelMaison='$strTelMaison', NoTelTravail='$strTelTravail', NoTelCellulaire='$strTelCellulaire', Modification=" . "'" . date("Y-m-d H:i:s") . "'"
                         ,"NoUtilisateur=" . $_SESSION['NoUtilisateur']);
+                    
+                    $_SESSION['Nom'] = $strNomFamille;
+                    $_SESSION['Prenom'] = $strPrenom;
+                    $_SESSION['NoTelMaison'] = $strTelMaison;
+                    $_SESSION['NoTelTravail'] = $strTelTravail;
+                    $_SESSION['NoTelCellulaire'] = $strTelCellulaire;
+                    
+                    
+                    
+                    
+                }
+                
+                
+                var_dump($alerteEnregistrement);
             }
         }
 ?>
@@ -151,7 +231,23 @@
                        </td>
                    </tr>
                    <tr>
-                       <td style="font-weight: bold;font-size: 110%"></td>
+                       <td style="font-weight: bold;font-size: 110%"> 
+                            <div style="margin-bottom: 10px;">
+                                 <?php if ($alerteEnregistrement == 1) { ?>
+                                 <div class="alert-box warning">
+                                         <h4>Avertissement! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
+                                 </div>
+                                 <?php } elseif($alerteEnregistrement == 2){?>
+                                 <div class="alert-box attention">
+                                         <h4>Attention! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
+                                 </div>
+                                 <?php } elseif($alerteEnregistrement == 3){?>
+                                 <div class="alert-box done">
+                                         <h4>Succès! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
+                                 </div>
+                                 <?php }?>
+                             </div>
+                       </td>
                        <td>
                            <button name="MAJ" id="MAJ" class="btn" type="submit" value="MAJ" >Mise à jour</button>
                        </td>
