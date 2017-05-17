@@ -92,7 +92,7 @@ function getsupport ( selectedtype )
             <input class="sInput" type="date" value="" placeholder="Jusqu'à" id="dateJusqua" name="dateJusqua" onchange="soumetFrm()">
             
             <input class="recherche" id="contenuRecherche" name="contenuRecherche" placeholder="Entrez votre recherche ici..." onchange="soumetFrm()"></input>
-          <button class="btn" id="recherche">Recherche</button>
+          <button type="submit" class="btn" id="recherche" name="recherche">Recherche</button>
           </form>
       </div>
 
@@ -106,48 +106,43 @@ function getsupport ( selectedtype )
       
         /* Le tri par colonnes */
         switch (get('ddlTri')) {
-        case 'DateParutionCroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution ASC");
-        break;
-        case 'DateParutionDecroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution DESC");
-        break;
-        case 'CategorieCroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie ASC");
-        break;
-        case 'CategorieDecroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie DESC");
-        break;
-        case 'DescriptionAbregeeCroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee ASC");
-        break;
-        case 'DescriptionAbregeeDecroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee DESC");
-        break;
-        default:
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
-        break;
-        
-        /* La recherche */
-        $contenuRecherche = get('contenuRecherche');     
-        switch (get('champRecherche')) {
-            case 'Auteur':
+            case 'DateParutionCroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution ASC");
+            break;
+            case 'DateParutionDecroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution DESC");
+            break;
+            case 'CategorieCroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie ASC");
+            break;
+            case 'CategorieDecroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie DESC");
+            break;
+            case 'DescriptionAbregeeCroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee ASC");
+            break;
+            case 'DescriptionAbregeeDecroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee DESC");
+            break;
+            default:
+                 /* La recherche par champ */
+                $contenuRecherche = get('contenuRecherche');
+                $champRecherche = get('champRecherche');
+                switch ($champRecherche) {
+                    case 'Auteur': rechercheParChamp($oBD, $champRecherche, $contenuRecherche);
+                        break;
+                    case 'Categorie': rechercheParChamp($oBD, $champRecherche, $contenuRecherche);
+                        break;
+                    case 'Description': rechercheParChamp($oBD, $champRecherche, $contenuRecherche);
+                        break;
+                    default :
+                         $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
+                        break;
+                }
                
-                //Ne marche pas? - mais marche sur phpmyadmin
-                /*mysqli_query($cBD, "SELECT * FROM annonces
-                                    inner join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur
-                                    where annonces.etat=1 AND nom='$contenuRecherche' OR prenom='$contenuRecherche'");*/
-            break;
-            case 'Categorie':
-
-            break;
-            case 'Description':
-
-            break;
-
+            break;       
+           
         }
-        
-}
         
         
         
