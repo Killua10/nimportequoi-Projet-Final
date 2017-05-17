@@ -61,6 +61,7 @@ function getsupport ( selectedtype )
            <option value="20">20 par page</option>
           </select>
             
+                
           <select class="tri" id="ddlTri" name="ddlTri" onchange="soumetFrm()">
            <option disabled selected hidden> Trié par</option>
            <option value="DateParutionCroissant">Date Parution - Croissant</option>
@@ -99,6 +100,7 @@ function getsupport ( selectedtype )
         <h1>Liste des annonces</h1>
         <?php 
         $getNumPage = get("page");
+        $InstructionWhere = "C=Etat=1";
         if (get('ddlAnnoncesParPage') == null) {
             $getDDL = 10;
         } else {
@@ -108,22 +110,28 @@ function getsupport ( selectedtype )
          /* Le tri par colonnes */
         switch (get('ddlTri')) {
             case 'DateParutionCroissant':
-                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution ASC");
+                $Tri = "T=Parution ASC";
+                $pagination = afficherPagination($oBD, $getDDL, $Tri, $InstructionWhere);
             break;
             case 'DateParutionDecroissant':
-                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution DESC");
+                $Tri = "T=Parution DESC";
+                $pagination = afficherPagination($oBD, $getDDL, $Tri, $InstructionWhere);
             break;
             case 'CategorieCroissant':
-                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie ASC");
+                $Tri = "T=Categorie ASC";
+                $pagination = afficherPagination($oBD, $getDDL, $Tri, $InstructionWhere);
             break;
             case 'CategorieDecroissant':
-                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie DESC");
+                $Tri = "T=Categorie DESC";
+                $pagination = afficherPagination($oBD, $getDDL, $Tri, $InstructionWhere);
             break;
             case 'DescriptionAbregeeCroissant':
-                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee ASC");
+                $Tri = "T=DescriptionAbregee ASC";
+                $pagination = afficherPagination($oBD, $getDDL, $Tri, $InstructionWhere);
             break;
             case 'DescriptionAbregeeDecroissant':
-                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee DESC");
+                $Tri = "T=DescriptionAbregee DESC";
+                $pagination = afficherPagination($oBD, $getDDL, $Tri, $InstructionWhere);
             break;
             default:
                  /* La recherche par champ */
@@ -137,7 +145,7 @@ function getsupport ( selectedtype )
                     case 'Description': rechercheParChamp($oBD, $champRecherche, $contenuRecherche);
                         break;
                     default :
-                         $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
+                        $pagination = afficherPagination($oBD,$getDDL,"",$InstructionWhere);
                         break;
                 }
                
@@ -145,8 +153,7 @@ function getsupport ( selectedtype )
            
         }
         
-        $pagination = array();
-        $pagination = afficherPagination($oBD,$getDDL);
+        $pagination = afficherPagination($oBD,$getDDL,"","");
 
         
         $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);

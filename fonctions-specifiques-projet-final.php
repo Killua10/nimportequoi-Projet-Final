@@ -194,12 +194,12 @@ function rechercheParChamp($oBD, $champ, $contenuRecherche){
 }
 
 //Réference : http://www.phpeasystep.com/phptu/29.html
-function afficherPagination($oBD,$nbrItemParPage)
+function afficherPagination($oBD,$nbrItemParPage,$Tri,$InstructionWhere)
 {
         $strNomTableAnnonces="annonces";
 	$nbInput = 3;
         
-        $nbPages = $oBD->selectionneEnregistrements($strNomTableAnnonces);
+        $nbPages = ceil(($oBD->selectionneEnregistrements($strNomTableAnnonces)/$nbrItemParPage));
 	
 	/* Setup vars for query. */
 	$pageDestination = "annonces.php";          //your file name  (the name of this file)
@@ -212,7 +212,7 @@ function afficherPagination($oBD,$nbrItemParPage)
 		$debut = 0;				
 	
 	/* Get data. */
-        $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1","L=$debut, $limiteNbPagesParPage");
+        $oBD->selectionneEnregistrements($strNomTableAnnonces,$InstructionWhere,$Tri,"L=$debut, $limiteNbPagesParPage");
 	/*$oBD->_requete = "SELECT NoAnnonce FROM $strNomTableAnnonces WHERE Etat=1 LIMIT $debut, $limiteNbPagesParPage";
 	$oBD->_listeEnregistrements = mysqli_query($oBD->_cBD,$oBD->_requete);
         
