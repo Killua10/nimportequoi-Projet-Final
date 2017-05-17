@@ -105,45 +105,10 @@ function getsupport ( selectedtype )
             $getDDL = get('ddlAnnoncesParPage');
         }
       
-        /* Le tri par colonnes */
+         /* Le tri par colonnes */
         switch (get('ddlTri')) {
-<<<<<<< HEAD
-        case 'DateParutionCroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution ASC");
-        break;
-        case 'DateParutionDecroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution DESC");
-        break;
-        case 'CategorieCroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie ASC");
-        break;
-        case 'CategorieDecroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie DESC");
-        break;
-        case 'DescriptionAbregeeCroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee ASC");
-        break;
-        case 'DescriptionAbregeeDecroissant':
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee DESC");
-        break;
-        default:
-            
-            //$oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
-        break;
-        
-        /* La recherche */
-        $contenuRecherche = get('contenuRecherche');     
-        switch (get('champRecherche')) {
-            case 'Auteur':
-               
-                //Ne marche pas? - mais marche sur phpmyadmin
-                /*mysqli_query($cBD, "SELECT * FROM annonces
-                                    inner join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur
-                                    where annonces.etat=1 AND nom='$contenuRecherche' OR prenom='$contenuRecherche'");*/
-=======
             case 'DateParutionCroissant':
                 $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution ASC");
->>>>>>> origin/master
             break;
             case 'DateParutionDecroissant':
                 $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution DESC");
@@ -180,13 +145,9 @@ function getsupport ( selectedtype )
            
         }
         
-<<<<<<< HEAD
-}
-        
         $pagination = array();
         $pagination = afficherPagination($oBD,$getDDL);
-=======
->>>>>>> origin/master
+
         
         $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);
         var_dump($nbrAnnonces);?>
