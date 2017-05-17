@@ -37,9 +37,23 @@ function getsupport ( selectedtype )
 
 </header>
       <main>
+          <script>
+              
+            /* Pour passer plusieurs formes en GET */
+            soumetFrm = function(){
+                /* Chercher le formulaire par le nom */
+                document.forms["ddlAnnoncesParPage"].submit();
+                document.forms["ddlTri"].submit();
+                document.forms["champRecherche"].submit();
+                document.forms["contenuRecherche"].submit();
+                document.forms["dateDepuis"].submit();
+                document.forms["dateJusqua"].submit();
+            }
+          
+          </script>
         <div class="trietrecherche">
             <form id="frmDivRecherche" method="get" action="">
-          <select class="tri" id="ddlAnnoncesParPage" name='ddlAnnoncesParPage' onchange="form.submit()">
+          <select class="tri" id="ddlAnnoncesParPage" name='ddlAnnoncesParPage' onchange="soumetFrm()">
            <option disabled selected hidden> # Annonces</option>
            <option value="5">5 par page</option>
            <option value="10">10 par page</option>
@@ -47,7 +61,7 @@ function getsupport ( selectedtype )
            <option value="20">20 par page</option>
           </select>
             
-          <select class="tri" id="ddlTri" name="ddlTri" onchange="form.submit()">
+          <select class="tri" id="ddlTri" name="ddlTri" onchange="soumetFrm()">
            <option disabled selected hidden> Trié par</option>
            <option value="DateParutionCroissant">Date Parution - Croissant</option>
            <option value="DateParutionDecroissant">Date Parution - Déroissant</option>
@@ -57,11 +71,11 @@ function getsupport ( selectedtype )
            <option value="DescriptionAbregeeDecroissant">Description Abrégée - Déroissant</option>
           </select>
             <br />
-          <select class="tri">
+          <select class="tri" id="champRecherche" name="champRecherche" onchange="soumetFrm()">
            <option disabled selected hidden> Champ de recherche</option>
-           <option value="ChampRecherche.Auteur">Auteur</option>
-           <option value="ChampRecherche.Categorie">Catégorie</option>
-           <option value="ChampRecherche.Description">Description</option>
+           <option value="Auteur">Auteur</option>
+           <option value="Categorie">Catégorie</option>
+           <option value="Description">Description</option>
           </select>
             
             <style> input[type="date"]:before {
@@ -74,10 +88,10 @@ function getsupport ( selectedtype )
                         content: "";
                       } *       
             </style>
-            <input class="sInput" type="date" value="" placeholder="Depuis">
-            <input class="sInput" type="date" value="" placeholder="Jusqu'à">
+            <input class="sInput" type="date" value="" placeholder="Depuis" id="dateDepuis" name="dateDepuis" onchange="soumetFrm()">
+            <input class="sInput" type="date" value="" placeholder="Jusqu'à" id="dateJusqua" name="dateJusqua" onchange="soumetFrm()">
             
-          <input class="recherche" id="contenuRecherche" placeholder="Entrez votre recherche ici..."></input>
+            <input class="recherche" id="contenuRecherche" name="contenuRecherche" placeholder="Entrez votre recherche ici..." onchange="soumetFrm()"></input>
           <button class="btn" id="recherche">Recherche</button>
           </form>
       </div>
@@ -90,7 +104,7 @@ function getsupport ( selectedtype )
             $getDDL = get('ddlAnnoncesParPage');
         }
       
-        
+        /* Le tri par colonnes */
         switch (get('ddlTri')) {
         case 'DateParutionCroissant':
             $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution ASC");
@@ -113,9 +127,28 @@ function getsupport ( selectedtype )
         default:
             $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
         break;
+        
+        /* La recherche */
+        $contenuRecherche = get('contenuRecherche');     
+        switch (get('champRecherche')) {
+            case 'Auteur':
+               
+                //Ne marche pas? - mais marche sur phpmyadmin
+                /*mysqli_query($cBD, "SELECT * FROM annonces
+                                    inner join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur
+                                    where annonces.etat=1 AND nom='$contenuRecherche' OR prenom='$contenuRecherche'");*/
+            break;
+            case 'Categorie':
+
+            break;
+            case 'Description':
+
+            break;
+
+        }
+        
 }
         
-        var_dump(get('ddlTri'));
         
         
         

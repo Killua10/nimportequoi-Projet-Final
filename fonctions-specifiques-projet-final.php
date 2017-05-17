@@ -140,7 +140,6 @@ function supprimerAnnonces($oBD){
     return $intNbAnnonces;
 }
 
-    
 //Réference : http://www.phpeasystep.com/phptu/29.html
 function afficherPagination($oBD,$nbrItemParPage)
 {
