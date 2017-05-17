@@ -22,6 +22,16 @@ require_once 'connexion-bd.php';?>
 
 <header style="background-color: 000;background-image: url('img/nq-bg1.jpg');background-size: cover;width: 100%;height: auto;">
   <img src="img/nq-logo2.png" alt="Smiley face" height="150px" width="auto">
+  
+    <script language="JavaScript" type="text/javascript">
+
+    function getsupport ( selectedtype )
+    {
+      document.frmAnnonces.NoAnnonceClick.value = selectedtype ;
+      document.frmAnnonces.submit() ;
+    }
+
+    </script>
 
 <?php require_once 'navigation.php';?>
 
@@ -67,6 +77,8 @@ require_once 'connexion-bd.php';?>
         ?>
         
         <h3>Vous avez <?php echo ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements); ?> annonces.</h3>
+        <form name="frmAnnonces" id="frmAnnonces" method="get" action="infos-annonce.php">
+            <input type="hidden" name="NoAnnonceClick" />
 
 
         <?php
@@ -79,8 +91,7 @@ require_once 'connexion-bd.php';?>
                 //if ($row['Statut'] == 1) 
                          ?>
           <div id="content">
-              <form id="frmAnnonces" method="get" action="">
-            <a id='annonce' name='annonce' onclick="window.location='infos-annonce.php';this.form.submit();">
+            <a href="javascript:getsupport('annonce<?php echo $row[$j]["NoAnnonce"] ?>')" id='annonce<?php echo $row[$j]["NoAnnonce"] ?>' name='annonce<?php echo $row[$j]["NoAnnonce"] ?>'>
             <div id="fix"></div>
             <p class="number"><?php echo ajouteZeros($j+1, 3) ?></p>
 
@@ -125,7 +136,6 @@ require_once 'connexion-bd.php';?>
               ?></p>
           </div>
           </a>
-             </form>
         </div>
         
         <div id="admin">
@@ -136,6 +146,8 @@ require_once 'connexion-bd.php';?>
         </div>
         
         <?php }?>
+            
+            </form>
 
 
 
