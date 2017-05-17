@@ -91,7 +91,7 @@
         </div>
         
         <?php //var_dump($_SESSION); 
-        if ($_SESSION["Status"] == 1) {?>
+        if ($_SESSION["Status"] == 1 || $row[0]["NoUtilisateurs"] == $_SESSION["NoUtilisateur"]) {?>
 
         <div id="admin2">
            <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button>

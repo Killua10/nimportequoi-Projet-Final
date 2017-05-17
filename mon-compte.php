@@ -145,9 +145,6 @@
                     $_SESSION['NoTelTravail'] = $strTelTravail;
                     $_SESSION['NoTelCellulaire'] = $strTelCellulaire;
                     
-                    
-                    
-                    
                 }
                 
                 
@@ -246,7 +243,7 @@
                                          <h4>Succès! <span><?php echo $strMsgAlerteEnregistrement;?></span></h4>
                                  </div>
                                  <?php }?>
-                             </div>
+                            </div>
                        </td>
                        <td>
                            <button name="MAJ" id="MAJ" class="btn" type="submit" value="MAJ" >Mise à jour</button>

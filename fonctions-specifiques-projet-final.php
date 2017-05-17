@@ -159,8 +159,24 @@ function afficherPagination($oBD,$nbrItemParPage)
 		$debut = 0;				
 	
 	/* Get data. */
-	$oBD->_requete = "SELECT NoAnnonce FROM $strNomTableAnnonces LIMIT $debut, $limiteNbPagesParPage";
-	$strResultat = mysqli_query($oBD->_cBD,$oBD->_requete);
+        $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1","L=$debut, $limiteNbPagesParPage");
+	/*$oBD->_requete = "SELECT NoAnnonce FROM $strNomTableAnnonces WHERE Etat=1 LIMIT $debut, $limiteNbPagesParPage";
+	$oBD->_listeEnregistrements = mysqli_query($oBD->_cBD,$oBD->_requete);
+        
+        if ($oBD->_listeEnregistrements != false) {
+            $oBD->_nbEnregistrements = mysqli_num_rows(mysqli_query($this->_cBD, $this->_requete));
+        }
+        
+        if ($oBD->_listeEnregistrements == null || $oBD->_listeEnregistrements == false) {
+            $oBD->_nbEnregistrements = -1;
+        }*/
+        
+        
+        //var_dump(mysqli_query($this->_cBD, $this->_requete));
+        //var_dump($this->_requete);
+        //var_dump($this->_nbEnregistrements);
+        //var_dump($this->_listeEnregistrements);
+        //return $this->_nbEnregistrements;
 	
 	/* Setup page vars for display. */
 	if ($noPageActuelle == 0){
@@ -250,9 +266,9 @@ function afficherPagination($oBD,$nbrItemParPage)
 			$pagination.= "<span class=\"disabled\">suivant →</span>";
 		$pagination.= "</div>\n";
                 $tabReturn = array();
-                $tabReturn[0]=$strResultat;
-                $tabReturn[1]=$pagination;
-                return $tabReturn;
+                /*$tabReturn[0]=$oBD->_listeEnregistrements;
+                $tabReturn[1]=$pagination;*/
+                return $pagination;
 	}
 
 }

@@ -98,6 +98,7 @@ function getsupport ( selectedtype )
 
         <h1>Liste des annonces</h1>
         <?php 
+        $getNumPage = get("page");
         if (get('ddlAnnoncesParPage') == null) {
             $getDDL = 10;
         } else {
@@ -125,7 +126,8 @@ function getsupport ( selectedtype )
             $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee DESC");
         break;
         default:
-            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
+            
+            //$oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
         break;
         
         /* La recherche */
@@ -149,19 +151,22 @@ function getsupport ( selectedtype )
         
 }
         
+        $pagination = array();
+        $pagination = afficherPagination($oBD,$getDDL);
         
-        
-        
-        $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);?>
-        <h3> <?php echo ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements); ?> annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
+        $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);
+        var_dump($nbrAnnonces);?>
+        <h3> <?php echo ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);?> annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
 
         <form name="frmAnnonces" id="frmAnnonces" method="get" action="infos-annonce.php">
             <input type="hidden" name="NoAnnonceClick" />
          <?php
             //var_dump( mysqli_fetch_all($oBD->_listeEnregistrements,MYSQLI_ASSOC));
+            
             if ($nbrAnnonces != 0) {
     
                 $row = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+                
                 for ($j = 0; $j < ($nbrAnnonces < $getDDL ? $nbrAnnonces : $getDDL); $j++) {
                         
                 //var_dump($row);
@@ -231,15 +236,14 @@ function getsupport ( selectedtype )
         <?php }?>
             </form>
 	<?php
-        $tabResultatFonction = array();
-        $tabResultatFonction = afficherPagination($oBD,$getDDL);
+        
         
 		/*while($row = mysql_fetch_array($tabResultatFonction[0])){
                     echo "meow";
 		}*/
 	?>
 
-<?=$tabResultatFonction[1]?>
+<?=$pagination ?>
 
          <!-- <div class="pagination">
             <form id="frmAnnonces" method="get" action="">

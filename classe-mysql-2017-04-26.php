@@ -296,6 +296,8 @@
                   $this->_requete  .= " GROUP BY " . substr(func_get_arg($i), 2, strlen(func_get_arg($i)));
               }else if (substr(func_get_arg($i), 0, 1) == "T") {
                   $this->_requete  .= " ORDER BY " . substr(func_get_arg($i), 2, strlen(func_get_arg($i)));
+              }else if (substr(func_get_arg($i), 0, 1) == "L") {
+                  $this->_requete  .= " LIMIT " . substr(func_get_arg($i), 2, strlen(func_get_arg($i)));
               }
           }
           
@@ -310,7 +312,7 @@
         
         
         //var_dump(mysqli_query($this->_cBD, $this->_requete));
-        //var_dump($this->_requete);
+        var_dump($this->_requete);
         //var_dump($this->_nbEnregistrements);
         //var_dump($this->_listeEnregistrements);
         return $this->_nbEnregistrements;
