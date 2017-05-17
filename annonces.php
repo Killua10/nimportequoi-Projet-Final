@@ -39,7 +39,7 @@ function getsupport ( selectedtype )
       <main>
         <div class="trietrecherche">
             <form id="frmDivRecherche" method="get" action="">
-            <select class="tri" id="ddlAnnoncesParPage" name='ddlAnnoncesParPage' onchange="form.submit()">
+          <select class="tri" id="ddlAnnoncesParPage" name='ddlAnnoncesParPage' onchange="form.submit()">
            <option disabled selected hidden> # Annonces</option>
            <option value="5">5 par page</option>
            <option value="10">10 par page</option>
@@ -47,7 +47,7 @@ function getsupport ( selectedtype )
            <option value="20">20 par page</option>
           </select>
             
-          <select class="tri">
+          <select class="tri" id="ddlTri" name="ddlTri" onchange="form.submit()">
            <option disabled selected hidden> Trié par</option>
            <option value="DateParutionCroissant">Date Parution - Croissant</option>
            <option value="DateParutionDecroissant">Date Parution - Déroissant</option>
@@ -89,11 +89,36 @@ function getsupport ( selectedtype )
         } else {
             $getDDL = get('ddlAnnoncesParPage');
         }
-        
       
         
-        //var_dump($getDDL);
-        $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
+        switch (get('ddlTri')) {
+        case 'DateParutionCroissant':
+            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution ASC");
+        break;
+        case 'DateParutionDecroissant':
+            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution DESC");
+        break;
+        case 'CategorieCroissant':
+            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie ASC");
+        break;
+        case 'CategorieDecroissant':
+            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie DESC");
+        break;
+        case 'DescriptionAbregeeCroissant':
+            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee ASC");
+        break;
+        case 'DescriptionAbregeeDecroissant':
+            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee DESC");
+        break;
+        default:
+            $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
+        break;
+}
+        
+        var_dump(get('ddlTri'));
+        
+        
+        
         $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);?>
         <h3> <?php echo ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements); ?> annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
 
@@ -108,7 +133,7 @@ function getsupport ( selectedtype )
                         
                 //var_dump($row);
                 //if ($row['Statut'] == 1) 
-                         ?>
+          ?>
         
           <div id="content">
             

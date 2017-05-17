@@ -140,4 +140,8 @@ function supprimerAnnonces($oBD){
     return $intNbAnnonces;
 }
 
+function DateParutionCroissant($oBD, $strNomTableUtilisateurs){
+    
+}
+
 ?>
