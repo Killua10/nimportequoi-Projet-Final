@@ -159,7 +159,7 @@ function getsupport ( selectedtype )
         </div>
 
         <?php //var_dump($_SESSION);
-        if ($_SESSION["Status"] == 1) {?>
+        if ($_SESSION["Status"] == 1 || $row[$j]["NoUtilisateurs"] == $_SESSION["NoUtilisateur"]) {?>
         <div id="admin">
             <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button></br>
 
