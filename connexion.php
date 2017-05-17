@@ -21,7 +21,7 @@
     
     if($oBD->tableExiste($strNomTableCategories) == false){
         creeTableCategorie($oBD, $strNomTableCategories);
-        remplitTableCategorie($oBD, $strNomTableCategorie, $strNomFichierCategorie);
+        remplitTableCategorie($oBD, $strNomTableCategories, $strNomFichierCategories);
     }
     
     if($oBD->tableExiste($strNomTableAnnonces) == false){

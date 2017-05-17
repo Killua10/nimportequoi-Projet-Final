@@ -67,7 +67,6 @@
                      if(get('EnvoyerCourriel') == 'Confirmer Envoi !'){
                          $alerte = 3;
                          $strMsgAlerteEnregistrement = "Les courriels ont été envoyés!";
-                         
                          envoyerCourrielAuxUtilisateursNonActives($oBD, 'utilisateurs');
                      }
                  }
@@ -87,8 +86,10 @@
                      $strMsgAlerteEnregistrement2 = "Cliquez une deuxième fois pour confirmer!";
                     
                      if(get('SupprimerUtilisateurs') == 'Confirmer Suppression !'){
+                         $tabUtils = explode(';' , supprimerUtilisateurs($oBD));
                          $alerte2 = 3;
-                         $strMsgAlerteEnregistrement2 = "Les utilisateurs ont été supprimés!";
+                         $strMsgAlerteEnregistrement2 = "$tabUtils[0] utilisateur(s) ont été supprimé(s)!";
+                         
                      }
                  }
                }
@@ -108,8 +109,10 @@
                      $strMsgAlerteEnregistrement3 = "Cliquez une deuxième fois pour confirmer!";
                     
                      if(get('SupprimerAnnonces') == 'Confirmer Suppression !'){
+                         $intNbAnnonces = supprimerAnnonces($oBD);
                          $alerte3 = 3;
-                         $strMsgAlerteEnregistrement3 = "Les annonces ont été supprimés!";
+                         $strMsgAlerteEnregistrement3 = "$intNbAnnonces annonce(s) ont été supprimé(s)!";
+                         
                      }
                  }
                }

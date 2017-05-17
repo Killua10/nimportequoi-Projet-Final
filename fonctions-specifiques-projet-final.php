@@ -107,7 +107,7 @@ function envoyerCourrielAuxUtilisateursNonActives($oBD, $strNomTableUtilisateurs
     $strMessage = "<br />Bonjour,<br /><br /> vous êtes inscrites à N'importeQuoi depuis plus d'un mois et vous n'avez pas ecore confirmé votre enregistrement."
                 . "<br /> Cliquez sur le lien qui suit pour confirmer votre enregistrement: -lien-";
     
-    $intEnregistrements = $oBD->selectionneEnregistrements($strNomTableUtilisateurs);
+    $intEnregistrements = $oBD->selectionneEnregistrements($strNomTableUtilisateurs, 'C=creation <= (NOW() - INTERVAL 1 MONTH) AND status = 0');
     for($i=0; $i < $intEnregistrements; $i++){
         $strDestinataires .= $oBD->contenuChamp($i,'Courriel') . ';';
         //var_dump($oBD->contenuChamp($i,'Courriel'));
@@ -118,12 +118,26 @@ function envoyerCourrielAuxUtilisateursNonActives($oBD, $strNomTableUtilisateurs
     echo $strMessage;
 }
 
-function supprimerUtilisateurs(){
+function supprimerUtilisateurs($oBD){
+    $strComptes = "";
+    $intNbUtils = $oBD->selectionneEnregistrements('utilisateurs', 'C=creation <= (NOW() - INTERVAL 3 MONTH) AND status = 0');
     
+    for($i=0; $i<$intNbUtils; $i++){
+        $strComptes .= $oBD->contenuChamp($i, 'Courriel') . ';';
+    }
+    
+    
+    
+    $oBD->supprimeEnregistrements('utilisateurs', 'creation <= (NOW() - INTERVAL 3 MONTH) AND status = 0');
+    return $intNbUtils . ';' . $strComptes;
 }
 
-function supprimerAnnonces(){
-    
+function supprimerAnnonces($oBD){
+   
+    $intNbAnnonces = $oBD->selectionneEnregistrements('annonces', 'C=Etat=3');
+         
+    $oBD->supprimeEnregistrements('utilisateurs', 'Etat=3');
+    return $intNbAnnonces;
 }
 
 ?>
