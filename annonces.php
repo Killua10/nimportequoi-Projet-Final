@@ -92,7 +92,7 @@ function getsupport ( selectedtype )
             <input class="sInput" type="date" value="" placeholder="Jusqu'à" id="dateJusqua" name="dateJusqua" onchange="soumetFrm()">
             
             <input class="recherche" id="contenuRecherche" name="contenuRecherche" placeholder="Entrez votre recherche ici..." onchange="soumetFrm()"></input>
-          <button class="btn" id="recherche">Recherche</button>
+          <button type="submit" class="btn" id="recherche" name="recherche">Recherche</button>
           </form>
       </div>
 
@@ -107,6 +107,7 @@ function getsupport ( selectedtype )
       
         /* Le tri par colonnes */
         switch (get('ddlTri')) {
+<<<<<<< HEAD
         case 'DateParutionCroissant':
             $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution ASC");
         break;
@@ -139,20 +140,53 @@ function getsupport ( selectedtype )
                 /*mysqli_query($cBD, "SELECT * FROM annonces
                                     inner join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur
                                     where annonces.etat=1 AND nom='$contenuRecherche' OR prenom='$contenuRecherche'");*/
+=======
+            case 'DateParutionCroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution ASC");
+>>>>>>> origin/master
             break;
-            case 'Categorie':
-
+            case 'DateParutionDecroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Parution DESC");
             break;
-            case 'Description':
-
+            case 'CategorieCroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie ASC");
             break;
-
+            case 'CategorieDecroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=Categorie DESC");
+            break;
+            case 'DescriptionAbregeeCroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee ASC");
+            break;
+            case 'DescriptionAbregeeDecroissant':
+                $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1", "T=DescriptionAbregee DESC");
+            break;
+            default:
+                 /* La recherche par champ */
+                $contenuRecherche = get('contenuRecherche');
+                $champRecherche = get('champRecherche');
+                switch ($champRecherche) {
+                    case 'Auteur': rechercheParChamp($oBD, $champRecherche, $contenuRecherche);
+                        break;
+                    case 'Categorie': rechercheParChamp($oBD, $champRecherche, $contenuRecherche);
+                        break;
+                    case 'Description': rechercheParChamp($oBD, $champRecherche, $contenuRecherche);
+                        break;
+                    default :
+                         $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=Etat=1");
+                        break;
+                }
+               
+            break;       
+           
         }
         
+<<<<<<< HEAD
 }
         
         $pagination = array();
         $pagination = afficherPagination($oBD,$getDDL);
+=======
+>>>>>>> origin/master
         
         $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);
         var_dump($nbrAnnonces);?>

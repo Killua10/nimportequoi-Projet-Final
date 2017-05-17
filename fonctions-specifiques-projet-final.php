@@ -140,6 +140,46 @@ function supprimerAnnonces($oBD){
     return $intNbAnnonces;
 }
 
+function rechercheParChamp($oBD, $champ, $contenuRecherche){
+    
+    switch ($champ) {
+        case 'Auteur':
+            $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur "
+                . "where annonces.etat=1 AND nom='$contenuRecherche' OR prenom='$contenuRecherche'";
+            break;
+        
+        case 'Categorie':
+            $oBD->_requete = "SELECT * FROM annonces join categories on annonces.categorie = categories.nocategorie "
+                . "where annonces.etat=1 and categories.description = '$contenuRecherche'";
+            break;
+        
+        case 'Description':
+            $oBD->_requete = "SELECT * FROM annonces where etat=1 AND descriptionabregee like '%$contenuRecherche%' or descriptioncomplete like '%$contenuRecherche%'";
+            break;
+       
+    }
+    
+    
+   /* $oBD->_listeEnregistrements = mysqli_query($oBD->_cBD, $oBD->_requete);
+    var_dump($oBD->_requete);*/
+    
+    $oBD->_listeEnregistrements = mysqli_query($oBD->_cBD, $oBD->_requete);
+        if ($oBD->_listeEnregistrements != false) {
+            $oBD->_nbEnregistrements = mysqli_num_rows(mysqli_query($oBD->_cBD, $oBD->_requete));
+        }
+        
+        if ($oBD->_listeEnregistrements == null || $oBD->_listeEnregistrements == false) {
+            $oBD->_nbEnregistrements = -1;
+        }
+        
+        
+        //var_dump(mysqli_query($this->_cBD, $this->_requete));
+        //var_dump($this->_requete);
+        //var_dump($this->_nbEnregistrements);
+        //var_dump($this->_listeEnregistrements);
+        return $oBD->_nbEnregistrements;
+}
+
 //Réference : http://www.phpeasystep.com/phptu/29.html
 function afficherPagination($oBD,$nbrItemParPage)
 {
