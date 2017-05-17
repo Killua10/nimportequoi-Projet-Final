@@ -140,4 +140,117 @@ function supprimerAnnonces($oBD){
     return $intNbAnnonces;
 }
 
+//Réference : http://www.phpeasystep.com/phptu/29.html
+function afficherPagination($oBD)
+{
+        $strNomTableAnnonces="annonces";
+	$nbInput = 3;
+        
+        $nbPages = $oBD->selectionneEnregistrements($strNomTableAnnonces);
+	
+	/* Setup vars for query. */
+	$pageDestination = "annonces.php";          //your file name  (the name of this file)
+	$limiteNbPagesParPage = 2; 				//how many items to show per page
+	$noPageActuelle = get('page');
+        
+	if ($noPageActuelle) 
+		$debut = ($noPageActuelle - 1) * $limiteNbPagesParPage;
+	else
+		$debut = 0;				
+	
+	/* Get data. */
+	$oBD->_requete = "SELECT NoAnnonce FROM $strNomTableAnnonces LIMIT $debut, $limiteNbPagesParPage";
+	$strResultat = mysqli_query($oBD->_cBD,$oBD->_requete);
+	
+	/* Setup page vars for display. */
+	if ($noPageActuelle == 0){
+            $noPageActuelle = 1;	
+        }
+        
+	$noPagePrecedante = $noPageActuelle - 1;							
+	$noPageSuivante = $noPageActuelle + 1;							
+	$noDernierePage = ceil($nbPages/$limiteNbPagesParPage);	
+	$NoAvantDernierePage = $noDernierePage - 1;						
+
+	$pagination = "";
+	if($noDernierePage > 1)
+	{	
+		$pagination .= "<div class=\"pagination\">";
+
+		if ($noPageActuelle > 1) 
+			$pagination.= "<a href=\"$pageDestination?page=$noPagePrecedante\">← précédent</a>";
+		else
+			$pagination.= "<span class=\"disabled\">← précédent</span>";	
+		
+		//pages	
+		if ($noDernierePage < 7 + ($nbInput * 2))	//not enough pages to bother breaking it up
+		{	
+			for ($counter = 1; $counter <= $noDernierePage; $counter++)
+			{
+				if ($counter == $noPageActuelle)
+					$pagination.= "<span class=\"current\">$counter</span>";
+				else
+					$pagination.= "<a href=\"$pageDestination?page=$counter\">$counter</a>";					
+			}
+		}
+		else if($noDernierePage > 5 + ($nbInput * 2))	//enough pages to hide some
+		{
+			//close to beginning; only hide later pages
+			if($noPageActuelle < 1 + ($nbInput * 2))		
+			{
+				for ($counter = 1; $counter < 4 + ($nbInput * 2); $counter++)
+				{
+					if ($counter == $noPageActuelle)
+						$pagination.= "<span class=\"current\">$counter</span>";
+					else
+						$pagination.= "<a href=\"$pageDestination?page=$counter\">$counter</a>";					
+				}
+				$pagination.= "...";
+				$pagination.= "<a href=\"$pageDestination?page=$NoAvantDernierePage\">$NoAvantDernierePage</a>";
+				$pagination.= "<a href=\"$pageDestination?page=$noDernierePage\">$noDernierePage</a>";		
+			}
+			//in middle; hide some front and some back
+			elseif($noDernierePage - ($nbInput * 2) > $noPageActuelle && $noPageActuelle > ($nbInput * 2))
+			{
+				$pagination.= "<a href=\"$pageDestination?page=1\">1</a>";
+				$pagination.= "<a href=\"$pageDestination?page=2\">2</a>";
+				$pagination.= "...";
+				for ($counter = $noPageActuelle - $nbInput; $counter <= $noPageActuelle + $nbInput; $counter++)
+				{
+					if ($counter == $noPageActuelle)
+						$pagination.= "<span class=\"current\">$counter</span>";
+					else
+						$pagination.= "<a href=\"$pageDestination?page=$counter\">$counter</a>";					
+				}
+				$pagination.= "...";
+				$pagination.= "<a href=\"$pageDestination?page=$NoAvantDernierePage\">$NoAvantDernierePage</a>";
+				$pagination.= "<a href=\"$pageDestination?page=$noDernierePage\">$noDernierePage</a>";		
+			}
+			//close to end; only hide early pages
+			else
+			{
+				$pagination.= "<a href=\"$pageDestination?page=1\">1</a>";
+				$pagination.= "<a href=\"$pageDestination?page=2\">2</a>";
+				$pagination.= "...";
+				for ($counter = $noDernierePage - (2 + ($nbInput * 2)); $counter <= $noDernierePage; $counter++)
+				{
+					if ($counter == $noPageActuelle)
+						$pagination.= "<span class=\"current\">$counter</span>";
+					else
+						$pagination.= "<a href=\"$pageDestination?page=$counter\">$counter</a>";					
+				}
+			}
+		}
+		if ($noPageActuelle < $counter - 1) 
+			$pagination.= "<a href=\"$pageDestination?page=$noPageSuivante\">suivant →</a>";
+		else
+			$pagination.= "<span class=\"disabled\">suivant →</span>";
+		$pagination.= "</div>\n";
+                $tabReturn = array();
+                $tabReturn[0]=$strResultat;
+                $tabReturn[1]=$pagination;
+                return $tabReturn;
+	}
+}
+
 ?>

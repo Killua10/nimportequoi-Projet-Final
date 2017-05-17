@@ -3,7 +3,7 @@
     require_once "librairies-communes-2017-04-07.php";
     require_once 'connexion-bd.php';
     $NumAnnonce = get('NoAnnonceClick');
-    $NumAnnonce = substr($NumAnnonce, -1,1);
+    preg_match_all('!\d+!', $NumAnnonce, $NumAnnonce);
 
 
 
@@ -31,7 +31,7 @@
     <body>
 
 <header style="background-color: 000;background-image: url('img/nq-bg3.jpg');background-size: cover;width: 100%;height: auto;">
-  <img src="img/nq-logo2.png" alt="Smiley face" height="150px" width="auto">
+  <img src="img/nq-logo2.png" alt="Smil ey face" height="150px" width="auto">
 
 
 <?php require_once 'navigation.php';?>
