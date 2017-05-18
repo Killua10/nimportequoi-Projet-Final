@@ -140,38 +140,21 @@ function supprimerAnnonces($oBD){
     return $intNbAnnonces;
 }
 
-function rechercheParChamp($oBD, $champ, $contenuRecherche){
+function rechercheParChamp($oBD, $tabCheck, $tabContenu){
     
     /* Recherche multi champs */
     
     $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur"
             . "join categories on annonces.categorie = categories.nocategorie where annonces.etat=1";
-    if(/*Auteur est coché*/){
-        $oBD->_requete .= " AND nom=' **$contenuRechercheAuteur** ' OR prenom='**$contenuRechercheAuteur**'";
+    if($tabCheck[0] == "Auteur"){
+        $oBD->_requete .= " AND (nom='$tabContenu[0]' OR prenom='$tabContenu[0]')";
     }
-    if(/*Categorie est coché*/){
-        $oBD->_requete .= " AND categories.description = '**$contenuRechercheCategorie**'";
+    if($tabCheck[1] == "Categorie"){
+        $oBD->_requete .= " AND categories.description = '$tabContenu[1]'";
     }
-    if(/*Description est coché*/){
-        $oBD->_requete .= " AND descriptionabregee like '%**$contenuRechercheDescription**%' or descriptioncomplete like '%**$contenuRechercheDescription**%'";
+    if($tabCheck[2] == "Description"){
+        $oBD->_requete .= " AND (descriptionabregee like '%$tabContenu[2]%' or descriptioncomplete like '%$tabContenu[2]%')";
     }
-        
-    /*switch ($champ) {
-        case 'Auteur':
-            $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur "
-                . "where annonces.etat=1 AND nom='$contenuRecherche' OR prenom='$contenuRecherche'";
-            break;
-        
-        case 'Categorie':
-            $oBD->_requete = "SELECT * FROM annonces join categories on annonces.categorie = categories.nocategorie "
-                . "where annonces.etat=1 AND categories.description = '$contenuRecherche'";
-            break;
-        
-        case 'Description':
-            $oBD->_requete = "SELECT * FROM annonces where etat=1 AND descriptionabregee like '%$contenuRecherche%' or descriptioncomplete like '%$contenuRecherche%'";
-            break;
-    }*/
-    
     
    /* $oBD->_listeEnregistrements = mysqli_query($oBD->_cBD, $oBD->_requete);
     var_dump($oBD->_requete);*/

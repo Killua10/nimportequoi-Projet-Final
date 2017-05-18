@@ -72,12 +72,10 @@ function getsupport ( selectedtype )
            <option value="DescriptionAbregeeDecroissant">Description Abrégée - Déroissant</option>
           </select>
             <br />
-          <select class="tri" id="champRecherche" name="champRecherche" onchange="soumetFrm()">
-           <option disabled selected hidden> Champ de recherche</option>
-           <option value="Auteur">Auteur</option>
-           <option value="Categorie">Catégorie</option>
-           <option value="Description">Description</option>
-          </select>
+            
+           <input id="cbAuteur" name="cbAuteur" type="checkbox" name="Auteur" value="Auteur">Auteur<br>
+           <input id="cbCategorie" name="cbCategorie" type="checkbox" name="Categorie" value="Categorie">Catégorie<br>
+           <input id="cbDescription" name="cbDescription" type="checkbox" name="Description" value="Description">Description<br>
             
             <style> input[type="date"]:before {
                         content: attr(placeholder) !important;
@@ -90,9 +88,11 @@ function getsupport ( selectedtype )
                       } *       
             </style>
             <input class="sInput" type="date" value="" placeholder="Depuis" id="dateDepuis" name="dateDepuis" onchange="soumetFrm()">
-            <input class="sInput" type="date" value="" placeholder="Jusqu'à" id="dateJusqua" name="dateJusqua" onchange="soumetFrm()">
+            <input class="sInput" type="date" value="" placeholder="Jusqu'à" id="dateJusqua" name="dateJusqua" onchange="soumetFrm()"><br>
             
-            <input class="recherche" id="contenuRecherche" name="contenuRecherche" placeholder="Entrez votre recherche ici..." onchange="soumetFrm()"></input>
+            <input class="recherche" id="contenuRechercheAuteur" name="contenuRecherche" placeholder="Entrez votre recherche ici..." onchange="soumetFrm()"></input>
+            <input class="recherche" id="contenuRechercheCategorie" name="contenuRechercheCategorie" placeholder="Entrez votre recherche ici..." onchange="soumetFrm()"></input>
+            <input class="recherche" id="contenuRechercheDescription" name="contenuRechercheDescription" placeholder="Entrez votre recherche ici..." onchange="soumetFrm()"></input>
           <button type="submit" class="btn" id="recherche" name="recherche">Recherche</button>
           </form>
       </div>
@@ -135,22 +135,20 @@ function getsupport ( selectedtype )
             break;
             default:
                  /* La recherche par champ */
-                $contenuRecherche = get('contenuRecherche');
-                $champRecherche = get('champRecherche');
-                switch ($champRecherche) {
-                    case 'Auteur': rechercheParChamp($oBD, $champRecherche, $contenuRecherche);
-                        break;
-                    case 'Categorie': rechercheParChamp($oBD, $champRecherche, $contenuRecherche);
-                        break;
-                    case 'Description': rechercheParChamp($oBD, $champRecherche, $contenuRecherche);
-                        break;
-                    default :
+                $contenuRechercheAuteur = get('contenuRechercheAuteur');
+                $contenuRechercheCategorie = get('contenuRechercheCategorie');
+                $contenuRechercheDescription = get('contenuRechercheDescription');
+                $cbAuteur = get('cbAuteur');
+                $cbCategorie = get('cbCategorie');
+                $cbDescription = get('cbDescription');
+                $tabCheck = array($cbAuteur, $cbCategorie, $cbDescription);
+                $tabContenu = array($contenuRechercheAuteur, $contenuRechercheCategorie, $contenuRechercheDescription);
+                var_dump($tabCheck);
+                rechercheParChamp($oBD, $tabCheck, $tabContenu);
+                    /*default :
                         $pagination = afficherPagination($oBD,$getDDL,"",$InstructionWhere);
-                        break;
-                }
-               
+                        break;*/
             break;       
-           
         }
         
         $pagination = afficherPagination($oBD,$getDDL,"","");
