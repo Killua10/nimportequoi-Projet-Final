@@ -66,13 +66,15 @@ require_once 'connexion-bd.php';?>
         <h1>Liste des mes annonces</h1>
         
         <?php 
+        $InstructionWhere = "C=NoUtilisateurs=" . $_SESSION['NoUtilisateur'];
         if (get('ddlAnnoncesParPage') == null) {
             $getDDL = 10;
         } else {
             $getDDL = get('ddlAnnoncesParPage');
         }
         
-        $oBD->selectionneEnregistrements($strNomTableAnnonces,"C=NoUtilisateurs=" . $_SESSION['NoUtilisateur']);
+        $pagination = afficherPagination($oBD,$getDDL,"",$InstructionWhere);
+        //$oBD->selectionneEnregistrements($strNomTableAnnonces,"C=NoUtilisateurs=" . $_SESSION['NoUtilisateur']);
         $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);
         ?>
         
@@ -138,27 +140,49 @@ require_once 'connexion-bd.php';?>
           </a>
         </div>
         
-        <div id="admin">
-            <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button></br>
+        <form name="frmBtnAnnonces" id="frmBtnAnnonces" method="get" action="">
+            <div id="admin">
+                
+                <button id="btnModifier" name="btnModifier" class="btn" type="submit" value="Modifier<?php echo $row[$j]["NoAnnonce"]?>" onclick="window.location = 'modifier-annonce.php';">Modifier</button></br>
 
-            <button class="btn">Supprimer</button></br>
-            <button class="btn">Activer</button>
-        </div>
+                <button id="btnSupprimer" name="btnSupprimer" type="submit" value="Supprimer<?php echo $row[$j]["NoAnnonce"]?>" class="btn">Supprimer</button></br>
+                
+                <button id="btnActiver" name="btnActiver" type="submit" value="Activer<?php echo $row[$j]["NoAnnonce"]?>" class="btn">Activer</button>
+            </div>
+        </form>
         
         <?php }?>
             
-            </form>
+            
 
-
-
-            <div class="pagination">
-              <a href="#">❮❮</a>
-              <a href="#">❮</a>
-              <input type="number" name="" value="1" min="1">
-              <a href="#">❯</a>
-              <a href="#">❯❯</a>
-            </div>
          <?php }?>
+            </form>
+        
+        <?=$pagination ?>
+        
+         <?php
+        
+            $btnModifier = get("btnModifier");
+            $btnSupprimer = get("btnSupprimer");
+            $btnActiver = get("btnActiver");
+        
+            if (isset($btnModifier) ) {
+                preg_match_all('!\d+!', $btnModifier, $btnModifier);
+                $btnModifier = $btnModifier[0][0];
+
+            }
+
+            if (isset($btnSupprimer)) {
+                preg_match_all('!\d+!', $btnSupprimer, $btnSupprimer);
+                $btnSupprimer = $btnSupprimer[0][0];
+                $oBD->majEnregistrement($strNomTableAnnonces,"Etat=2" ,"NoAnnonce=" . $btnSupprimer);
+            }
+
+            if (isset($btnActiver)) {
+                preg_match_all('!\d+!', $btnActiver, $btnActiver);
+                $btnActiver = $btnActiver[0][0];
+                $oBD->majEnregistrement($strNomTableAnnonces,"Etat=1" ,"NoAnnonce=" . $btnActiver);
+            }?>
 
        </main>
 

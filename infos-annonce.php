@@ -92,14 +92,39 @@
         
         <?php //var_dump($_SESSION); 
         if ($_SESSION["Status"] == 1 || $row[0]["NoUtilisateurs"] == $_SESSION["NoUtilisateur"]) {?>
+        <form name="frmBtnAnnonces" id="frmBtnAnnonces" method="get" action="">
 
         <div id="admin2">
-           <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button>
-            <button class="btn">Supprimer</button>
-            <button class="btn">Activer</button>
+           <button id="btnModifier" name="btnModifier" class="btn" type="submit" value="Modifier<?php echo $row[0]["NoAnnonce"]?>" onclick="window.location = 'modifier-annonce.php';">Modifier</button>
+            <button id="btnModifier" name="btnModifier" class="btn" type="submit" value="Modifier<?php echo $row[0]["NoAnnonce"]?>" class="btn">Supprimer</button>
+            <button id="btnActiver" name="btnActiver" type="submit" value="Activer<?php echo $row[0]["NoAnnonce"]?>" class="btn">Activer</button>
         </div>
-        <?php }?>
+            </form>
+        <?php }
+            $btnModifier = get("btnModifier");
+            $btnSupprimer = get("btnSupprimer");
+            $btnActiver = get("btnActiver");
+        
+            if (isset($btnModifier) ) {
+                preg_match_all('!\d+!', $btnModifier, $btnModifier);
+                $btnModifier = $btnModifier[0][0];
 
+            }
+
+            if (isset($btnSupprimer)) {
+                preg_match_all('!\d+!', $btnSupprimer, $btnSupprimer);
+                $btnSupprimer = $btnSupprimer[0][0];
+                $oBD->majEnregistrement($strNomTableAnnonces,"Etat=2" ,"NoAnnonce=" . $btnSupprimer);
+            }
+
+            if (isset($btnActiver)) {
+                preg_match_all('!\d+!', $btnActiver, $btnActiver);
+                $btnActiver = $btnActiver[0][0];
+                $oBD->majEnregistrement($strNomTableAnnonces,"Etat=1" ,"NoAnnonce=" . $btnActiver);
+            }
+        ?>
+
+        
 
 
 

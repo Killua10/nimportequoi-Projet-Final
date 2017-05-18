@@ -99,7 +99,6 @@ function getsupport ( selectedtype )
 
         <h1>Liste des annonces</h1>
         <?php 
-        $getNumPage = get("page");
         $InstructionWhere = "C=Etat=1";
         if (get('ddlAnnoncesParPage') == null) {
             $getDDL = 10;
@@ -223,19 +222,29 @@ function getsupport ( selectedtype )
           </a>
              
         </div>
+            </form>
 
         <?php //var_dump($_SESSION);
         if ($_SESSION["Status"] == 1 || $row[$j]["NoUtilisateurs"] == $_SESSION["NoUtilisateur"]) {?>
-        <div id="admin">
-            <button class="btn" onclick="window.location = 'modifier-annonce.php';">Modifier</button></br>
+        <form name="frmBtnAnnonces" id="frmBtnAnnonces" method="get" action="">
+            <div id="admin">
+                <?php 
+                
+                ?>
+                
+                <button id="btnModifier" name="btnModifier" class="btn" type="submit" value="Modifier<?php echo $row[$j]["NoAnnonce"]?>" onclick="window.location = 'modifier-annonce.php';">Modifier</button></br>
 
-            <button class="btn">Supprimer</button></br>
-            <button class="btn">Activer</button>
-        </div>
-        <?php }?>
+                <button id="btnModifier" name="btnModifier" class="btn" type="submit" value="Modifier<?php echo $row[$j]["NoAnnonce"]?>" class="btn">Supprimer</button></br>
+                
+                <button id="btnActiver" name="btnActiver" type="submit" value="Activer<?php echo $row[$j]["NoAnnonce"]?>" class="btn">Activer</button>
+            </div>
+        </form>
+        <?php }
+                    
+            ?>
 
         <?php }?>
-            </form>
+            
 	<?php
         
         
@@ -255,7 +264,29 @@ function getsupport ( selectedtype )
                 <a href="#">❯❯</a>
             </form>
           </div>-->
-        <?php }?>
+        <?php }
+        
+            $btnModifier = get("btnModifier");
+            $btnSupprimer = get("btnSupprimer");
+            $btnActiver = get("btnActiver");
+        
+            if (isset($btnModifier) ) {
+                preg_match_all('!\d+!', $btnModifier, $btnModifier);
+                $btnModifier = $btnModifier[0][0];
+
+            }
+
+            if (isset($btnSupprimer)) {
+                preg_match_all('!\d+!', $btnSupprimer, $btnSupprimer);
+                $btnSupprimer = $btnSupprimer[0][0];
+                $oBD->majEnregistrement($strNomTableAnnonces,"Etat=2" ,"NoAnnonce=" . $btnSupprimer);
+            }
+
+            if (isset($btnActiver)) {
+                preg_match_all('!\d+!', $btnActiver, $btnActiver);
+                $btnActiver = $btnActiver[0][0];
+                $oBD->majEnregistrement($strNomTableAnnonces,"Etat=1" ,"NoAnnonce=" . $btnActiver);
+            }?>
        </main>
 
             <?php require_once "pied-de-page.php"?>
