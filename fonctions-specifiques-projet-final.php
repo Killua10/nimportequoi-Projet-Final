@@ -143,19 +143,7 @@ function supprimerAnnonces($oBD){
 function rechercheParChamp($oBD, $champ, $contenuRecherche){
     
     /* Recherche multi champs */
-    
-    $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur"
-            . "join categories on annonces.categorie = categories.nocategorie where annonces.etat=1";
-    if(/*Auteur est coché*/){
-        $oBD->_requete .= " AND nom=' **$contenuRechercheAuteur** ' OR prenom='**$contenuRechercheAuteur**'";
-    }
-    if(/*Categorie est coché*/){
-        $oBD->_requete .= " AND categories.description = '**$contenuRechercheCategorie**'";
-    }
-    if(/*Description est coché*/){
-        $oBD->_requete .= " AND descriptionabregee like '%**$contenuRechercheDescription**%' or descriptioncomplete like '%**$contenuRechercheDescription**%'";
-    }
-        
+ 
     /*switch ($champ) {
         case 'Auteur':
             $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur "
@@ -190,6 +178,33 @@ function rechercheParChamp($oBD, $champ, $contenuRecherche){
         //var_dump($this->_requete);
         //var_dump($this->_nbEnregistrements);
         //var_dump($this->_listeEnregistrements);
+        return $oBD->_nbEnregistrements;
+}
+
+function etatAnnonce($oBD, $chrEtat, $noUtilisateur){
+    switch ($chrEtat) {
+        case 'A': // Annonces actives = 1
+             $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur where annonces.etat=1 and utilisateurs.noutilisateur=$noUtilisateur";
+        break;
+        case 'I': // Annonces inactives = 0
+             $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur where annonces.etat=0 and utilisateurs.noutilisateur=$noUtilisateur";
+        break;
+        case 'S': // Annonces supprimes = 3
+             $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur where annonces.etat=3 and utilisateurs.noutilisateur=$noUtilisateur";
+        break;
+
+    }
+    
+    $oBD->_listeEnregistrements = mysqli_query($oBD->_cBD, $oBD->_requete);
+        if ($oBD->_listeEnregistrements != false) {
+            $oBD->_nbEnregistrements = mysqli_num_rows(mysqli_query($oBD->_cBD, $oBD->_requete));
+        }
+        
+        if ($oBD->_listeEnregistrements == null || $oBD->_listeEnregistrements == false) {
+            $oBD->_nbEnregistrements = -1;
+        }
+        
+       
         return $oBD->_nbEnregistrements;
 }
 
