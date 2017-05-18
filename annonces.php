@@ -153,11 +153,12 @@ function getsupport ( selectedtype )
            
         }
         
-        $pagination = afficherPagination($oBD,$getDDL,"","");
+        //$pagination = afficherPagination($oBD,$getDDL,"",$InstructionWhere);
 
         
         $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);
-        var_dump($nbrAnnonces);?>
+        var_dump($nbrAnnonces);
+        //var_dump($pagination);?>
         <h3> <?php echo ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);?> annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
 
         <form name="frmAnnonces" id="frmAnnonces" method="get" action="infos-annonce.php">
