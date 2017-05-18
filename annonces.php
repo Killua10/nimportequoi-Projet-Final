@@ -143,7 +143,7 @@ function getsupport ( selectedtype )
                 $cbDescription = get('cbDescription');
                 $tabCheck = array($cbAuteur, $cbCategorie, $cbDescription);
                 $tabContenu = array($contenuRechercheAuteur, $contenuRechercheCategorie, $contenuRechercheDescription);
-                var_dump($tabCheck);
+                //var_dump($tabCheck);
                 rechercheParChamp($oBD, $tabCheck, $tabContenu);
                     /*default :
                         $pagination = afficherPagination($oBD,$getDDL,"",$InstructionWhere);
@@ -155,7 +155,7 @@ function getsupport ( selectedtype )
 
         
         $nbrAnnonces = ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);
-        var_dump($nbrAnnonces);
+        //var_dump($nbrAnnonces);
         //var_dump($pagination);?>
         <h3> <?php echo ($oBD->_nbEnregistrements == -1 ?  0 :  $oBD->_nbEnregistrements);?> annonces ont été générées. Listez votre annonce dès aujourd'hui!</h3>
 
