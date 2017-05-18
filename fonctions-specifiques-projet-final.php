@@ -182,8 +182,8 @@ function etatAnnonce($oBD, $chrEtat, $noUtilisateur){
         case 'I': // Annonces inactives = 0
              $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur where annonces.etat=0 and utilisateurs.noutilisateur=$noUtilisateur";
         break;
-        case 'S': // Annonces supprimes = 3
-             $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur where annonces.etat=3 and utilisateurs.noutilisateur=$noUtilisateur";
+        case 'S': // Annonces supprimes = 2
+             $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur where annonces.etat=2 and utilisateurs.noutilisateur=$noUtilisateur";
         break;
 
     }
@@ -200,6 +200,30 @@ function etatAnnonce($oBD, $chrEtat, $noUtilisateur){
        
         return $oBD->_nbEnregistrements;
 }
+
+function derniereConnexion($oBD, $noUtilisateur){
+    
+    
+    $oBD->_requete = "SELECT * FROM connexions where noutilisateur=$noUtilisateur order by connexion asc limit 5";
+    
+    
+        
+    
+        $oBD->_listeEnregistrements = mysqli_query($oBD->_cBD, $oBD->_requete);
+        if ($oBD->_listeEnregistrements != false) {
+            $oBD->_nbEnregistrements = mysqli_num_rows(mysqli_query($oBD->_cBD, $oBD->_requete));
+        }
+        
+        if ($oBD->_listeEnregistrements == null || $oBD->_listeEnregistrements == false) {
+            $oBD->_nbEnregistrements = -1;
+        }
+        
+       // var_dump($oBD->_nbEnregistrements);
+       
+        return $oBD->_nbEnregistrements;
+    
+}
+
 
 //Réference : http://www.phpeasystep.com/phptu/29.html
 function afficherPagination($oBD,$nbrItemParPage,$Tri,$InstructionWhere)

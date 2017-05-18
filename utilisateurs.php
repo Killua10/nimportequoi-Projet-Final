@@ -114,11 +114,23 @@
                         ?></td>
                 <td><?php echo $row[$i]['Creation']?></td>
                 <td><?php echo $row[$i]['Modification']?></td>
-                <td style="font-size: 75%; font-weight:bold; text-align:center;">• 17-04-2017 18:32:03</br>
-                    • 17-04-2017 18:32:03</br>
-                    • 17-04-2017 18:32:03</br>
-                    • 17-04-2017 18:32:03</br>
-                    • 17-04-2017 18:32:03</td>
+                <td style="font-size: 75%; font-weight:bold; text-align:center;">
+                    <?php 
+                        
+                        $nbConnexions = $oBD->selectionneEnregistrements($strNomTableConnexions,"C=NoUtilisateur=" . $row[$i]['NoUtilisateur'],"T=connexion ASC","L=5");
+                        $row2 = mysqli_fetch_all($oBD->_listeEnregistrements, MYSQLI_ASSOC);
+                        
+                        for ($j = 0; $j < $nbConnexions; $j++) {
+
+                            echo $row2[$j]["Connexion"] . "<br />";
+                            
+                            
+                        }
+                    
+                        
+                        
+                    ?>
+                </td>
                <td><?php echo $row[$i]['AutresInfos']?></td>
           </tr>
           <?php }?>
@@ -129,13 +141,25 @@
                           *I : Annonce(s) inactive(s)</br>
                           *S : Annonce(s) supprimé(s)</p>
         <div id="admin2">
+            <form>
             <button class="btn" onClick="window.location.reload()">Actualiser</button>
-            <button class="btn" onClick="window.location.reload()">Activer tous les utilisateurs en attente</button>
+            
+            <button class="btn" onClick="window.location.reload()" type="submit" id="activer" name="activer" value="activer" >Activer tous les utilisateurs en attente</button>
+            </form>
         </div>
-
+        <?php
+                
+                if(get('activer') == 'activer'){
+                    $oBD->majEnregistrement('utilisateurs', 'status=9', 'status=0');
+                    echo "Tous les utilisateurs non activés (état 0) ont été activés (état 9).";
+                }
+              
+        
+        ?>
        </main>
 
-            <?php require_once "pied-de-page.php"?>
+            <?php 
+            require_once "pied-de-page.php"?>
 
     </body>
 </html>
