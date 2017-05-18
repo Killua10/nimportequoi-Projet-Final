@@ -156,8 +156,6 @@ function rechercheParChamp($oBD, $tabCheck, $tabContenu){
         $oBD->_requete .= " AND (descriptionabregee like '%$tabContenu[2]%' or descriptioncomplete like '%$tabContenu[2]%')";
     }
     
-   /* $oBD->_listeEnregistrements = mysqli_query($oBD->_cBD, $oBD->_requete);
-    var_dump($oBD->_requete);*/
     
     $oBD->_listeEnregistrements = mysqli_query($oBD->_cBD, $oBD->_requete);
         if ($oBD->_listeEnregistrements != false) {
@@ -176,13 +174,40 @@ function rechercheParChamp($oBD, $tabCheck, $tabContenu){
         return $oBD->_nbEnregistrements;
 }
 
+function etatAnnonce($oBD, $chrEtat, $noUtilisateur){
+    switch ($chrEtat) {
+        case 'A': // Annonces actives = 1
+             $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur where annonces.etat=1 and utilisateurs.noutilisateur=$noUtilisateur";
+        break;
+        case 'I': // Annonces inactives = 0
+             $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur where annonces.etat=0 and utilisateurs.noutilisateur=$noUtilisateur";
+        break;
+        case 'S': // Annonces supprimes = 3
+             $oBD->_requete = "SELECT * FROM annonces join utilisateurs on annonces.noutilisateurs = utilisateurs.noutilisateur where annonces.etat=3 and utilisateurs.noutilisateur=$noUtilisateur";
+        break;
+
+    }
+    
+    $oBD->_listeEnregistrements = mysqli_query($oBD->_cBD, $oBD->_requete);
+        if ($oBD->_listeEnregistrements != false) {
+            $oBD->_nbEnregistrements = mysqli_num_rows(mysqli_query($oBD->_cBD, $oBD->_requete));
+        }
+        
+        if ($oBD->_listeEnregistrements == null || $oBD->_listeEnregistrements == false) {
+            $oBD->_nbEnregistrements = -1;
+        }
+        
+       
+        return $oBD->_nbEnregistrements;
+}
+
 //Réference : http://www.phpeasystep.com/phptu/29.html
 function afficherPagination($oBD,$nbrItemParPage,$Tri,$InstructionWhere)
 {
         $strNomTableAnnonces="annonces";
 	$nbInput = 3;
         
-        $nbPages = ceil(($oBD->selectionneEnregistrements($strNomTableAnnonces)/$nbrItemParPage));
+        $nbPages = ($oBD->selectionneEnregistrements($strNomTableAnnonces,$InstructionWhere));
 	
 	/* Setup vars for query. */
 	$pageDestination = "annonces.php";          //your file name  (the name of this file)
@@ -301,7 +326,11 @@ function afficherPagination($oBD,$nbrItemParPage,$Tri,$InstructionWhere)
 		else
 			$pagination.= "<span class=\"disabled\">suivant →</span>";
 		$pagination.= "</div>\n";
-                $tabReturn = array();
+                
+                var_dump($nbPages);
+                
+                
+                //$tabReturn = array();
                 /*$tabReturn[0]=$oBD->_listeEnregistrements;
                 $tabReturn[1]=$pagination;*/
                 return $pagination;

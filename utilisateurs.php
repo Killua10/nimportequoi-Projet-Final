@@ -90,10 +90,10 @@
                 <td><?php echo $row[$i]['Nom']?></td>
                 <td><?php echo $row[$i]['Prenom']?></td>
                 <td><?php echo $row[$i]['NoEmpl']?></td>
-                <td><?php echo $row[$i]['NoTelMaison']?></td>
-                <td><?php echo $row[$i]['NoTelTravail']?></td>
-                <td><?php echo $row[$i]['NoTelCellulaire']?></td>
-                <td>007 / 005 / 002</td>
+                <td><?php echo substr($row[$i]['NoTelMaison'], 2)?></td>
+                <td><?php echo substr($row[$i]['NoTelTravail'],2)?></td>
+                <td><?php echo substr($row[$i]['NoTelCellulaire'],2)?></td>
+                <td><?php echo ajouteZeros(etatAnnonce($oBD, 'A', $row[$i]['NoUtilisateur']),3)?> / <?php echo ajouteZeros(etatAnnonce($oBD, 'I', $row[$i]['NoUtilisateur']),3)?> / <?php echo ajouteZeros(etatAnnonce($oBD, 'S', $row[$i]['NoUtilisateur']),3)?> </td>
                 <td><?php echo ajouteZeros($row[$i]['NbConnexions'], 3)?></td>
                 <td ><?php 
                         if ($row[$i]['Status'] == 0) {
@@ -130,6 +130,7 @@
                           *S : Annonce(s) supprimé(s)</p>
         <div id="admin2">
             <button class="btn" onClick="window.location.reload()">Actualiser</button>
+            <button class="btn" onClick="window.location.reload()">Activer tous les utilisateurs en attente</button>
         </div>
 
        </main>
