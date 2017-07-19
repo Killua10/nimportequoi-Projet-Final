@@ -35,13 +35,13 @@
       */
       function connexion() {
           require($this->_nomFichierInfosSensibles);
-          $this->_cBD = mysqli_connect("localhost", $strNomAdmin, $strMotPasseAdmin, $this->_nomBD); 
+          $this->_cBD = mysqli_connect("localhost", $strNomAdmin, $strMotPasseAdmin, $this->_nomBD);
           if (mysqli_connect_errno()) {
               echo "<br />";
               echo "Problème de connexion... " . "Erreur no" . mysqli_connect_errno() . " (" . mysqli_connect_error() . ")";
               die();
           }
-          
+
           return $this->_cBD;
       }
       /*
@@ -56,17 +56,17 @@
          }
           $this->_requete  = "INSERT INTO $strNomTableCible (";
           $this->_requete .= $strListeChampsCible . ") SELECT " . $strListeChampsSource;
-          
+
           $this->_requete .= " FROM $strNomTableSource";
-          
+
           if (strcasecmp($strListeConditions,"") != 0) {
-             $this->_requete .= " WHERE $strListeConditions"; 
+             $this->_requete .= " WHERE $strListeConditions";
           }
-          
-          var_dump($this->_requete);
-          
+
+          //var_dump($this->_requete);
+
           $this->_OK = mysqli_query($this->_cBD, $this->_requete);
-          
+
           return $this->_OK;
       }
       /*
@@ -77,7 +77,7 @@
       function creeTable($strNomTable) {
           $this->_requete  = "CREATE TABLE $strNomTable (";
           for ($i=1; $i <= func_num_args() - 1 ; $i+=2){
-              
+
               if ($i == func_num_args() - 1) {
                  $this->_requete  .= func_get_arg($i);
               }  else {
@@ -85,12 +85,12 @@
                   $strType = func_get_arg($i+1);
                   $this->_requete  .= $strNom . " " . $strType . ", ";
               }
-              
+
           }
           //$this->_requete  = "CREATE TABLE $strNomTable (";
           $this->_requete .= ") ENGINE=InnoDB";
           $this->_OK = mysqli_query($this->_cBD, $this->_requete);
-          
+
           return $this->_OK;
       }
       /*
@@ -109,15 +109,15 @@
               $tabDefinitions2[$i] = explode( ',', $tabDefinitions[$i]);
           }
          // var_dump($tabDefinitions2);
-          
+
           for ($i = 0; $i < count($tabDefinitions2); $i++) {
               for ($j = 0; $j < count($tabDefinitions2[$i]); $j+=2) {
                   $strType = $tabDefinitions2[$i][$j];
                   $strNom = $tabDefinitions2[$i][$j+1];
                   //var_dump($tabDefinitions2[$i][$j+1]);
                   //echo $strNom;
-                  
-                 
+
+
                   //var_dump(substr($strType,0,1));
                   switch (substr($strType,0,1)) {
                       case "B":
@@ -159,7 +159,7 @@
                           $strType = "VARCHAR(" . substr($strType, 1) . ")";
 
                           break;
-                      
+
 
                       default:
                           break;
@@ -172,7 +172,7 @@
           }
           $this->_requete .= ") ENGINE=InnoDB";
           $this->_OK = mysqli_query($this->_cBD, $this->_requete);
-          var_dump($this->_requete);
+          //var_dump($this->_requete);
           return $this->_OK;
       }
       /*
@@ -206,7 +206,7 @@
               } else {
                   $this->_requete  .= func_get_arg($i);
               }
-              
+
               if ($i != func_num_args() - 1) {
                    $this->_requete  .= ", ";
               }
@@ -214,7 +214,7 @@
           }
           $this->_requete  .= ")";
           $this->_OK = mysqli_query($this->_cBD, $this->_requete);
-          var_dump($this->_requete);
+          //var_dump($this->_requete);
           return $this->_OK;
       }
       /*
@@ -224,7 +224,7 @@
       */
       function modifieChamp($strNomTable, $strNomChamp, $strNouvelleDefinition) {
           $this->_requete = "ALTER TABLE $strNomTable CHANGE $strNomChamp $strNouvelleDefinition";
-          
+
           $this->_OK = mysqli_query($this->_cBD, $this->_requete);
           //var_dump($this->_requete);
           return $this->_OK;
@@ -235,10 +235,10 @@
       |----------------------------------------------------------------------------------|
       */
       function selectionneBD() {
-          
+
           //$this->_nomBD = $strNomBD;
           $this->_OK = mysqli_select_db($this->_cBD, $this->_nomBD);
-          
+
           return $this->_OK;
       }
       /*
@@ -252,8 +252,8 @@
           } else {
               $this->_requete = "DELETE FROM $strNomTable WHERE $strListeConditions";
           }
-          
-          
+
+
           $this->_OK = mysqli_query($this->_cBD, $this->_requete);
           //var_dump($this->_requete);
           return $this->_OK;
@@ -266,11 +266,11 @@
       function supprimeTable($strNomTable) {
           $this->_requete = "DROP TABLE $strNomTable";
           $this->_OK = mysqli_query($this->_cBD, $this->_requete);
-          
+
           return $this->_OK;
       }
-      
-            
+
+
       function tableExiste($strNomTable) {
         $Verdict = null;
         if ($result = mysqli_query($this->_cBD, "SHOW TABLES LIKE '" . $strNomTable . "'")) {
@@ -289,7 +289,7 @@
         /************************************* A VERIFIER *************************************/
         $this->_requete  = "SELECT * FROM $strNomTable ";
           for ($i=1; $i<= func_num_args() - 1 ; $i++){
-              
+
               if (substr(func_get_arg($i), 0, 1) == "C") {
                   $this->_requete  .= "WHERE " . substr(func_get_arg($i), 2, strlen(func_get_arg($i)));
               }else if (substr(func_get_arg($i), 0, 1) == "D") {
@@ -300,56 +300,56 @@
                   $this->_requete  .= " LIMIT " . substr(func_get_arg($i), 2, strlen(func_get_arg($i)));
               }
           }
-          
+
         $this->_listeEnregistrements = mysqli_query($this->_cBD, $this->_requete);
         if ($this->_listeEnregistrements != false) {
             $this->_nbEnregistrements = mysqli_num_rows(mysqli_query($this->_cBD, $this->_requete));
         }
-        
+
         if ($this->_listeEnregistrements == null || $this->_listeEnregistrements == false) {
             $this->_nbEnregistrements = -1;
         }
-        
-        
+
+
         //var_dump(mysqli_query($this->_cBD, $this->_requete));
         //var_dump($this->_requete);
         //var_dump($this->_nbEnregistrements);
         //var_dump($this->_listeEnregistrements);
         return $this->_nbEnregistrements;
     }
-    
-    
-    
+
+
+
     function contenuChamp($intNo,$strNomChamp) {
         /************************************* A VERIFIER *************************************/
         $valeurChamp = null;
         if ($this->_listeEnregistrements != null) {
-            
+
             $valeurChamp = $this->mysqli_result($this->_listeEnregistrements, $intNo, $strNomChamp);
         }
-        
+
         return $valeurChamp;
     }
-    
+
     /*********** Fonction que jai creer *********************/
     function majEnregistrement($strNomTable,$strDefinitions,$strListeConditions="") {
         $this->_requete  = "UPDATE $strNomTable ";
         $this->_requete  .= "SET $strDefinitions ";
         $this->_requete  .= "WHERE $strListeConditions;";
-        
+
         $this->_OK = mysqli_query($this->_cBD, $this->_requete);
-          
+
         //var_dump($this->_requete);
         return $this->_OK;
     }
-    
+
     function getNextID($strNomTable, $strNomChamp) {
     $strRangee = mysqli_fetch_array(mysqli_query($this->_cBD, "SELECT $strNomChamp FROM $strNomTable ORDER BY $strNomChamp DESC LIMIT 1"));
     $intNo = $strRangee[$strNomChamp];
     $intNo++;
     return $intNo;
 }
-    
+
    /*
    |-------------------------------------------------------------------------------------|
    | mysqli_result
@@ -379,8 +379,8 @@
       $line = mysqli_fetch_array($result);
       return isset($line[$field]) ? $line[$field] : false;
    }
-      
-        
+
+
       /*
       |----------------------------------------------------------------------------------|
       | afficheInformationsSurBD()
@@ -393,7 +393,7 @@
       if (func_num_args() == 1) {
          $strNomTableRecherchee = func_get_arg(0);
       }
-      
+
       /* Variables de base pour les styles */
       $strTable = "border-collapse:collapse;";
       $strCommande = "font-family:verdana; font-size:12pt; font-weight:bold; color:black; border:solid 1px black; padding:3px;";
@@ -403,7 +403,7 @@
       $strBorduresContenu = "border:solid 1px red; padding:3px;";
       $strTypeADefinir = "color:red;font-weight:bold;";
       $strDetails = "color:magenta;";
-      
+
       /* Application des styles */
       $sTable = "style=\"$strTable\"";
       $sCommande = "style=\"$strCommande\"";
@@ -417,7 +417,7 @@
       /* --- Entreposage des noms de table --- */
       $ListeTablesBD = array_column(mysqli_fetch_all(mysqli_query($this->_cBD, 'SHOW TABLES')),0);
       $intNbTables = count($ListeTablesBD);
-      
+
       /* Version alternative en attendant que mon site personnel soit fonctionnel */
       //$intNbTables = get_tables($cBD, $ListeTablesBD);
 
@@ -431,7 +431,7 @@
          if (empty($strNomTableRecherchee) || strtolower($strNomTable) == strtolower($strNomTableRecherchee)) {
             $binTablePresente = true;
             echo "<p $sMessage>Table no ".strval($i+1)." : ".$strNomTable."</p>";
-         
+
             /* Récupération des enregistrements de la table courante */
             $ListeEnregistrements = mysqli_query($this->_cBD, "SELECT * FROM $strNomTable");
 
@@ -440,7 +440,7 @@
             $NbEnregistrements = mysqli_num_rows($ListeEnregistrements);
             echo "<p $sContenu>$NbChamps champs ont été détectés dans la table.<br />";
             echo "    $NbEnregistrements enregistrements ont été détectés dans la table.</p>";
-            
+
             /* Affichage de la structure de table courante */
             echo "<p $sContenu>";
             $j=0;
@@ -455,7 +455,7 @@
                   case 10  : $strType = "DATE"; break;
                   case 12  : $strType = "DATETIME"; break;
                   case 246 : $strType = "DECIMAL"; break;
-                  case 253 : $strType = "VARCHAR"; 
+                  case 253 : $strType = "VARCHAR";
                              /* Ajustement temporaire */
                              if ($_SERVER["SERVER_NAME"] == "lmbrousseau.ca") { $intDivAjustement = 3; }
                              break;
@@ -478,7 +478,7 @@
                if ($intDetails & 2048  ) $strDetails .= "[SET] ";
                if ($intDetails & 32768 ) $strDetails .= "[NUM] ";
                if ($intDetails & 16384 ) $strDetails .= "[PART_KEY] ";
-               if ($intDetails & 32768 ) $strDetails .= "[GROUP] "; 
+               if ($intDetails & 32768 ) $strDetails .= "[GROUP] ";
                if ($intDetails & 65536 ) $strDetails .= "[UNIQUE] ";
                echo ($j+1).". $tabNomChamp[$j], $strType($strLongueur) <span $sDetails>$strDetails</span><br />";
                $j++;
@@ -490,7 +490,7 @@
             echo "<tr>";
             for ($k=0; $k<$NbChamps; $k++)
                echo "<td $sMessageAvecBordures>" . $tabNomChamp[$k] . "</td>";
-            echo "</tr>";               
+            echo "</tr>";
             if (empty($NbEnregistrements)) {
                echo "<tr>";
                echo "<td $sContenuAvecBordures colspan=\"$NbChamps\">";
